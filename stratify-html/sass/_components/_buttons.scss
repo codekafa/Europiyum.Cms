@@ -1,0 +1,614 @@
+// Button area start here ***
+.btn {
+	&-one {
+		background-color: var(--black);
+		border-radius: 30px;
+		color: var(--white);
+		display: inline-block;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 28px;
+		overflow: hidden;
+		padding: 10px 60px;
+		position: relative;
+		text-transform: capitalize;
+		text-align: center;
+		@include breakpoint(max-md) {
+			padding: 8px 30px;
+		}
+		i{
+			font-size: 16px;
+			margin-left: 15px;
+			margin-right: 10px;
+			transition: var(--transition);
+		}
+		span {
+			color: inherit;
+			display: inline-block;
+			min-width: 5px;
+			text-transform: capitalize !important;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+			opacity: 0;
+			transform: translate(0, -20px);
+		}
+		&:before {
+			content: attr(data-text);
+			left: 0;
+			opacity: 1;
+			position: absolute;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+			transform: translate(0, 0);
+			width: 100%;
+		}
+		&:hover {
+			color: var(--white);
+			&:before {
+				opacity: 0;
+				transform: translate(0, 20px);
+			}
+			i{
+				transform: rotate(45deg);
+			}
+			span {
+				opacity: 1;
+				transform: translate(0, 0);
+			}
+			@for $i from 1 through 6 {
+				span:nth-child(#{$i}) {
+					transition-delay: 0.05s * $i;
+				}
+			}
+		}
+		&-light {
+			@extend .btn-one;
+			background-color: var(--white);
+			color: var(--black);
+			&:hover {
+				color: var(--black);
+			}
+		}
+		&-light2 {
+			@extend .btn-one;
+			background-color: inherit;
+			color: var(--white);
+			border: 1px solid var(--white);
+			&:hover {
+				color: var(--white);
+			}
+		}
+		&.dark-mode{
+			background-color: var(--black0);
+			color: var(--black);
+		}
+		&.light{
+			background-color: var(--white);
+			color: var(--black);
+		}
+	}
+	&-two {
+		display: inline-block;
+		font-size: 16px;
+		line-height: 28px;
+		font-weight: 500;
+		padding: 10px 60px;
+		text-transform: capitalize;
+		color: var(--black);
+		border-radius: 30px;
+		border: 1px solid var(--black);
+		position: relative;
+		text-align: center;
+		overflow: hidden;
+
+		@include breakpoint(max-md) {
+			padding: 8px 30px;
+		}
+		i{
+			margin-left: 20px;
+			margin-right: 10px;
+			transition: var(--transition);
+		}
+
+		span {
+			color: inherit;
+			display: inline-block;
+			min-width: 5px;
+			text-transform: capitalize !important;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+			opacity: 0;
+			transform: translate(0, -20px);
+		}
+
+		&:before {
+			content: attr(data-text);
+			position: absolute;
+			width: 100%;
+			left: 0;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+			opacity: 1;
+			transform: translate(0, 0);
+		}
+
+		&:hover {
+			color: var(--black);
+
+			&:before {
+				opacity: 0;
+				transform: translate(0, 20px);
+			}
+
+			span {
+				opacity: 1;
+				transform: translate(0, 0);
+			}
+
+			@for $i from 1 through 6 {
+				span:nth-child(#{$i}) {
+					transition-delay: 0.05s * $i;
+				}
+			}
+		}
+
+		&-light {
+			@extend .btn-two;
+			color: var(--white);
+			border: 1px solid var(--white);
+			&:hover {
+				color: var(--white);
+			}
+		}
+	}
+	&-three {
+		align-items: center;
+		background-color: var(--theme-color2);
+		border-radius: 30px;
+		border: 1px solid var(--theme-color2);
+		color: var(--white);
+		display: inline-flex;
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 28px;
+		overflow: hidden;
+		padding: 10px 60px;
+		position: relative;
+		text-transform: capitalize;
+		text-align: center;
+		@include breakpoint(max-md) {
+			padding: 8px 30px;
+		}
+		.icon-box{
+			margin-right: 15px;
+		}
+		span {
+			color: inherit;
+			display: inline-block;
+			min-width: 5px;
+			color: var(--white);
+			text-transform: capitalize !important;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+			opacity: 0;
+			transform: translate(0, -20px);
+		}
+		&:before {
+			content: attr(data-text);
+			position: absolute;
+			width: 100%;
+			left: 15px;
+			display: inline-block;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+			opacity: 1;
+			transform: translate(0, 0);
+		}
+		&:hover {
+			color: var(--white);
+			&:before {
+				opacity: 0;
+				transform: translate(0, 20px);
+			}
+			span {
+				opacity: 1;
+				transform: translate(0, 0);
+			}
+			@for $i from 1 through 6 {
+				span:nth-child(#{$i}) {
+					transition-delay: 0.05s * $i;
+				}
+			}
+		}
+		&-light {
+			@extend .btn-two;
+			border: 1px solid var(--white);
+			color: var(--white);
+			&:hover {
+				color: var(--white);
+			}
+		}
+	}
+	&-more {
+		font-size: 18px;
+		color: var(--black);
+		font-weight: 500;
+		i {
+			font-size: 14px;
+			transition: var(--transition);
+		}
+		&:hover {
+			i {
+				margin-left: 5px;
+			}
+		}
+		&-2 {
+			font-size: 18px;
+			color: var(--white);
+			line-height: 28px;
+			font-weight: 600;
+			padding: 12px 50px;
+			border-radius: 30px;
+			display: inline-block;
+			background: var(--theme-color1);
+			span {
+				color: inherit;
+				display: inline-block;
+				min-width: 5px;
+				text-transform: capitalize !important;
+				transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0.5s ease;
+				opacity: 0;
+				transform: translate(0, -20px);
+			}
+			&:before {
+				content: attr(data-text);
+				position: absolute;
+				width: 100%;
+				right: 0px;
+				transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0.5s ease;
+				opacity: 1;
+				transform: translate(0, 0);
+			}
+			&:hover {
+				background: var(--theme-color2);
+				color: var(--white);
+				&:before {
+					opacity: 0;
+					transform: translate(0, 20px);
+				}
+				i{
+					transform: rotate(45deg);
+				}
+				span {
+					opacity: 1;
+					transform: translate(0, 0);
+				}
+				@for $i from 1 through 6 {
+					span:nth-child(#{$i}) {
+						transition-delay: 0.05s * $i;
+					}
+				}
+			}
+		}
+	}
+	&-explore {
+		color: var(--black);
+		font-size: 20px;
+		font-weight: 700;
+		line-height: 30px;
+		text-decoration: underline;
+		text-transform: capitalize;
+		i {
+			font-size: 14px;
+			transition: var(--transition);
+		}
+		&:hover {
+			i {
+				margin-left: 5px;
+			}
+		}
+	}
+	&-view {
+		display: inline-block;
+		color: var(--black);
+		font-family: var(--font-title);
+		font-weight: 500;
+		text-transform: capitalize;
+		i {
+			color: var(--black);
+			margin-left: 5px;
+			transition: var(--transition);
+		}
+		&:hover {
+			i {
+				transform: rotate(-45deg);
+			}
+		}
+	}
+	&-video {
+		display: inline-block;
+		position: relative;
+		text-align: center;
+		z-index: 2;
+		a {
+			position: relative;
+			color: var(--white);
+			font-size: 24px;
+			z-index: 1;
+			background-color: #ffffff33;
+			backdrop-filter: blur(10px);
+			width: 100px;
+			height: 100px;
+			line-height: 100px;
+			border-radius: 50%;
+			display: block;
+			@include breakpoint(max-md) {
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				font-size: 16px;
+			}
+		}
+		&.video-pulse {
+			&::after,
+			&::before {
+				position: absolute;
+				content: "";
+				width: 100%;
+				height: 100%;
+				border: 20px solid rgb(255, 255, 255, 0.7);
+				opacity: 0.3;
+				left: 0;
+				top: 0;
+				border-radius: 50%;
+				-webkit-animation-duration: 2.5s;
+				animation-duration: 2.5s;
+				-webkit-animation-timing-function: linear;
+				animation-timing-function: linear;
+				-webkit-animation-name: video-animation;
+				animation-name: video-animation;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				@-webkit-keyframes video-animation {
+					0% {
+						transform: scale(1);
+					}
+					50% {
+						transform: scale(1.3);
+					}
+					100% {
+						opacity: 0;
+						transform: scale(1.5);
+					}
+				}
+				@keyframes video-animation {
+					0% {
+						transform: scale(1);
+					}
+					50% {
+						transform: scale(1.3);
+					}
+					100% {
+						opacity: 0;
+						transform: scale(1.5);
+					}
+				}
+			}
+			&::before {
+				-webkit-animation-delay: 1s;
+				animation-delay: 1s;
+			}
+		}
+	}
+	&-discover {
+		position: relative;
+		font-size: 18px;
+		color: var(--white);
+		line-height: 28px;
+		font-weight: 600;
+		padding: 12px 50px;
+		border-radius: 30px;
+		display: inline-block;
+		text-align: center;
+		background: var(--theme-color1);
+		span {
+			color: inherit;
+			display: inline-block;
+			min-width: 5px;
+			text-transform: capitalize !important;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+				opacity 0.5s ease;
+			opacity: 0;
+			transform: translate(0, -20px);
+		}
+		&:before {
+			content: attr(data-text);
+			position: absolute;
+			width: 100%;
+			left: 0px;
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+				opacity 0.5s ease;
+			opacity: 1;
+			transform: translate(0, 0);
+		}
+		&:hover {
+			color: var(--white);
+			&:before {
+				opacity: 0;
+				transform: translate(0, 20px);
+			}
+			i{
+				transform: rotate(45deg);
+			}
+			span {
+				opacity: 1;
+				transform: translate(0, 0);
+			}
+			@for $i from 1 through 6 {
+				span:nth-child(#{$i}) {
+					transition-delay: 0.05s * $i;
+				}
+			}
+		}
+		&-light {
+			@extend .btn-discover;
+			color: var(--white);
+			background: transparent;
+			border: 1px solid var(--white);
+			&:hover {
+				color: var(--white);
+			}
+		}
+		&-dark {
+			@extend .btn-discover;
+			color: var(--black);
+			background: transparent;
+			border: 1px solid #000;
+			&:hover {
+				color: var(--black);
+			}
+		}
+	}
+	&-backToTop {
+		@include radius(40px, 40px, 40px);
+		border-radius: 12px;
+		background-color: var(--theme-color2);
+		color: var(--text-color2);
+		font-size: 18px;
+		box-shadow: var(--shadow);
+		position: fixed;
+		z-index: 99;
+		right: 30px;
+		bottom: 30px;
+		transition: var(--transition);
+		opacity: 0;
+		visibility: hidden;
+		&:hover {
+			background-color: var(--theme-color1);
+			box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+		}
+		&.show {
+			opacity: 1;
+			visibility: visible;
+			transform: translate(0);
+		}
+	}
+}
+// Button area end here ***
+
+// Swiper Button area start here ***
+.arry-prev {
+	background-color: #2330321a;
+	@include radius(40px, 40px, 40px);
+	border: 1px solid transparent;
+	color: var(--black);
+	font-size: 16px;
+	transition: var(--transition);
+	@include breakpoint(max-md) {
+		@include radius(40px, 40px, 40px);
+		font-size: 14px;
+	}
+	&:hover {
+		background-color: #23303233;
+		border: 1px solid transparent;
+		color: var(--black);
+	}
+	&.active {
+		background-color: #23303233;
+		border: 1px solid transparent;
+		color: var(--black);
+	}
+}
+.arry-next {
+	@extend.arry-prev;
+}
+
+.btn-book {
+	position: relative;
+	font-size: 18px;
+	color: var(--white);
+	line-height: 28px;
+	font-weight: 600;
+	padding: 15px 50px;
+	border-radius: 30px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	text-align: center;
+	background: var(--theme-color2);
+}
+.btn-book svg {
+	font-size: 14px;
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transition: var(--transition);
+	transition: var(--transition);
+	margin-left: 15px;
+}
+.btn-book span {
+	color: inherit;
+	display: inline-block;
+	min-width: 5px;
+	text-transform: capitalize !important;
+	-webkit-transition: opacity 0.5s ease, -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: opacity 0.5s ease, -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+	transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	opacity: 0;
+	-webkit-transform: translate(0, -20px);
+	transform: translate(0, -20px);
+}
+.btn-book:before {
+	content: attr(data-text);
+	position: absolute;
+	width: 100%;
+	right: 15px;
+	-webkit-transition: opacity 0.5s ease, -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: opacity 0.5s ease, -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+	transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	opacity: 1;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+.btn-book:hover {
+	color: var(--white);
+}
+.btn-book:hover:before {
+	opacity: 0;
+	-webkit-transform: translate(0, 20px);
+	transform: translate(0, 20px);
+}
+.btn-book:hover svg {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+}
+.btn-book:hover span {
+	opacity: 1;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+.btn-book:hover span:nth-child(1) {
+	-webkit-transition-delay: 0.05s;
+	transition-delay: 0.05s;
+}
+.btn-book:hover span:nth-child(2) {
+	-webkit-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+}
+.btn-book:hover span:nth-child(3) {
+	-webkit-transition-delay: 0.15s;
+	transition-delay: 0.15s;
+}
+.btn-book:hover span:nth-child(4) {
+	-webkit-transition-delay: 0.2s;
+	transition-delay: 0.2s;
+}
+.btn-book:hover span:nth-child(5) {
+	-webkit-transition-delay: 0.25s;
+	transition-delay: 0.25s;
+}
+.btn-book:hover span:nth-child(6) {
+	-webkit-transition-delay: 0.3s;
+	transition-delay: 0.3s;
+}
+// Swiper Button area end here ***

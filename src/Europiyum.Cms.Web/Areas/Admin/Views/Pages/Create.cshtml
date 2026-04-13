@@ -1,0 +1,44 @@
+@model PageCreateVm
+@{
+    ViewData["Title"] = "Yeni sayfa";
+    ViewData["Subtitle"] = "Seçili şirket için";
+    ViewData["HelpIntro"] = "Slug, sitedeki adres parçasıdır (ör. hakkimizda → /tr/hakkimizda). Anasayfa tipi yalnızca şirkette tek home kaydı varken mantıklıdır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Oluşturduktan sonra çeviri sekmelerinden başlık ve HTML gövdesini doldurun.",
+        "Şablon anahtarı, temanın hangi Razor görünümünü kullanacağını seçmek içindir (boş bırakılabilir)."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4" style="max-width: 720px;">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="CompanyId" />
+        <div class="mb-3">
+            <label class="form-label" asp-for="Slug"></label>
+            <input class="form-control" asp-for="Slug" placeholder="hakkimizda" />
+            <span asp-validation-for="Slug" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="PageType"></label>
+            <select class="form-select" asp-for="PageType" asp-items="Html.GetEnumSelectList<PageType>()"></select>
+            <div class="form-text">Anasayfa tipi yalnızca şirkette home kaydı yoksa oluşturulabilir.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="TemplateKey"></label>
+            <input class="form-control" asp-for="TemplateKey" />
+        </div>
+        <div class="mb-4">
+            <label class="form-label" asp-for="SortOrder"></label>
+            <input class="form-control" type="number" asp-for="SortOrder" />
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Oluştur</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">İptal</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

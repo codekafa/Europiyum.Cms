@@ -1,0 +1,47 @@
+@model IReadOnlyList<LanguageVm>
+@{
+    ViewData["Title"] = "Diller";
+    ViewData["Subtitle"] = "Projede kullanılabilecek dil kataloğu";
+    ViewData["HelpIntro"] = "Burada tanımlı diller, şirketlere Site dilleri ekranından atanır. Bir dil katalogda yoksa önce burada oluşturulmalıdır (çoğu kurulumda hazır gelir).";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Aktif olmayan diller genelde yeni atamalarda listelenmez.",
+        "RTL, Arapça gibi sağdan sola yerleşim gerektiren diller içindir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card overflow-hidden">
+    <div class="cms-card-header">Sistem dilleri</div>
+    <div class="table-responsive">
+        <table class="table cms-table mb-0">
+            <thead>
+                <tr>
+                    <th>Kod</th>
+                    <th>Ad</th>
+                    <th>RTL</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var l in Model)
+            {
+                <tr>
+                    <td><code>@l.Code</code></td>
+                    <td>@l.Name</td>
+                    <td>@(l.IsRtl ? "Evet" : "Hayır")</td>
+                    <td>
+                        @if (l.IsActive)
+                        {
+                            <span class="cms-pill cms-pill-ok">Aktif</span>
+                        }
+                        else
+                        {
+                            <span class="cms-pill cms-pill-off">Kapalı</span>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

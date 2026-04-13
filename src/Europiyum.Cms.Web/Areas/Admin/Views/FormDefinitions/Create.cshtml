@@ -1,0 +1,41 @@
+@model FormDefinitionCreateVm
+@{
+    ViewData["Title"] = "Yeni form";
+    ViewData["Subtitle"] = "Sayfaya bağlanacak form tanımı";
+    ViewData["HelpIntro"] = "Önce görünen ad ve URL anahtarı verin; kaydettikten sonra alanları (input name’leri) ekleyeceksiniz.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Anahtar küçük harf ve tire içerebilir; public adreste kullanılır.",
+        "Kayıt sonrası otomatik olarak alan düzenleme ekranına yönlendirilirsiniz."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4" style="max-width: 720px;">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="CompanyId" />
+        <div class="mb-3">
+            <label class="form-label" asp-for="Name"></label>
+            <input class="form-control" asp-for="Name" placeholder="İletişim formu" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="Key"></label>
+            <input class="form-control" asp-for="Key" placeholder="iletisim" autocomplete="off" />
+            <div class="form-text">Küçük harf, rakam, tire; harf ile başlamalı. Public adres: <code>/tr/forms/<em>anahtar</em>/submit</code></div>
+            <span asp-validation-for="Key" class="text-danger small"></span>
+        </div>
+        <div class="mb-4 form-check">
+            <input class="form-check-input" asp-for="IsActive" />
+            <label class="form-check-label" asp-for="IsActive"></label>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Oluştur ve alanları düzenle</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">İptal</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

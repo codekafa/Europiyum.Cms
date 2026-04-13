@@ -1,0 +1,24 @@
+@model Europiyum.Cms.Application.Public.Models.PublicPageViewModel
+@{
+    var content = "/_content/Europiyum.Web.Stratify/stratify";
+    var bgRel = (Model.BreadcrumbBackgroundRelativePath ?? "images/banner/banner-inner.jpg").Replace("\\", "/").TrimStart('/');
+    var bgUrl = content + "/" + bgRel;
+    var heading = string.IsNullOrWhiteSpace(Model.BreadcrumbHeading) ? Model.Title : Model.BreadcrumbHeading;
+    var homeLabel = ViewData["BreadcrumbHomeLabel"] as string ?? "Anasayfa";
+    var lang = Model.LanguageCode?.Trim() ?? "tr";
+    var homeHref = "/" + Uri.EscapeDataString(lang);
+}
+<section class="breadcrumb-area" data-background="@bgUrl" style="background-image: url('@bgUrl');">
+    <div class="container">
+        <div class="breadcrumb__wrp">
+            <div class="breadcrumb__item">
+                <h1 class="title">@heading</h1>
+                <ul>
+                    <li><a href="@homeHref">@homeLabel</a></li>
+                    <li><i class="fa-solid fa-angle-right"></i></li>
+                    <li>@Model.Title</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

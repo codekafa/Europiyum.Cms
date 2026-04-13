@@ -1,0 +1,74 @@
+@{
+    var content = "/_content/Europiyum.Web.Stratify/stratify";
+}
+<!DOCTYPE html>
+@{
+    var layoutLang = ViewData["LanguageCode"] as string ?? "tr";
+}
+<html lang="@layoutLang">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["MetaTitle"] as string ?? ViewData["Title"])</title>
+    @if (ViewData["MetaDescription"] is string metaDesc && !string.IsNullOrWhiteSpace(metaDesc))
+    {
+        <meta name="description" content="@metaDesc" />
+    }
+    @if (ViewData["MetaKeywords"] is string metaKw && !string.IsNullOrWhiteSpace(metaKw))
+    {
+        <meta name="keywords" content="@metaKw" />
+    }
+    @if (ViewData["CanonicalUrl"] is string canon && !string.IsNullOrWhiteSpace(canon))
+    {
+        <link rel="canonical" href="@canon" />
+    }
+    @if (ViewData["Robots"] is string robots && !string.IsNullOrWhiteSpace(robots))
+    {
+        <meta name="robots" content="@robots" />
+    }
+    @await Component.InvokeAsync("SiteHeadScripts")
+    @await Component.InvokeAsync("SiteAssets")
+    <link rel="stylesheet" href="@content/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/meanmenu.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/swiper-bundle.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/magnific-popup.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/animate.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/splitting.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/nice-select.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@content/css/stratify-cms-overrides.css" asp-append-version="true" />
+    @await Component.InvokeAsync("SiteCustomCss")
+    @await RenderSectionAsync("Head", required: false)
+</head>
+<body class="@(ViewBag.BodyClass as string)">
+    @await Component.InvokeAsync("SiteHeader", new {
+        title = ViewData["SiteTitle"] as string ?? ViewData["Title"] as string,
+        languageCode = ViewData["LanguageCode"] as string
+    })
+    @await Component.InvokeAsync("SiteOffcanvas", new {
+        title = ViewData["SiteTitle"] as string ?? ViewData["Title"] as string,
+        languageCode = ViewData["LanguageCode"] as string
+    })
+    <main>
+        @RenderBody()
+    </main>
+    <script src="@content/js/jquery-3.7.1.min.js" asp-append-version="true"></script>
+    <script src="@content/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="@content/js/meanmenu.js" asp-append-version="true"></script>
+    <script src="@content/js/swiper-bundle.min.js" asp-append-version="true"></script>
+    <script src="@content/js/jquery.counterup.min.js" asp-append-version="true"></script>
+    <script src="@content/js/wow.min.js" asp-append-version="true"></script>
+    <script src="@content/js/magnific-popup.min.js" asp-append-version="true"></script>
+    <script src="@content/js/nice-select.min.js" asp-append-version="true"></script>
+    <script src="@content/js/isotope.pkgd.min.js" asp-append-version="true"></script>
+    <script src="@content/js/parallax.js" asp-append-version="true"></script>
+    <script src="@content/js/splitting.js" asp-append-version="true"></script>
+    <script src="@content/js/jquery.waypoints.js" asp-append-version="true"></script>
+    <script src="@content/js/gsap/gsap.min.js" asp-append-version="true"></script>
+    <script src="@content/js/gsap/ScrollTrigger.min.js" asp-append-version="true"></script>
+    <script src="@content/js/gsap/ScrollSmoother.min.js" asp-append-version="true"></script>
+    <script src="@content/js/script.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,116 @@
+@model PageEditVm
+@using Europiyum.Cms.Application.Admin.ViewModels
+@using Europiyum.Cms.Domain.Enums
+@{
+    ViewData["Title"] = "Sayfa düzenle";
+    ViewData["Subtitle"] = Model.Slug;
+    var firstLang = Model.Translations.FirstOrDefault()?.LanguageCode ?? "tr";
+    var showBreadcrumbFields = Model.PageType != PageType.Home;
+    ViewData["HelpIntro"] = "Üstte genel ayarlar; sekmeler her dil için başlık, slug, HTML gövde ve (iç sayfalarda) breadcrumb görselleri. Form seçimi bu sayfada gösterilecek CMS formunu belirler.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Sayfaya bağlı bileşenler: anasayfada tema bölümlerinden sonra sırayla ek içerik için.",
+        "Ham HTML içinde özel form kullanacaksanız Formlar ekranındaki yer tutucu ve action adreslerine bakın."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="mb-3 d-flex flex-wrap gap-2">
+    <a class="btn btn-sm btn-outline-secondary" asp-area="Admin" asp-controller="PageAttachments" asp-action="Index" asp-route-pageId="@Model.Id">Sayfaya bağlı bileşenler</a>
+    <a class="btn btn-sm btn-outline-secondary" asp-area="Admin" asp-controller="PageSeo" asp-action="Edit" asp-route-pageId="@Model.Id">SEO</a>
+</div>
+<div class="cms-card p-4">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+        <input type="hidden" asp-for="PageType" />
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label class="form-label" asp-for="Slug"></label>
+                <input class="form-control" asp-for="Slug" />
+                <span asp-validation-for="Slug" class="text-danger small"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" asp-for="TemplateKey"></label>
+                <input class="form-control" asp-for="TemplateKey" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" asp-for="SortOrder"></label>
+                <input class="form-control" type="number" asp-for="SortOrder" />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive"></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="FormDefinitionId"></label>
+                <select class="form-select" asp-for="FormDefinitionId">
+                    <option value="">— Sayfada form yok —</option>
+                    @foreach (var f in ViewBag.FormDefinitions as IEnumerable<FormDefinitionOptionVm> ?? Array.Empty<FormDefinitionOptionVm>())
+                    {
+                        <option value="@f.Id">@f.Name (@f.Key)</option>
+                    }
+                </select>
+                <span class="form-text small">Form tanımları: Admin → Formlar. Gönderimler veritabanına kaydedilir.</span>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" id="langTabs" role="tablist">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "t" + tr.LanguageCode;
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(tr.LanguageCode == firstLang ? "active" : "")" id="@tabId-tab" data-bs-toggle="tab" data-bs-target="#@tabId" type="button" role="tab">@tr.LanguageCode.ToUpperInvariant()</button>
+                </li>
+            }
+        </ul>
+        <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "t" + tr.LanguageCode;
+                <div class="tab-pane fade @(tr.LanguageCode == firstLang ? "show active" : "")" id="@tabId" role="tabpanel">
+                    <input type="hidden" asp-for="Translations[i].LanguageId" />
+                    <input type="hidden" asp-for="Translations[i].LanguageCode" />
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Translations[i].Title"></label>
+                        <input class="form-control" asp-for="Translations[i].Title" />
+                        <span asp-validation-for="Translations[i].Title" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Translations[i].Slug"></label>
+                        <input class="form-control" asp-for="Translations[i].Slug" />
+                    </div>
+                    @if (showBreadcrumbFields)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="Translations[i].BreadcrumbHeading"></label>
+                            <input class="form-control" asp-for="Translations[i].BreadcrumbHeading" placeholder="Boşsa sayfa başlığı kullanılır" />
+                            <span class="form-text small">İç sayfa üst şeridindeki büyük başlık (H1).</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="Translations[i].BreadcrumbBackgroundPath"></label>
+                            <input class="form-control font-monospace" asp-for="Translations[i].BreadcrumbBackgroundPath" placeholder="images/banner/banner-inner.jpg" />
+                            <span class="form-text small">Stratify <code>wwwroot/stratify</code> altına göreli yol; boşsa varsayılan iç banner.</span>
+                        </div>
+                    }
+                    <div class="mb-0">
+                        <label class="form-label" asp-for="Translations[i].HtmlContent"></label>
+                        <textarea class="form-control font-monospace" rows="8" asp-for="Translations[i].HtmlContent" placeholder="HTML / rich text (ileride WYSIWYG)"></textarea>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Listeye dön</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

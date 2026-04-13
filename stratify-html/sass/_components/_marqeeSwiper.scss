@@ -1,0 +1,27 @@
+// MarqueeSwiper area start here ***
+.marqueeSwiper {
+	&-area {
+		overflow: hidden;
+	}
+	&__slider {
+		.swiper-wrapper {
+			-webkit-transition-timing-function: linear;
+			transition-timing-function: linear;
+		}
+	}
+}
+// MarqueeSwiper area end here ***
+
+// MarqueeSwiper five area start here ***
+.marqueeSwiper-five {
+	&-area {
+		overflow: hidden;
+	}
+	&__slider {
+		.swiper-wrapper {
+			-webkit-transition-timing-function: linear;
+			transition-timing-function: linear;
+		}
+	}
+}
+// MarqueeSwiper five area end here ***

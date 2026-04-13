@@ -1,0 +1,114 @@
+// Consult area start here ***
+.consult {
+	&-area {
+		position: relative;
+		z-index: 1;
+	}
+	&-left {
+		padding: 130px 120px;
+		background-color: var(--sub-bg);
+		@include breakpoint(max-xxxl) {
+			padding: 60px 30px;
+		}
+		.section-header {
+			max-width: 615px;
+		}
+	}
+	&__image {
+		position: sticky;
+		top: 100px;
+
+		img {
+			width: 100%;
+		}
+		.icon {
+			position: absolute;
+			bottom: 80px;
+			right: 80px;
+			@include breakpoint(max-md) {
+				bottom: 30px;
+				right: 30px;
+				img {
+					width: 60px;
+				}
+			}
+		}
+	}
+	&__service {
+		@include flex;
+		gap: 60px;
+		@include breakpoint(max-md) {
+			gap: 30px;
+		}
+		@include breakpoint(max-sm) {
+			flex-wrap: wrap;
+		}
+		ul {
+			border-radius: 50%;
+			height: 240px;
+			line-height: 240px;
+			max-width: 240px;
+			width: 100%;
+			li {
+				color: var(--theme-color1);
+				@include flex;
+				font-family: var(--font-title);
+				font-weight: 500;
+				gap: 10px;
+				line-height: 26px;
+				&:not(.last-child) {
+					margin-bottom: 5px;
+				}
+			}
+		}
+		.consult-count {
+			.head {
+				@include flex;
+				gap: 20px;
+				padding-left: 60px;
+				border-left: 1px solid var(--black);
+				@include breakpoint(max-xxl) {
+					padding-left: 20px;
+				}
+				h2 {
+					font-size: 120px;
+					line-height: 90px;
+					font-weight: 100;
+					color: var(--heading-color);
+					@include breakpoint(max-xxl) {
+						font-size: 60px;
+						line-height: 60px;
+					}
+					span {
+						color: inherit;
+						font-weight: 500;
+					}
+				}
+			}
+		}
+	}
+	&__experience {
+		&-bar {
+			.image {
+				max-width: 624px;
+			}
+		}
+		.check-list-box{
+			@include breakpoint(max-md) {
+				display: block;
+			}
+		}
+	}
+}
+// Consult area end here ***
+
+// Consult seven area start here ***
+.consult-seven {
+	&-area {
+		@extend .consult-area;
+		@include breakpoint(max-lg) {
+			margin-left: 0;
+		}
+	}
+}
+// Consult seven area end here ***

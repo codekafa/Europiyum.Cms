@@ -1,0 +1,142 @@
+// Progress bar area start here ***
+.progress {
+	&-area {
+		.progress {
+			background-color: var(--border);
+			height: 8px;
+			border-radius: 0px;
+			&.dark-mode {
+				background-color: var(--theme-color1);
+			}
+			.progress-bar {
+				background-color: var(--theme-color1);
+			}
+		}
+	}
+	&__title {
+		@include justify;
+		span {
+			color: var(--theme-color1);
+			font-size: 16px;
+		}
+	}
+}
+
+
+.skills {
+	position: relative;
+	margin-bottom: 40px;  
+	.skill-item {
+		position: relative;
+		margin-bottom: 20px;
+		&:last-child {
+			margin-bottom: 0px;
+		}
+		.skill-header {
+			position: relative;
+			margin-bottom: 10px;
+			.skill-title {
+				font-family: var(--font-title);
+				font-weight: 500;
+				font-size: 18px;
+				line-height: 28px;
+				letter-spacing: 0%;
+			}
+		}  
+		.skill-bar {
+			position: relative;
+			width: 100%;
+			height: 2px;
+			.bar-inner {
+				position: relative;
+				width: 100%;
+				height: 2px;
+				.bar {
+					position: absolute;
+					left: 0px;
+					top: 0px;
+					height: 2px;
+					width: 0px;
+					transition: all 3000ms ease;
+					border-radius: 10px;
+					background-color: var(--theme-color1);
+				}  
+				.skill-percentage {
+					position: absolute;
+					right: -15px;
+					bottom: 100%;
+					font-weight: 400;
+					font-size: 16px;
+					line-height: 28px;
+					letter-spacing: 0%;
+					margin-bottom: 10px;
+					font-family: var(--font-body);
+					color: var(--theme-color1);
+					&::after{
+						position: absolute;
+						top: 117%;
+						right: 15px;
+						height: 13px;
+						width: 2px;
+						content: "";
+						background-color: var(--theme-color2);
+						-webkit-transform: rotate(30deg);
+						transform: rotate(30deg);
+					}
+				}
+			}
+	  	}
+	}
+}
+// Progress bar area end here ***
+
+// Back to top button area start here ***
+.scroll-up {
+	cursor: pointer;
+	display: block;
+	border-radius: 50px;
+	box-shadow: inset 0 0 0 2px var(--border);
+	z-index: 99;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(15px);
+	position: fixed;
+	right: 25px;
+	bottom: 35px;
+	height: 50px;
+	width: 50px;
+	transition: var(--transition);
+	&::after {
+		position: absolute;
+		font-family: "Font Awesome 6 Pro";
+		content: "\f077";
+		text-align: center;
+		line-height: 50px;
+		font-weight: 700;
+		font-size: 18px;
+		color: var(--theme-color1);
+		left: 0;
+		top: 0;
+		height: 50px;
+		width: 50px;
+		cursor: pointer;
+		display: block;
+		z-index: 1;
+		transition: var(--transition);
+	}
+	svg path {
+		fill: none;
+	}
+	svg.scroll-circle path {
+		stroke: var(--theme-color1);
+		stroke-width: 4px;
+		box-sizing: border-box;
+		transition: var(--transition);
+	}
+	&.active-scroll {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+	}
+}
+// Back to top button area end here ***

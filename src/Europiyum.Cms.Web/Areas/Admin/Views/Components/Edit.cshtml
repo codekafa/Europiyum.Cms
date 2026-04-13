@@ -1,0 +1,119 @@
+@model ComponentEditVm
+@{
+    ViewData["Title"] = "Bileşen düzenle";
+    ViewData["Subtitle"] = $"{Model.TypeDisplayName} (#{Model.Id})";
+    var firstLang = Model.Translations.FirstOrDefault()?.LanguageCode ?? "tr";
+    var media = ViewBag.MediaPicker as IReadOnlyList<MediaListItemVm> ?? Array.Empty<MediaListItemVm>();
+    ViewData["HelpIntro"] = "Bu bileşenin içeriği dil sekmelerindedir. Başlık/alt başlık bazı tiplerde kullanılır; asıl gövde genelde Body HTML alanıdır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        $"Sabit tip kodu: {Model.TypeKey} — şema değişmez.",
+        "Bu kayıt hangi sayfa veya anasayfa bölümüne bağlıysa orada görünür; buradan bağ koparılmaz."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-3">
+    <p class="small text-secondary mb-0">Tip: <strong>@Model.TypeKey</strong> — tip değişmez; yeni tip için bileşeni kopyalamak ileride eklenebilir.</p>
+</div>
+<div class="cms-card p-4">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label class="form-label" asp-for="SortOrder"></label>
+                <input class="form-control" type="number" asp-for="SortOrder" />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive"></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="PrimaryMediaId"></label>
+                <select class="form-select" asp-for="PrimaryMediaId">
+                    <option value="">— Medya yok —</option>
+                    @foreach (var m in media)
+                    {
+                        if (Model.PrimaryMediaId == m.Id)
+                        {
+                            <option value="@m.Id" selected>@m.OriginalFileName</option>
+                        }
+                        else
+                        {
+                            <option value="@m.Id">@m.OriginalFileName</option>
+                        }
+                    }
+                </select>
+                <div class="form-text">Son yüklenen dosyalar. Daha fazlası için <a asp-area="Admin" asp-controller="Media" asp-action="Index">Medya</a>.</div>
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="JsonPayload"></label>
+                <textarea class="form-control font-monospace" rows="4" asp-for="JsonPayload" placeholder="{ }"></textarea>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "ct-" + tr.LanguageCode;
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(tr.LanguageCode == firstLang ? "active" : "")" type="button" data-bs-toggle="tab" data-bs-target="#@tabId">@tr.LanguageCode.ToUpperInvariant()</button>
+                </li>
+            }
+        </ul>
+        <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white mb-4">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "ct-" + tr.LanguageCode;
+                <div class="tab-pane fade @(tr.LanguageCode == firstLang ? "show active" : "")" id="@tabId" role="tabpanel">
+                    <input type="hidden" asp-for="Translations[i].LanguageId" />
+                    <input type="hidden" asp-for="Translations[i].LanguageCode" />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" asp-for="Translations[i].Title"></label>
+                            <input class="form-control" asp-for="Translations[i].Title" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" asp-for="Translations[i].Subtitle"></label>
+                            <input class="form-control" asp-for="Translations[i].Subtitle" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" asp-for="Translations[i].Description"></label>
+                            <textarea class="form-control" rows="2" asp-for="Translations[i].Description"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" asp-for="Translations[i].BodyHtml"></label>
+                            <textarea class="form-control font-monospace" rows="4" asp-for="Translations[i].BodyHtml"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" asp-for="Translations[i].ButtonText"></label>
+                            <input class="form-control" asp-for="Translations[i].ButtonText" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" asp-for="Translations[i].ButtonUrl"></label>
+                            <input class="form-control" asp-for="Translations[i].ButtonUrl" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" asp-for="Translations[i].ExtraJson"></label>
+                            <textarea class="form-control font-monospace" rows="2" asp-for="Translations[i].ExtraJson"></textarea>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Listeye dön</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

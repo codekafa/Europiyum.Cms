@@ -1,0 +1,66 @@
+@using Europiyum.Cms.Application.Services
+@using Europiyum.Cms.Domain.Enums
+@model Europiyum.Cms.Application.Admin.ViewModels.MenuItemsPageVm
+@{
+    ViewData["Title"] = "Menüler";
+    ViewData["Subtitle"] = Model.KindLabel;
+    ViewData["HelpIntro"] = "Menü öğeleri, ziyaretçinin tıklayacağı etiket ve hedefi (iç sayfa, harici URL veya çapa) tanımlar. Üst menü ve alt menü ayrı sekmelerdedir.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Sıra numarası görünüm sırasını belirler; üst öğe seçerek alt menü oluşturabilirsiniz.",
+        "Etiket her dilde ayrı çevrilebilir; hedef genelde tüm diller için ortaktır."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="mb-4 d-flex flex-wrap gap-2 align-items-center">
+    @foreach (MenuKind k in Enum.GetValues<MenuKind>())
+    {
+        <a class="btn btn-sm @(Model.Kind == k ? "btn-primary" : "btn-outline-secondary")"
+           asp-area="Admin" asp-controller="Menus" asp-action="Index" asp-route-kind="@k">@MenuItemAdminService.MenuKindDisplay(k)</a>
+    }
+    <a class="btn btn-sm btn-success ms-auto" asp-area="Admin" asp-controller="Menus" asp-action="Create" asp-route-kind="@Model.Kind">Yeni öğe</a>
+</div>
+<div class="cms-card p-0 overflow-hidden">
+    <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+        <tr>
+            <th>Sıra</th>
+            <th>Etiket</th>
+            <th>Üst</th>
+            <th>Bağlantı</th>
+            <th>Aktif</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model.Items.Count == 0)
+        {
+            <tr>
+                <td colspan="6" class="text-secondary px-4 py-5 text-center">Bu menüde henüz öğe yok.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td>@row.SortOrder</td>
+                    <td>@row.LabelPreview</td>
+                    <td class="small text-secondary">@(row.ParentLabel ?? "—")</td>
+                    <td class="small"><code class="small">@row.LinkSummary</code></td>
+                    <td>@(row.IsActive ? "Evet" : "Hayır")</td>
+                    <td class="text-end text-nowrap">
+                        <a class="btn btn-sm btn-outline-primary" asp-area="Admin" asp-controller="Menus" asp-action="Edit" asp-route-id="@row.Id" asp-route-kind="@Model.Kind">Düzenle</a>
+                        <form asp-area="Admin" asp-controller="Menus" asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('Bu menü öğesini silmek istiyor musunuz?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@row.Id" />
+                            <input type="hidden" name="kind" value="@Model.Kind" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+</div>

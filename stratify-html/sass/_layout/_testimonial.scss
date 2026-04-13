@@ -1,0 +1,623 @@
+// Testimonial area start here ***
+.testimonial {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__shape {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: 0;
+		@include breakpoint(max-xxxl) {
+			z-index: -1;
+		}
+	}
+	&__image {
+		position: absolute;
+		bottom: 0;
+		right: 16%;
+		z-index: 1;
+		@include breakpoint(max-x4l) {
+			right: 8%;
+		}
+		@include breakpoint(max-xxxl) {
+			right: 1%;
+		}
+		@include breakpoint(max-xxl) {
+			display: none;
+		}
+	}
+	&__wrp {
+		max-width: 1320px;
+		background-color: var(--white);
+		padding: 80px;
+		@include breakpoint(max-lg) {
+			padding: 40px;
+		}
+		@include breakpoint(max-md) {
+			padding: 20px;
+		}
+	}
+	&__slider {
+		border-right: 1px solid var(--border);
+		@include breakpoint(max-lg) {
+			border-right: none;
+		}
+		&-arry {
+			@include flex;
+			justify-content: center;
+			gap: 15px;
+			margin-top: 60px;
+			padding-top: 15px;
+			border-top: 1px solid #23303233;
+			&.dark-mode {
+				button {
+					background-color: var(--border);
+				}
+			}
+		}
+	}
+	&__item {
+		padding-right: 30px;
+		.icon {
+			@include radius(60px, 60px, 60px);
+			background-color: var(--black);
+			margin-bottom: 30px;
+		}
+		.info {
+			margin-top: 70px;
+			@include breakpoint(max-lg) {
+				margin-top: 30px;
+			}
+		}
+		&.dark-mode {
+			.icon {
+				background-color: var(--border);
+			}
+		}
+	}
+	&__review {
+		position: relative;
+		z-index: 1;
+		text-align: center;
+		h2 {
+			margin: 10px 0;
+		}
+		h5 {
+			line-height: 16px;
+			margin-top: 10px;
+		}
+	}
+}
+// Testimonial area end here ***
+
+// Testimonial three area start here ***
+.testimonial-three {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		max-width: 1300px;
+		margin: 0 auto;
+		position: relative;
+	}
+	&__slider {
+		max-width: 830px;
+		margin: 0 auto;
+		&-thumb {
+			max-width: 300px;
+			margin: 0 auto;
+			margin-top: 10px;
+			padding: 10px;
+			.swiper-slide-thumb-active {
+				img {
+					transform: scale(1.1);
+				}
+			}
+		}
+	}
+	&__arry {
+		&-prev {
+			font-size: 40px;
+			line-height: 40px;
+			color: var(--paragraph-light);
+			transition: var(--transition);
+			position: absolute;
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+			@include flex;
+			@include breakpoint(max-md) {
+				display: none;
+			}
+			span {
+				color: inherit;
+				font-size: 12px;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+			&:hover {
+				color: var(--black);
+			}
+			&.dark-mode {
+				color: #c4c4c4;
+				&:hover {
+					color: var(--black);
+				}
+			}
+		}
+		&-next {
+			font-size: 40px;
+			line-height: 40px;
+			color: var(--paragraph-light);
+			transition: var(--transition);
+			position: absolute;
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+			@include flex;
+			@include breakpoint(max-md) {
+				display: none;
+			}
+			span {
+				color: inherit;
+				font-size: 12px;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+			&:hover {
+				color: var(--black);
+			}
+			left: unset;
+			right: 0;
+			&.dark-mode {
+				color: var(--paragraph);
+				&:hover {
+					color: var(--black);
+				}
+			}
+		}
+	}
+	&__image {
+		width: 80px;
+		cursor: pointer;
+		img {
+			width: 100%;
+			transition: var(--transition);
+		}
+	}
+	&__item {
+		padding: 10px;
+		text-align: center;
+		p {
+			margin-top: 45px;
+			margin-bottom: 15px;
+			font-size: 20px;
+			line-height: 40px;
+			@include breakpoint(max-sm) {
+				font-size: 16px;
+				line-height: 30px;
+			}
+		}
+		.info {
+			span {
+				font-size: 14px;
+			}
+		}
+	}
+}
+// Testimonial three area end here ***
+
+// Testimonial four area start here ***
+.testimonial-four {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		max-width: 1440px;
+		margin: 0 auto;
+	}
+	&__slider {
+		margin-right: -19%;
+		@include breakpoint(max-xxl) {
+			margin-right: 0;
+		}
+	}
+	&__item {
+		padding: 40px;
+		background-color: var(--white);
+		.item-head {
+			@include justify;
+			.info {
+				@include flex;
+				gap: 15px;
+				span {
+					font-size: 14px;
+				}
+			}
+			.rating {
+				display: inline-block;
+				font-size: 14px;
+				background-color: var(--black);
+				color: var(--white);
+				font-family: var(--font-title);
+				font-weight: 700;
+				line-height: 18px;
+				padding: 5px 8px;
+				border-radius: 50px;
+				i {
+					font-size: 12px;
+				}
+			}
+		}
+	}
+	&__review {
+		h5 {
+			color: var(--paragraph);
+			span {
+				color: var(--black);
+			}
+		}
+		@include flex;
+		justify-content: center;
+		margin-top: 30px;
+		gap: 20px;
+	}
+	&__map {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: -1;
+	}
+}
+// Testimonial four area end here ***
+
+// Testimonial five area start here ***
+.testimonial-five {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1230px;
+		margin: 0 auto;
+	}
+	&-right {
+		.section-header {
+			border-bottom: 1px solid var(--border);
+		}
+	}
+	&__image {
+		max-width: 440px;
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		.image-content {
+			position: absolute;
+			bottom: 50px;
+			right: -80px;
+			padding: 30px 35px;
+			background-color: var(--black);
+			display: inline-block;
+			.title {
+				padding-bottom: 20px;
+				border-bottom: 1px solid var(--border-light);
+				color: var(--white);
+				display: inline-block;
+				margin-bottom: 25px;
+			}
+			.users {
+				a {
+					@include radius(45px, 45px, 48px);
+					overflow: hidden;
+					&:not(:first-child) {
+						margin-left: -10px;
+					}
+					&.icon {
+						color: var(--black);
+						background-color: var(--white);
+					}
+					&:hover {
+						transform: scale(1.1);
+					}
+				}
+			}
+			@include breakpoint(max-sm) {
+				right: 20px;
+				bottom: 20px;
+			}
+		}
+	}
+	&__item {
+		.title {
+			margin-bottom: 20px;
+			svg {
+				margin-right: 10px;
+			}
+			span {
+				font-size: 14px;
+			}
+		}
+		.text {
+			font-size: 22px;
+			line-height: 30px;
+			@include breakpoint(max-sm) {
+				font-size: 18px;
+			}
+		}
+		.ratting {
+			@include justify-wrp;
+			gap: 10px;
+			margin-top: 30px;
+			@include breakpoint(max-sm) {
+				img {
+					width: 100px;
+				}
+			}
+		}
+	}
+}
+// Testimonial five area end here ***
+
+// Testimonial six area start here ***
+.testimonial-six {
+	&-area {
+		@extend .testimonial-area;
+	}
+	&__image {
+		max-width: 861px;
+		img {
+			width: 100%;
+		}
+		position: absolute;
+		bottom: 0;
+		right: 60px;
+		.sign {
+			position: absolute;
+			left: 20%;
+			bottom: 50px;
+		}
+		@include breakpoint(max-xxl) {
+			max-width: 600px;
+		}
+		@include breakpoint(max-lg) {
+			display: none;
+		}
+	}
+}
+// Testimonial six area end here ***
+
+// Testimonial nine area start here ***
+.testimonial-nine {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1230px;
+		margin: 0 auto;
+	}
+	&-right {
+		.section-header {
+			border-bottom: 1px solid var(--border);
+		}
+	}
+	&__image {
+		max-width: 508px;
+		float: right;
+		img {
+			width: 100%;
+		}
+	}
+	&__item {
+		.title {
+			margin-bottom: 20px;
+			svg {
+				margin-right: 10px;
+			}
+			span {
+				font-size: 14px;
+			}
+		}
+		.text {
+			font-size: 22px;
+			line-height: 30px;
+			@include breakpoint(max-sm) {
+				font-size: 18px;
+			}
+		}
+		.ratting {
+			@include justify-wrp;
+			gap: 10px;
+			margin-top: 30px;
+			@include breakpoint(max-sm) {
+				img {
+					width: 100px;
+				}
+			}
+		}
+	}
+}
+// Testimonial nine area end here ***
+
+// Testimonial ten area start here ***
+.testimonial-ten {
+	&-area {
+		overflow: hidden;
+	}
+	&-right {
+		@include bg-image;
+		padding: 120px 100px;
+		@include breakpoint(max-md) {
+			padding: 60px 30px;
+		}
+	}
+	&__image {
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+	&__item {
+		max-width: 946px;
+		.text {
+			font-size: 18px;
+			line-height: 30px;
+			@include breakpoint(max-sm) {
+				font-size: 15px;
+				line-height: 26px;
+			}
+		}
+		.info {
+			margin: 40px 0;
+			@include justify-wrp;
+			gap: 20px;
+		}
+	}
+	&__dot {
+		.swiper-pagination-bullet {
+			width: 18px;
+			height: 2px;
+			border-radius: 0;
+			background-color: #d8d8d8;
+			transition: var(--transition);
+			&-active {
+				width: 34px;
+			}
+		}
+	}
+}
+// Testimonial ten area end here ***
+
+// Testimonial twelev area start here ***
+.testimonial-twelve {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1390px;
+		margin: 0 auto;
+	}
+	&__item {
+		background-color: var(--sub-bg);
+		padding: 50px;
+		border-radius: 10px;
+		@include breakpoint(max-lg) {
+			padding: 30px;
+		}
+		.text {
+			font-size: 18px;
+			line-height: 40px;
+			font-weight: 800;
+			font-family: var(--font-title);
+			margin-bottom: 20px;
+			margin-top: 30px;
+			@include breakpoint(max-lg) {
+				font-size: 16px;
+				line-height: 32px;
+			}
+		}
+		.info {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			span {
+				font-size: 14px;
+			}
+			img {
+				border-radius: 50%;
+			}
+		}
+		.ratting {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-top: 30px;
+			margin-top: 30px;
+			border-top: 1px solid var(--border);
+			.star {
+				i {
+					color: #ffd700;
+				}
+			}
+		}
+	}
+}
+// Testimonial twelev area end here ***
+
+// Testimonial thirteen area start here ***
+.testimonial-thirteen {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		background-color: var(--black);
+	}
+	&__wrp {
+		max-width: 1380px;
+		margin: 0 auto;
+	}
+	&__image {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 1;
+		width: 50%;
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		@include breakpoint(max-lg) {
+			display: none;
+		}
+	}
+	&-right {
+		@extend .testimonial-five-right;
+		padding-left: 80px;
+		@include breakpoint(max-lg) {
+			padding-left: 0;
+		}
+		.section-header {
+			border-bottom: 1px solid var(--border-light);
+		}
+		.testimonial__dot {
+			.swiper-pagination-bullet {
+				border: 2px solid var(--white);
+				opacity: 1;
+				transition: var(--transition);
+				&-active {
+					background-color: var(--white);
+				}
+			}
+		}
+	}
+	&__item {
+		@extend .testimonial-five__item;
+		.title {
+			color: var(--white);
+			span {
+				color: var(--white);
+			}
+			svg {
+				path {
+					fill: var(--white);
+				}
+			}
+		}
+		.text {
+			color: var(--white);
+		}
+	}
+}
+// Testimonial thirteen area end here ***

@@ -1,0 +1,70 @@
+@model Europiyum.Cms.Application.Admin.ViewModels.PageSeoEditVm
+@{
+    ViewData["Title"] = "SEO — " + Model.PageTitle;
+    ViewData["Subtitle"] = $"Sayfa #{Model.PageId}";
+    ViewData["HelpIntro"] = "Arama motorları ve sosyal önizlemeler için dil başına meta başlık, açıklama, canonical ve robots değerleri. Sayfa başlığından bağımsızdır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Boş bırakılan alanlarda tema genelde sayfa başlığı veya varsayılanlara döner.",
+        "Canonical, aynı içeriğin tek adres gösterilmesi içindir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="PageId" />
+        <input type="hidden" asp-for="CompanyId" />
+
+        @for (var i = 0; i < Model.Rows.Count; i++)
+        {
+            <div class="border rounded p-3 mb-4 bg-light">
+                <h6 class="mb-3">@Model.Rows[i].LanguageCode.ToUpperInvariant()</h6>
+                <input type="hidden" asp-for="Rows[i].LanguageId" />
+                <input type="hidden" asp-for="Rows[i].LanguageCode" />
+                <input type="hidden" asp-for="Rows[i].SeoMetadataId" />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Rows[i].MetaTitle"></label>
+                        <input class="form-control" asp-for="Rows[i].MetaTitle" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Rows[i].MetaKeywords"></label>
+                        <input class="form-control" asp-for="Rows[i].MetaKeywords" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" asp-for="Rows[i].MetaDescription"></label>
+                        <textarea class="form-control" rows="2" asp-for="Rows[i].MetaDescription"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Rows[i].CanonicalUrl"></label>
+                        <input class="form-control" asp-for="Rows[i].CanonicalUrl" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Rows[i].Robots"></label>
+                        <input class="form-control" asp-for="Rows[i].Robots" placeholder="index,follow" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Rows[i].OgTitle"></label>
+                        <input class="form-control" asp-for="Rows[i].OgTitle" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Rows[i].OgImageMediaId"></label>
+                        <input class="form-control" type="number" asp-for="Rows[i].OgImageMediaId" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" asp-for="Rows[i].OgDescription"></label>
+                        <textarea class="form-control" rows="2" asp-for="Rows[i].OgDescription"></textarea>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <a class="btn btn-outline-secondary" asp-area="Admin" asp-controller="Pages" asp-action="Edit" asp-route-id="@Model.PageId">Sayfaya dön</a>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

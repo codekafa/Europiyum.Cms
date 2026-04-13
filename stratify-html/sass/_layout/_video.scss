@@ -1,0 +1,149 @@
+// Video area start here ***
+.video {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		height: 430px;
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+	}
+	&__btn {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+// Video area end here ***
+
+// Video two area start here ***
+.video-two {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		height: 580px;
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+	}
+	&__btn {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+// Video two area end here ***
+
+// Video three area start here ***
+.video-three {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		height: 430px;
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+		height: 600px;
+	}
+}
+// Video three area end here ***
+
+// Video four area start here ***
+.video-four {
+	&-area {
+		overflow: hidden;
+	}
+	&__video {
+		height: 100%;
+		video {
+			width: 100%;
+			object-fit: cover;
+			min-height: 600px;
+			height: 100%;
+			@include breakpoint(max-sm) {
+				min-height: 400px;
+			}
+		}
+	}
+	&__content {
+		@include bg-image;
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 80px;
+		height: 100%;
+		@include breakpoint(max-xxl) {
+			padding: 60px 30px;
+		}
+		@include breakpoint(max-lg) {
+			padding: 60px 15px;
+		}
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #121c27e5;
+			content: "";
+			z-index: -1;
+		}
+	}
+}
+// Video four area end here ***
+
+// Video nine area start here ***
+.video-nine {
+	&-area {
+		overflow: hidden;
+	}
+	&__image {
+		height: 100%;
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.btn-video {
+			@include center;
+		}
+	}
+	&__item {
+		@extend .choose-four-right;
+		@include bg-image;
+		max-width: 100%;
+		height: 100%;
+		position: relative;
+		z-index: 1;
+		&::before {
+			width: 100%;
+			height: 100%;
+			background-color: #121c27fa;
+			position: absolute;
+			top: 0;
+			left: 0;
+			content: "";
+			z-index: -1;
+		}
+		padding: 130px 120px;
+		@include breakpoint(max-xxl) {
+			padding: 60px;
+		}
+		@include breakpoint(max-sm) {
+			padding: 60px 15px;
+		}
+		.text {
+			max-width: 610px;
+		}
+	}
+}
+// Video nine area end here ***

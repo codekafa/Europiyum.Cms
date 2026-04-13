@@ -1,0 +1,480 @@
+// Contact area start here ***
+.contact {
+	&-area {
+		overflow: hidden;
+		@include bg-image;
+	}
+	&__wrp {
+		max-width: 1085px;
+		float: right;
+	}
+	&__form {
+		background-color: #ffffffb2;
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		padding: 130px 120px;
+		@include breakpoint(max-md) {
+			padding: 60px 30px;
+		}
+		form {
+			max-width: 850px;
+			input,
+			textarea {
+				width: 100%;
+				padding: 14px 20px;
+				border: 1px solid transparent;
+				color: var(--black);
+				background-color: var(--white);
+				transition: var(--transition);
+				&::placeholder {
+					color: var(--black);
+				}
+				&:focus {
+					border: 1px solid var(--border);
+				}
+			}
+			textarea {
+				height: 240px;
+				resize: none;
+				border-radius: 20px;
+			}
+		}
+		.nice-select {
+			border-radius: 0;
+		}
+		&.dark-area {
+			background-color: #101010b2;
+			form {
+				max-width: 850px;
+				input,
+				textarea {
+					&::placeholder {
+						color: #131313;
+					}
+				}
+			}
+		}
+	}
+}
+form .error {
+  color: red;
+  font-size: 13px;
+}
+// Contact area end here ***
+
+// Contact two area start here ***
+.contact-two {
+	&-area {
+		overflow: hidden;
+	}
+	&-left {
+		background-color: var(--white);
+		padding: 80px;
+		@include breakpoint(max-md) {
+			padding: 30px 20px;
+		}
+	}
+	&__content {
+		ul {
+			li {
+				margin-bottom: 10px;
+				@include flex;
+				color: var(--paragraph);
+				svg {
+					margin-right: 10px;
+				}
+				@include breakpoint(max-md) {
+					font-size: 14px;
+				}
+			}
+		}
+	}
+	&__form {
+		margin-top: 150px;
+		@include breakpoint(max-md) {
+			margin-top: 60px;
+		}
+		form {
+			.input {
+				input {
+					width: 100%;
+					border: none;
+					border-bottom: 1px solid var(--black);
+					padding-bottom: 20px;
+					@include breakpoint(max-md) {
+						padding-bottom: 10px;
+					}
+				}
+			}
+			.textarea {
+				textarea {
+					width: 100%;
+					border: none;
+					border-bottom: 1px solid var(--black);
+					padding-bottom: 20px;
+					resize: none;
+					height: 120px;
+				}
+			}
+		}
+		&.dark-mode {
+			.input {
+				input {
+					border-bottom: 1px solid var(--border);
+					background-color: var(--white);
+					color: var(--black);
+				}
+			}
+			.textarea {
+				textarea {
+					border-bottom: 1px solid var(--border);
+					background-color: var(--white);
+					color: var(--black);
+				}
+			}
+			.btn-one {
+				background-color: var(--black0);
+				color: var(--black);
+			}
+		}
+	}
+	&__map {
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		.location {
+			position: absolute;
+			top: 40px;
+			left: 20%;
+			img {
+				width: unset;
+			}
+			@include breakpoint(max-md) {
+				img {
+					width: 200px;
+				}
+			}
+		}
+	}
+}
+// Contact two area end here ***
+
+// Contact four area start here ***
+.contact-four {
+	&-area {
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+	}
+	&__wrp {
+		max-width: 1460px;
+		margin: 0 auto;
+		position: relative;
+		z-index: 1;
+		transform: translateY(-130px);
+		@include breakpoint(max-md) {
+			transform: translateY(-60px);
+		}
+	}
+	&__form {
+		.section-header {
+			max-width: 380px;
+		}
+		form {
+			input,
+			textarea {
+				width: 100%;
+				padding: 12px 20px;
+				border: 1px solid var(--border);
+				margin-bottom: 20px;
+				background-color: transparent;
+			}
+			textarea {
+				height: 150px;
+				resize: none;
+			}
+		}
+		padding: 80px;
+		background-color: var(--sub-bg);
+		@include breakpoint(max-sm) {
+			padding: 60px 15px;
+		}
+		&.dark-area {
+			form {
+				input,
+				textarea {
+					color: var(--black);
+				}
+			}
+		}
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+		height: 100%;
+		&::before {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(
+				360deg,
+				rgba(0, 0, 0, 0.65) 21.63%,
+				rgba(0, 0, 0, 0) 62.77%
+			);
+			content: "";
+		}
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.content {
+			width: 75%;
+			position: absolute;
+			bottom: 50px;
+			left: 50%;
+			transform: translateX(-50%);
+			.text {
+				color: var(--white);
+			}
+			@include breakpoint(max-md) {
+				width: 90%;
+				bottom: 30px;
+				.text {
+					font-size: 16px;
+				}
+			}
+		}
+		.info {
+			@include justify-wrp;
+			margin-top: 50px;
+			gap: 10px;
+			@include breakpoint(max-md) {
+				margin-top: 20px;
+			}
+			.logo {
+				width: 129px;
+			}
+		}
+	}
+	&__brand {
+		&-text {
+			color: var(--white);
+			text-align: center;
+		}
+	}
+	&__rectangle {
+		position: absolute;
+		z-index: -1;
+		width: 160px;
+		height: 160px;
+		bottom: 80px;
+		right: 0;
+		.item {
+			&-one {
+				width: 80px;
+				height: 80px;
+				background-color: var(--white);
+				width: 0;
+				transition: all 0.3s ease-in-out 0.2s;
+				position: absolute;
+				bottom: 80px;
+				right: 0;
+				&.animated {
+					width: 80px;
+				}
+			}
+			&-two {
+				width: 80px;
+				height: 0px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				transition: all 0.3s ease-in-out 0.5s;
+				position: absolute;
+				top: 80px;
+				left: 0px;
+				&.animated {
+					height: 80px;
+				}
+			}
+			&-three {
+				width: 80px;
+				height: 0px;
+				background-color: var(--white);
+				backdrop-filter: blur(20px);
+				transition: all 0.3s ease-in-out 0.8s;
+				position: absolute;
+				top: 160px;
+				left: 80px;
+				&.animated {
+					height: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// Contact four area end here ***
+
+// Contact six area start here ***
+.contact-six {
+	&-aera {
+		overflow: hidden;
+	}
+	&__wrp {
+		@include bg-image;
+		padding: 130px 100px;
+		@include breakpoint(max-xl) {
+			padding: 60px 30px;
+		}
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.circle-btn {
+			@include center;
+			@include radius(200px, 200px, 200px);
+			backdrop-filter: blur(20px);
+			background-color: #ffffff33;
+			padding-top: 70px;
+			@include breakpoint(max-md) {
+				@include radius(150px, 150px, 150px);
+				padding-top: 40px;
+			}
+			span {
+				display: block;
+				color: var(--white);
+				font-size: 16px;
+				line-height: 24px;
+				font-weight: 500;
+				i {
+					transform: rotate(-45deg);
+					transition: var(--transition);
+				}
+			}
+			&:hover {
+				span {
+					i {
+						transform: rotate(0);
+					}
+				}
+			}
+		}
+	}
+	&__item {
+		.section-header {
+			max-width: 800px;
+			.title {
+				font-size: 80px;
+				line-height: 90px;
+				font-weight: 400;
+				@include breakpoint(max-md) {
+					font-size: 30px;
+					line-height: 40px;
+				}
+			}
+		}
+		.wrp {
+			max-width: 640px;
+			@include flex-wrp;
+			gap: 80px;
+			padding-top: 60px;
+			margin-top: 60px;
+			border-top: 1px solid var(--border-light);
+			@include breakpoint(max-md) {
+				gap: 20px;
+			}
+		}
+	}
+}
+// Contact six area end here ***
+
+// Contact seven area start here ***
+.contact-seven {
+	&-area {
+		@extend .contact-four-area;
+		position: relative;
+		z-index: 1;
+		&::after {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 136px;
+			background-color: var(--black);
+			content: "";
+			z-index: -1;
+		}
+	}
+	&__dark-mode {
+		&::after {
+			background-color: var(--sub-bg);
+		}
+	}
+	&__wrp {
+		@extend .contact-four__wrp;
+		transform: translate(0);
+	}
+}
+// Contact seven area end here ***
+
+// Contact nine area start here ***
+.contact-nine {
+	&-area {
+		@extend .contact-seven-area;
+	}
+	&__wrp {
+		@extend .contact-seven__wrp;
+		position: relative;
+		z-index: 1;
+		.rectangle {
+			width: 80px;
+			height: 80px;
+			position: absolute;
+			top: 0px;
+			right: 0;
+			z-index: 0;
+			.item {
+				width: 0px;
+				height: 80px;
+				background-color: var(--white);
+				transition: all 0.3s ease-in-out 0.2s;
+				position: absolute;
+				top: 80px;
+				right: 0;
+				&.animated {
+					width: 80px;
+				}
+				&-dark {
+					width: 80px;
+					height: 0;
+					transition: all 0.3s ease-in-out 0.5s;
+					background-color: var(--black);
+					position: absolute;
+					bottom: 0px;
+					left: 0;
+					&.animated {
+						height: 80px;
+					}
+				}
+			}
+			@include breakpoint(max-md) {
+				display: none;
+			}
+		}
+	}
+}
+// Contact nine area end here ***

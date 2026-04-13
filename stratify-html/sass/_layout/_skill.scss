@@ -1,0 +1,60 @@
+// Skill area start here ***
+.skill {
+	&-aera {
+		overflow: hidden;
+	}
+	&__video {
+		img {
+			width: 100%;
+		}
+		position: relative;
+		z-index: 1;
+		.btn-video {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			.video-popup{
+				width: 55px;
+				height: 55px;
+				line-height: 58px;
+				background-color: var(--white);
+				color: var(--black);
+				font-size: 14px;
+			}
+		}
+	}
+	&__item {
+		max-width: 550px;
+		
+		.progress-area {
+			.progress__title {
+				h5,
+				span {
+					color: var(--white);
+				}
+				margin-bottom: 20px;
+			}
+			.progress {
+				overflow: unset !important;
+				background-color: #ffffff1a;
+				height: 5px;
+				margin-bottom: 5px;
+				.progress-bar {
+					overflow: unset !important;
+					background-color: var(--white);
+					position: relative;
+					&::after {
+						position: absolute;
+						top: -5px;
+						right: -5px;
+						@include radius(15px, 15px, 15px);
+						background-color: var(--white);
+						content: "";
+					}
+				}
+			}
+		}
+	}
+}
+// Skill area end here ***

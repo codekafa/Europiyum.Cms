@@ -1,0 +1,8 @@
+@model PublicHomeViewModel
+@foreach (var block in Model.Sections)
+{
+    var keySlug = block.SectionKey.Replace('_', '-');
+    <div class="cms-home-section" data-section="@keySlug">
+        @Html.Raw(block.BodyHtml)
+    </div>
+}

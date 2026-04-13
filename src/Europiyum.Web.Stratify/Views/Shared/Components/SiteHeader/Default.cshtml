@@ -1,0 +1,132 @@
+@using Europiyum.Cms.Application.Public.Models
+@model SiteHeaderViewModel
+@{
+    var content = "/_content/Europiyum.Web.Stratify/stratify";
+    var logoMain = string.IsNullOrWhiteSpace(Model.HeaderLogoMainSrc) ? content + "/images/logo/logo.png" : Model.HeaderLogoMainSrc;
+    var logoLight = string.IsNullOrWhiteSpace(Model.HeaderLogoLightSrc) ? content + "/images/logo/logo-light.png" : Model.HeaderLogoLightSrc;
+    var logoBlack = string.IsNullOrWhiteSpace(Model.HeaderLogoBlackSrc) ? content + "/images/logo/logo-black.png" : Model.HeaderLogoBlackSrc;
+    var homeHref = string.IsNullOrWhiteSpace(Model.LanguageCode)
+        ? "/"
+        : "/" + Uri.EscapeDataString(Model.LanguageCode.Trim());
+    var noTopBar = Model.HeaderTopBar == StratifyHeaderTopBarMode.None;
+    var headerModifier = noTopBar ? "stratify-header--no-top-bar" : "";
+}
+@if (Model.HeaderTopBar == StratifyHeaderTopBarMode.Full)
+{
+    <partial name="_StratifyHeaderTopFull" model="Model" />
+}
+else if (Model.HeaderTopBar == StratifyHeaderTopBarMode.Compact)
+{
+    <div class="header-top-area d-none d-lg-block">
+        <div class="container">
+            <div class="header-top__wrp">
+                <ul class="header-top__links">
+                    <li><i class="fa-solid fa-building"></i> <span>@Model.SiteTitle</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Layout == StratifyHeaderLayoutMode.Inner)
+{
+    <header class="header-area header-three-area @headerModifier">
+        <div class="container">
+            <div class="header__main">
+                <a href="@homeHref" class="logo">
+                    <img src="@logoBlack" alt="@Model.SiteTitle" />
+                </a>
+                <div class="main-menu">
+                    <nav>
+                        <ul>
+                            <li><a href="@homeHref">@Model.HomeNavLabel</a></li>
+                            @foreach (var link in Model.NavLinks)
+                            {
+                                <li>
+                                    <a href="@link.Href">
+                                        @link.Label
+                                        @if (link.Children.Count > 0)
+                                        {
+                                            <text> </text><i class="fa-solid fa-angle-down"></i>
+                                        }
+                                    </a>
+                                    @if (link.Children.Count > 0)
+                                    {
+                                        <ul class="sub-menu">
+                                            @foreach (var child in link.Children)
+                                            {
+                                                <li><a href="@child.Href">@child.Label</a></li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                    <div class="menu-btns">
+                        <button class="search-trigger d-none d-lg-block" type="button" aria-label="Ara">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                        <button class="menubars" type="button" data-bs-toggle="offcanvas" data-bs-target="#menubar" aria-controls="menubar">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+}
+else
+{
+    <header class="header-area header-blur @headerModifier">
+        <div class="container">
+            <div class="header__main">
+                <a href="@homeHref" class="logo logo-main">
+                    <img src="@logoMain" alt="@Model.SiteTitle" />
+                </a>
+                <a href="@homeHref" class="logo logo-light">
+                    <img src="@logoLight" alt="@Model.SiteTitle" />
+                </a>
+                <div class="main-menu main-menu-light">
+                    <nav>
+                        <ul>
+                            <li><a href="@homeHref">@Model.HomeNavLabel</a></li>
+                            @foreach (var link in Model.NavLinks)
+                            {
+                                <li>
+                                    <a href="@link.Href">
+                                        @link.Label
+                                        @if (link.Children.Count > 0)
+                                        {
+                                            <text> </text><i class="fa-solid fa-angle-down"></i>
+                                        }
+                                    </a>
+                                    @if (link.Children.Count > 0)
+                                    {
+                                        <ul class="sub-menu">
+                                            @foreach (var child in link.Children)
+                                            {
+                                                <li><a href="@child.Href">@child.Label</a></li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                    <div class="menu-btns light">
+                        <button class="search-trigger d-none d-lg-block" type="button" aria-label="Ara">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                        <button class="menubars menubars-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#menubar" aria-controls="menubar">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+}

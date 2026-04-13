@@ -1,0 +1,82 @@
+@model DashboardVm
+@{
+    ViewData["Title"] = "Kontrol paneli";
+    ViewData["Subtitle"] = "Şirket seçerek içerik yönetimine başlayın";
+    ViewData["HelpIntro"] = "Bu panel, hangi şirket (site) üzerinde çalıştığınızı belirlemeniz içindir. Listeler, formlar ve çeviriler üst bardaki şirket seçimine göre filtrelenir.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Önce bir şirket seçin; ardından Site dilleri → Sayfalar sırasıyla ilerleyebilirsiniz.",
+        "Bileşen: tekrar kullanılan içerik kutusu. Sayfa bileşenleri: o sayfaya sırayla eklenen bileşenler (özellikle anasayfada).",
+        "Anasayfa bölümleri: temanın hero vb. sabit alanları; medya ve formlar ayrı menülerdedir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="cms-stat">
+            <div class="cms-stat-label">Şirketler</div>
+            <div class="cms-stat-value">@Model.Companies.Count</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="cms-stat">
+            <div class="cms-stat-label">Aktif çalışma alanı</div>
+            <div class="cms-stat-value" style="font-size:1.1rem;font-weight:600;">
+                @(Model.Selected?.Name ?? "—")
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="cms-stat">
+            <div class="cms-stat-label">Sonraki adım</div>
+            <div class="cms-stat-value" style="font-size:0.95rem;font-weight:600;"><a asp-area="Admin" asp-controller="CompanyLanguages" asp-action="Index" class="text-decoration-none text-dark">Site dilleri</a> · Sayfalar</div>
+        </div>
+    </div>
+</div>
+
+<div class="cms-card overflow-hidden">
+    <div class="cms-card-header d-flex justify-content-between align-items-center">
+        <span>Şirketleriniz</span>
+        <a class="btn btn-sm btn-outline-secondary" asp-area="Admin" asp-controller="Companies" asp-action="Index">Tümünü yönet</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table cms-table mb-0">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Kod</th>
+                    <th>Homepage şablon anahtarı</th>
+                    <th>Durum</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var c in Model.Companies)
+            {
+                <tr>
+                    <td class="fw-medium">@c.Name</td>
+                    <td><code>@c.Code</code></td>
+                    <td><span class="badge rounded-pill text-bg-light border">@c.HomepageVariantKey</span></td>
+                    <td>
+                        @if (c.IsActive)
+                        {
+                            <span class="cms-pill cms-pill-ok">Aktif</span>
+                        }
+                        else
+                        {
+                            <span class="cms-pill cms-pill-off">Pasif</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <form asp-area="Admin" asp-controller="Workspace" asp-action="SelectCompany" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="companyId" value="@c.Id" />
+                            <button type="submit" class="btn btn-sm btn-primary">Bu şirketi seç</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

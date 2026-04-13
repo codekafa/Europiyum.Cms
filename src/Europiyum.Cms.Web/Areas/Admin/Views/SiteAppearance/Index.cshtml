@@ -1,0 +1,133 @@
+@model SiteAppearanceEditVm
+@{
+    ViewData["Title"] = "Site görünümü";
+    ViewData["Subtitle"] = "Logo, footer, offcanvas, head script, özel CSS";
+    ViewData["HelpIntro"] = "Bu ayarlar seçili şirketin public temasına yansır. Logo yüklemeleri medya klasörüne kaydedilir ve otomatik olarak /media/... yolu yazılır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Header logoları: ana sayfa (çift logo), iç sayfa (siyah logo) ve mobil offcanvas; boş bırakılanlar tema dosyalarını kullanır.",
+        "Tam footer HTML: doldurulursa footer yalnızca bu bloktan oluşur; aksi halde giriş/gövde/telif alanları tema iskeletinde gösterilir.",
+        "Offcanvas alt HTML: meanmenu’dan sonra (şablondaki About / Contact blokları gibi) ham HTML eklemeniz için.",
+        "Head script ve özel CSS tüm public sayfalara uygulanır; kayıttan sonra önbellek birkaç dakika sürebilir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4">
+    <form asp-action="Index" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="CompanyId" />
+        <p class="small text-secondary mb-4">
+            Görseller: tema için <code>images/logo/logo-light.png</code> gibi Stratify göreli yol, veya medya yüklemesi ile oluşan <code>/media/...</code> yolu.
+        </p>
+
+        <h2 class="h6 text-body-secondary border-bottom pb-2 mb-3">Logo ayarları</h2>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label" asp-for="BrandingHeaderLogoMainPath"></label>
+                <input class="form-control font-monospace small" asp-for="BrandingHeaderLogoMainPath" placeholder="images/logo/logo.png veya /media/..." />
+                <input class="form-control mt-2" type="file" name="uploadHeaderMain" accept="image/*" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="BrandingHeaderLogoLightPath"></label>
+                <input class="form-control font-monospace small" asp-for="BrandingHeaderLogoLightPath" />
+                <input class="form-control mt-2" type="file" name="uploadHeaderLight" accept="image/*" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="BrandingHeaderLogoBlackPath"></label>
+                <input class="form-control font-monospace small" asp-for="BrandingHeaderLogoBlackPath" />
+                <input class="form-control mt-2" type="file" name="uploadHeaderBlack" accept="image/*" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="BrandingOffcanvasLogoPath"></label>
+                <input class="form-control font-monospace small" asp-for="BrandingOffcanvasLogoPath" />
+                <input class="form-control mt-2" type="file" name="uploadOffcanvasLogo" accept="image/*" />
+                <div class="form-text">Boşsa aşağıdaki varyanta göre tema dosyası kullanılır.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="BrandingFooterLogoPath"></label>
+                <input class="form-control font-monospace small" asp-for="BrandingFooterLogoPath" />
+                <input class="form-control mt-2" type="file" name="uploadFooterLogo" accept="image/*" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="BrandingFaviconPath"></label>
+                <input class="form-control font-monospace small" asp-for="BrandingFaviconPath" />
+                <input class="form-control mt-2" type="file" name="uploadFavicon" accept="image/*,.ico" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="OffcanvasLogoVariant">Offcanvas — tema logosu (özel yol boşsa)</label>
+                <select class="form-select" asp-for="OffcanvasLogoVariant">
+                    <option value="light">light (logo-light.png)</option>
+                    <option value="dark">dark</option>
+                    <option value="black">black</option>
+                    <option value="white">white</option>
+                    <option value="main">main (logo.png)</option>
+                </select>
+            </div>
+        </div>
+
+        <h2 class="h6 text-body-secondary border-bottom pb-2 mb-3">Mobil menü (offcanvas) ek içerik</h2>
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <label class="form-label" asp-for="OffcanvasBelowMenuHtml"></label>
+                <textarea class="form-control font-monospace small" rows="8" asp-for="OffcanvasBelowMenuHtml" placeholder='&lt;div class="d-none d-lg-block"&gt;...&lt;/div&gt;'></textarea>
+                <div class="form-text">Stratify şablonunda <code>.mobile-menu</code> kutusundan sonra gelen HTML (ör. About Us, Contact Info).</div>
+            </div>
+        </div>
+
+        <h2 class="h6 text-body-secondary border-bottom pb-2 mb-3">Footer</h2>
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <label class="form-label" asp-for="FooterFullHtml"></label>
+                <textarea class="form-control font-monospace small" rows="12" asp-for="FooterFullHtml" placeholder="&lt;footer class=&quot;footer-area&quot;&gt;... veya yalnızca iç gövde"></textarea>
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="FooterIntroHtml"></label>
+                <textarea class="form-control font-monospace" rows="3" asp-for="FooterIntroHtml"></textarea>
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="FooterBodyHtml"></label>
+                <textarea class="form-control font-monospace" rows="5" asp-for="FooterBodyHtml"></textarea>
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="FooterCopyrightHtml"></label>
+                <textarea class="form-control font-monospace" rows="2" asp-for="FooterCopyrightHtml" placeholder="Boşsa yıl + site adı üretilir"></textarea>
+            </div>
+        </div>
+
+        <h2 class="h6 text-body-secondary border-bottom pb-2 mb-3">İletişim ve head</h2>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" asp-for="SiteContactEmail"></label>
+                <input class="form-control" asp-for="SiteContactEmail" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="SiteContactPhone"></label>
+                <input class="form-control" asp-for="SiteContactPhone" />
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="HeadScriptsHtml"></label>
+                <textarea class="form-control font-monospace small" rows="8" asp-for="HeadScriptsHtml" placeholder="&lt;script async src=&quot;https://www.googletagmanager.com/gtag/js?id=G-XXXX&quot;&gt;&lt;/script&gt; …"></textarea>
+                <div class="form-text">
+                    Sayfanın <code>&lt;head&gt;</code> bölümünde, favicon ve tema CSS’lerinden <strong>önce</strong> basılır.
+                    <span class="text-secondary">Yalnızca güvenilir kaynak kullanın; bu alan ham HTML olarak ziyaretçiye gider.</span>
+                </div>
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="CustomCss"></label>
+                <textarea class="form-control font-monospace small" rows="10" asp-for="CustomCss" placeholder=".header-area { … }"></textarea>
+                <div class="form-text">
+                    Tema <code>style.css</code> ve <code>stratify-cms-overrides.css</code> dosyalarından <strong>sonra</strong> tek bir <code>&lt;style id=&quot;site-custom-css&quot;&gt;</code> içine eklenir.
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+</div>
+
+<div class="cms-card p-4 mt-4">
+    <h2 class="h6 text-body-secondary mb-3">Mobil menü (offcanvas) nasıl çalışır?</h2>
+    <p class="small mb-3">Üst menü linkleri <code>meanmenu.js</code> ile küçük ekranda <code>.mobile-menu</code> içine kopyalanır. Yukarıdaki &quot;Offcanvas ek içerik&quot; alanı bu kutunun <strong>altına</strong> HTML eklemenizi sağlar (şablondaki About / Contact blokları gibi).</p>
+    <p class="small text-secondary mb-0">Bootstrap açıkken <code>show</code> sınıfı paneli görünür kılar.</p>
+</div>

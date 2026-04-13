@@ -1,0 +1,42 @@
+@model IReadOnlyList<CompanyListItemVm>
+@{
+    ViewData["Title"] = "Şirketler";
+    ViewData["Subtitle"] = "Her site veya marka için bir kayıt";
+    ViewData["HelpIntro"] = "Şirket, canlı sitedeki tenant’tır: benzersiz kod (uygulama ayarıyla eşleşir), isteğe bağlı domain ve anasayfa tema anahtarı burada tutulur.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Düzenle: kod, isim, domain ve anasayfa şablon varyantı.",
+        "İçerik işleri için Kontrol panelinden ilgili şirketi seçin; kayıtlar birbirine karışmaz."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card overflow-hidden">
+    <div class="cms-card-header">Kayıtlı şirketler</div>
+    <div class="table-responsive">
+        <table class="table cms-table mb-0">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Kod</th>
+                    <th>Domain</th>
+                    <th>Şablon</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.Name</td>
+                    <td><code>@c.Code</code></td>
+                    <td>@(c.PrimaryDomain ?? "—")</td>
+                    <td>@c.HomepageVariantKey</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@c.Id">Düzenle</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

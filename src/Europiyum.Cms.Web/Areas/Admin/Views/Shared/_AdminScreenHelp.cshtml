@@ -1,0 +1,25 @@
+@{
+    var intro = ViewData["HelpIntro"] as string;
+    var bulletsObj = ViewData["HelpBullets"];
+    List<string> list = new();
+    if (bulletsObj is IEnumerable<string> seq)
+        list = seq.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+}
+@if (!string.IsNullOrWhiteSpace(intro) || list.Count > 0)
+{
+    <div class="alert alert-light border small mb-4" role="note">
+        @if (!string.IsNullOrWhiteSpace(intro))
+        {
+            <p class="mb-2 fw-medium text-body-secondary">@intro</p>
+        }
+        @if (list.Count > 0)
+        {
+            <ul class="mb-0 ps-3">
+                @foreach (var b in list)
+                {
+                    <li>@b</li>
+                }
+            </ul>
+        }
+    </div>
+}

@@ -1,0 +1,38 @@
+@model PublicHomeViewModel
+@{
+    var content = "/_content/Europiyum.Web.Stratify/stratify";
+}
+@if (!string.IsNullOrWhiteSpace(Model.HeroBodyHtml))
+{
+    @Html.Raw(Model.HeroBodyHtml)
+}
+else
+{
+    <section class="banner-area">
+        <div class="banner__wrp">
+            <div class="banner__image">
+                <div class="swiper banner__slider">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="parallax-bg">
+                                <img src="@content/images/banner/banner-image1.jpg" alt="" data-swiper-parallax="300" />
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="parallax-bg">
+                                <img src="@content/images/banner/banner-image2.jpg" alt="" data-swiper-parallax="300" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="banner__content">
+                <h1 class="title" data-animation="slideInLeft" data-duration="1s" data-delay="1s">@Model.HeroTitle</h1>
+                @if (!string.IsNullOrWhiteSpace(Model.HeroSubtitle))
+                {
+                    <p class="text" data-animation="slideInLeft" data-duration="1.5s" data-delay="1.1s">@Model.HeroSubtitle</p>
+                }
+            </div>
+        </div>
+    </section>
+}

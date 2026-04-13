@@ -1,0 +1,186 @@
+@model FormDefinitionEditVm
+@{
+    ViewData["Title"] = "Form düzenle";
+    ViewData["Subtitle"] = Model.Name;
+    ViewData["HelpIntro"] = "Tablodaki her satır bir form alanıdır; tarayıcıda name özniteliği buradaki anahtarla aynı olmalıdır. Sıra, kayıttaki SortOrder olarak listenin düzenine göre atanır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Liste / Radyo: seçenekleri alt alta yazın.",
+        "E-posta bildirimi: üstteki onay ve alıcılar; SMTP E-posta menüsündedir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-3">
+    <form id="formDefEdit" asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Key"></label>
+                <input class="form-control" asp-for="Key" />
+                <div class="form-text small">Public: <code>/tr/forms/@Model.Key/submit</code></div>
+                <span asp-validation-for="Key" class="text-danger small"></span>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive"></label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="SendEmailOnSubmission" />
+                    <label class="form-check-label" asp-for="SendEmailOnSubmission"></label>
+                </div>
+                <div class="form-text small">SMTP ayarları ve alıcı listesi (form veya şirket varsayılanı) tanımlı olmalıdır.</div>
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="NotifyEmails"></label>
+                <input class="form-control" asp-for="NotifyEmails" placeholder="Boş bırakırsanız şirket varsayılanı kullanılır" />
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h2 class="h6 mb-0">Alanlar</h2>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddField">Alan ekle</button>
+        </div>
+        <div class="table-responsive border rounded">
+            <table class="table table-sm align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="min-width:7rem;">Anahtar</th>
+                        <th style="min-width:8rem;">Tür</th>
+                        <th style="width:5rem;">Zorunlu</th>
+                        <th>Etiket</th>
+                        <th style="min-width:10rem;">Seçenekler</th>
+                        <th style="width:4rem;"></th>
+                    </tr>
+                </thead>
+                <tbody id="fieldRows">
+                @for (var i = 0; i < Model.Fields.Count; i++)
+                {
+                    <tr class="field-row">
+                        <td>
+                            <input type="hidden" asp-for="Fields[i].Id" />
+                            <input class="form-control form-control-sm" asp-for="Fields[i].FieldKey" placeholder="email" />
+                        </td>
+                        <td>
+                            <select class="form-select form-select-sm field-type-select" asp-for="Fields[i].FieldType" asp-items="Html.GetEnumSelectList<FormFieldType>()"></select>
+                        </td>
+                        <td class="text-center">
+                            <input class="form-check-input mt-2" asp-for="Fields[i].IsRequired" />
+                        </td>
+                        <td>
+                            <input class="form-control form-control-sm" asp-for="Fields[i].DefaultLabel" placeholder="E-posta" />
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm field-options" asp-for="Fields[i].OptionsText" rows="2" placeholder="Satır başına bir seçenek"></textarea>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-remove-field" title="Satırı kaldır">&times;</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <p class="form-text small mt-2 mb-4">Liste ve Radyo için seçenekleri satır satır yazın. Sıra, kayıtta listedeki sıraya göre otomatik atanır.</p>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Listeye dön</a>
+        </div>
+    </form>
+</div>
+
+<template id="fieldRowTpl">
+    <tr class="field-row">
+        <td>
+            <input type="hidden" name="Fields[__i__].Id" value="0" />
+            <input class="form-control form-control-sm" name="Fields[__i__].FieldKey" placeholder="email" />
+        </td>
+        <td>
+            <select class="form-select form-select-sm field-type-select" name="Fields[__i__].FieldType">
+            @foreach (FormFieldType ft in Enum.GetValues<FormFieldType>())
+            {
+                <option value="@((int)ft)">@ft</option>
+            }
+            </select>
+        </td>
+        <td class="text-center">
+            <input class="form-check-input mt-2" type="checkbox" name="Fields[__i__].IsRequired" value="true" />
+        </td>
+        <td>
+            <input class="form-control form-control-sm" name="Fields[__i__].DefaultLabel" placeholder="E-posta" />
+        </td>
+        <td>
+            <textarea class="form-control form-control-sm field-options" name="Fields[__i__].OptionsText" rows="2" placeholder="Satır başına bir seçenek"></textarea>
+        </td>
+        <td>
+            <button type="button" class="btn btn-sm btn-outline-danger btn-remove-field" title="Satırı kaldır">&times;</button>
+        </td>
+    </tr>
+</template>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const tbody = document.getElementById('fieldRows');
+            const tpl = document.getElementById('fieldRowTpl');
+            const form = document.getElementById('formDefEdit');
+
+            function nextIndex() {
+                return tbody.querySelectorAll('tr.field-row').length;
+            }
+
+            function toggleOptionsForRow(tr) {
+                const sel = tr.querySelector('.field-type-select');
+                const ta = tr.querySelector('.field-options');
+                if (!sel || !ta) return;
+                const v = parseInt(sel.value, 10);
+                const show = v === 4 || v === 6; // Select, Radio
+                ta.disabled = !show;
+                ta.classList.toggle('text-secondary', !show);
+                if (!show) ta.value = '';
+            }
+
+            function wireRow(tr) {
+                tr.querySelectorAll('.btn-remove-field').forEach(function (btn) {
+                    btn.addEventListener('click', function () { tr.remove(); });
+                });
+                const sel = tr.querySelector('.field-type-select');
+                if (sel) sel.addEventListener('change', function () { toggleOptionsForRow(tr); });
+                toggleOptionsForRow(tr);
+            }
+
+            tbody.querySelectorAll('tr.field-row').forEach(wireRow);
+
+            document.getElementById('btnAddField').addEventListener('click', function () {
+                const i = nextIndex();
+                const html = tpl.innerHTML.replace(/__i__/g, String(i));
+                const wrap = document.createElement('tbody');
+                wrap.innerHTML = html.trim();
+                const tr = wrap.querySelector('tr');
+                tbody.appendChild(tr);
+                wireRow(tr);
+            });
+
+            form.addEventListener('submit', function () {
+                const rows = tbody.querySelectorAll('tr.field-row');
+                rows.forEach(function (tr, idx) {
+                    tr.querySelectorAll('[name^="Fields["]').forEach(function (el) {
+                        el.name = el.name.replace(/Fields\[\d+]/, 'Fields[' + idx + ']');
+                    });
+                });
+            });
+        })();
+    </script>
+}

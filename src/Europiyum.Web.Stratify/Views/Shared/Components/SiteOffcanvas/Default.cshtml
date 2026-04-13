@@ -1,0 +1,15 @@
+@model Europiyum.Web.Stratify.ViewComponents.SiteOffcanvasViewComponent.SiteOffcanvasVm
+<div class="sidebar-area offcanvas offcanvas-end" id="menubar" tabindex="-1" aria-labelledby="menubarLabel">
+    <h2 class="visually-hidden" id="menubarLabel">Mobil menü</h2>
+    <div class="offcanvas-header">
+        <a href="@Model.HomeHref" class="logo"><img src="@Model.LogoSrc" alt="@Model.SiteTitle" asp-append-version="true" /></a>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Kapat"><i class="fa-regular fa-xmark"></i></button>
+    </div>
+    <div class="offcanvas-body sidebar__body">
+        <div class="mobile-menu overflow-hidden"></div>
+        @if (!string.IsNullOrWhiteSpace(Model.BelowMenuHtml))
+        {
+            @Html.Raw(Model.BelowMenuHtml)
+        }
+    </div>
+</div>

@@ -1,0 +1,133 @@
+// Solution area start here ***
+.solution {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+		&.have-padding {
+			padding-top: 300px;
+			@include breakpoint(max-lg) {
+				padding-top: 250px;
+			}
+		}
+	}
+	&__wrp {
+		max-width: 1290px;
+		margin: 0 auto;
+	}
+	&__header {
+		ul {
+			margin-top: 30px;
+			li {
+				font-size: 18px;
+				font-weight: 500;
+				@include flex;
+				gap: 15px;
+				color: var(--white);
+				&:not(:last-child) {
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
+	&__item {
+		.image {
+			overflow: hidden;
+			img {
+				transition: 0.9s;
+			}
+		}
+		.content {
+			.sub-title {
+				padding: 20px 0;
+				border-bottom: 1px solid var(--border-light);
+				margin-bottom: 30px;
+				color: var(--white);
+			}
+			.title {
+				.number {
+					display: inline-block;
+					@include radius(50px, 50px, 50px);
+					max-width: 50px;
+					width: 100%;
+					background-color: #ffffff4d;
+					backdrop-filter: blur(30px);
+					color: var(--white);
+					font-size: 24px;
+					font-weight: 600;
+					font-family: var(--font-title);
+					transition: var(--transition);
+				}
+				@include flex;
+				gap: 30px;
+			}
+		}
+		&:hover {
+			.image {
+				img {
+					transform: scale(1.1);
+					filter: grayscale(100%);
+				}
+			}
+			.content {
+				.number {
+					background-color: var(--white);
+					color: var(--black);
+				}
+			}
+		}
+	}
+	&__rectangle {
+		position: absolute;
+		z-index: -1;
+		width: 160px;
+		height: 160px;
+		bottom: 80px;
+		right: 0;
+		.item {
+			&-one {
+				width: 80px;
+				height: 80px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				width: 0;
+				transition: all 0.3s ease-in-out 0.8s;
+				position: absolute;
+				bottom: 80px;
+				right: 80px;
+				&.animated {
+					width: 80px;
+				}
+			}
+			&-two {
+				width: 80px;
+				height: 0px;
+				background-color: var(--white);
+				transition: all 0.3s ease-in-out 0.5s;
+				position: absolute;
+				bottom: 0px;
+				left: 80px;
+				&.animated {
+					height: 80px;
+				}
+			}
+			&-three {
+				width: 80px;
+				height: 0px;
+				background-color: var(--white);
+				transition: all 0.3s ease-in-out 0.2s;
+				position: absolute;
+				bottom: -80px;
+				right: 80px;
+				&.animated {
+					height: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// Solution area end here ***

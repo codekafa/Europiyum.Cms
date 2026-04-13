@@ -1,0 +1,47 @@
+// QTA area start here ***
+.qta {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1290px;
+		margin: 0 auto;
+		padding: 60px;
+		text-align: center;
+		border: 2px solid var(--border);
+		border-radius: 500px;
+		@include breakpoint(max-lg) {
+			padding: 20px 30px;
+			border: 1px solid var(--border);
+		}
+		@include breakpoint(max-sm) {
+			padding: 5px 15px;
+		}
+		h2 {
+			font-size: 96px;
+			line-height: 110px;
+			span{
+				color: inherit;
+			}
+			.stroke-text {
+				color: var(--black);
+				-webkit-text-fill-color: transparent;
+				-webkit-text-stroke-width: 1px;
+				-webkit-text-stroke-color: var(--black);
+			}
+			@include breakpoint(max-xl) {
+				font-size: 60px;
+				line-height: 70px;
+			}
+			@include breakpoint(max-lg) {
+				font-size: 40px;
+				line-height: 50px;
+			}
+			@include breakpoint(max-sm) {
+				font-size: 28px;
+				line-height: 40px;
+			}
+		}
+	}
+}
+// QTA area end here ***

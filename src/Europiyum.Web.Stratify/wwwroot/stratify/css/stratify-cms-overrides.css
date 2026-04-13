@@ -1,0 +1,28 @@
+/* CMS: üst şerit yokken tema .header-area { top: 50px } gereksiz boşluk bırakmasın */
+.header-area.stratify-header--no-top-bar {
+  top: 0 !important;
+}
+
+/*
+  Şablon orijinalde FA Pro (fa-light) kullanır; projede Font Awesome Free yüklüdür.
+  Razor bileşenlerinde fa-solid / fa-regular kullanılıyor. CMS’e yapıştırılan ham HTML’de
+  kalan fa-light vb. sınıflar için aşağıdaki eşleme görünürlüğü korur.
+*/
+.fa-light,
+.fa-thin,
+.fa-duotone,
+.fal,
+.fat {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+/* İç sayfa header (header-three-area) + üst şerit yok: ekstra üst boşluk gerekmez */
+.header-three-area.stratify-header--no-top-bar {
+  top: auto;
+}
+
+.cms-footer-intro,
+.cms-footer-intro p {
+  color: rgba(255, 255, 255, 0.75);
+}

@@ -1,0 +1,184 @@
+// Portfolio area start here ***
+.portfolio {
+	&-area {
+		position: relative;
+		z-index: 1;
+	}
+	&-left {
+		position: sticky;
+		top: 130px;
+	}
+	&__item {
+		position: sticky;
+		top: 130px;
+		z-index: 1;
+		@include breakpoint(max-md) {
+			top: 60px;
+		}
+		.content {
+			position: absolute;
+			bottom: 30px;
+			left: 40px;
+			@include flex;
+			gap: 20px;
+			.number {
+				font-size: 96px;
+				line-height: 100px;
+				color: var(--white);
+				font-weight: 500;
+			}
+			.title {
+				color: var(--white);
+				max-width: 385px;
+			}
+			@include breakpoint(max-sm) {
+				left: 20px;
+				bottom: 20px;
+				.number {
+					font-size: 60px;
+					line-height: 60px;
+				}
+			}
+		}
+	}
+}
+// Portfolio area end here ***
+
+// Portfolio eight area start here ***
+.portfolio-eight {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+	}
+	&__wrp {
+		max-width: 1560px;
+		margin: 0 auto;
+		.section-header__flex {
+			padding: 0 50px;
+			@include breakpoint(max-xxl) {
+				padding: 0;
+			}
+			p {
+				max-width: 520px;
+			}
+		}
+	}
+	&__item {
+		position: relative;
+		z-index: 1;
+		margin: 0 50px;
+		@include breakpoint(max-xxl) {
+			margin: 0;
+		}
+		.image {
+			img {
+				transition: var(--transition);
+			}
+		}
+		.arry-btn {
+			@include radius(70px, 70px, 70px);
+			font-size: 28px;
+			background-color: var(--white);
+			color: var(--black);
+			position: absolute;
+			top: 30px;
+			right: 30px;
+			transform: rotate(-45deg);
+			z-index: 1;
+			opacity: 0;
+			visibility: hidden;
+			&:hover {
+				transform: rotate(0);
+			}
+		}
+		&:hover {
+			.image {
+				img {
+					filter: grayscale(1000%);
+				}
+			}
+			.arry-btn {
+				opacity: 1;
+				visibility: visible;
+				top: 20px;
+				right: 20px;
+			}
+		}
+		&.item {
+			&-one {
+				margin-top: 80%;
+				@include breakpoint(max-md) {
+					margin: 0;
+				}
+			}
+			&-three {
+				margin-top: 30px;
+				@include breakpoint(max-md) {
+					margin: 0;
+				}
+			}
+			&-four {
+				margin-top: -20%;
+				@include breakpoint(max-md) {
+					margin: 0;
+				}
+			}
+			&-five {
+				margin-top: 120px;
+				@include breakpoint(max-md) {
+					margin: 0;
+				}
+			}
+			&-six {
+				margin-top: 80px;
+				@include breakpoint(max-md) {
+					margin: 0;
+				}
+			}
+		}
+	}
+}
+// Portfolio eight area end here ***
+
+// Portfolio ten area start here ***
+.portfolio-ten {
+	&-area {
+		@extend .portfolio-area;
+	}
+	&__item {
+		@extend .portfolio__item;
+		background-color: var(--white);
+		.content {
+			position: unset;
+			padding-top: 30px;
+			padding-bottom: 50px;
+			border-bottom: 1px solid var(--border);
+			justify-content: space-between;
+			.sub-title {
+				color: var(--black);
+				font-weight: 600;
+				font-size: 12px;
+			}
+			.title {
+				color: var(--black);
+				margin-top: 10px;
+			}
+			.btn-explore {
+				color: var(--black);
+				font-weight: 500;
+				i {
+					margin-left: 5px;
+					display: inline-block;
+					transition: var(--transition);
+					transform: rotate(-45deg);
+				}
+				&:hover {
+					i {
+						transform: rotate(0deg);
+					}
+				}
+			}
+		}
+	}
+}
+// Portfolio ten  area end here ***

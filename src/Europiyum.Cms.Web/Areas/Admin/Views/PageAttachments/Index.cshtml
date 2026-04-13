@@ -1,0 +1,91 @@
+@model PageAttachmentListVm
+@{
+    ViewData["Title"] = "Sayfa bileşenleri";
+    ViewData["Subtitle"] = Model.PageTitle;
+    var comps = ViewBag.ComponentOptions as IReadOnlyList<ComponentListItemVm> ?? Array.Empty<ComponentListItemVm>();
+    ViewData["HelpIntro"] = "Burada, oluşturduğunuz bileşen kayıtlarını seçili sayfaya sırayla bağlarsınız. Bu, tekrar kullanılabilir blokları sayfaya eşlemek içindir; sayfa çevirisi HTML’inden farklıdır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "İçerik sayfalarında gövde hâlâ çeviri alanındaki HTML’dir; bileşen sırası çoğu temada yalnızca anasayfada veya özel şablonlarda kullanılır.",
+        "Aşağıdan bileşen seçip sıra verin; kaldır bağlantıyı koparır, bileşeni silmez."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-4">
+    <p class="small text-secondary mb-2">Sayfa: <code>@Model.PageSlug</code> · Tip: <code>@Model.PageType</code></p>
+    @if (Model.PageType == PageType.Home)
+    {
+        <p class="small alert alert-info py-2 px-3 mb-3">
+            Bu sayfa <strong>ana sayfa</strong>dır. Buraya bağladığınız bileşenlerin <strong>Body HTML</strong> içeriği, public sitede
+            anasayfa şablonunda <strong>Anasayfa bölümlerinden</strong> gelen blokların ardından sırayla gösterilir.
+            İç sayfalar şu an yalnızca sayfa çevirisindeki düz HTML gövdesini kullanır; bileşen sırası orada devreye girmez.
+        </p>
+    }
+    <a class="btn btn-sm btn-outline-secondary" asp-area="Admin" asp-controller="Pages" asp-action="Edit" asp-route-id="@Model.PageId">Sayfa içeriğine dön</a>
+</div>
+
+<div class="cms-card p-4 mb-4">
+    <h2 class="h6 text-secondary mb-3">Bileşen bağla</h2>
+    <form asp-action="Attach" method="post" class="row g-2 align-items-end">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="PageId" value="@Model.PageId" />
+        <input type="hidden" name="CompanyId" value="@Model.CompanyId" />
+        <div class="col-md-6">
+            <label class="form-label">Bileşen</label>
+            <select class="form-select" name="ComponentItemId" required>
+                <option value="">Seçin…</option>
+                @foreach (var c in comps)
+                {
+                    <option value="@c.Id">@c.TypeDisplayName — @(c.TitlePreview ?? ("#" + c.Id))</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Sıra</label>
+            <input class="form-control" type="number" name="SortOrder" value="0" />
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Bağla</button>
+        </div>
+    </form>
+</div>
+
+<div class="cms-card overflow-hidden">
+    <div class="cms-card-header">Bağlı bileşenler</div>
+    <div class="table-responsive">
+        <table class="table cms-table mb-0">
+            <thead>
+                <tr>
+                    <th>Sıra</th>
+                    <th>Tip</th>
+                    <th>Başlık</th>
+                    <th>Bileşen Id</th>
+                    <th class="text-end"></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var a in Model.Attachments)
+            {
+                <tr>
+                    <td>@a.SortOrder</td>
+                    <td><code>@a.ComponentTypeKey</code></td>
+                    <td>@(a.TitlePreview ?? "—")</td>
+                    <td>@a.ComponentItemId</td>
+                    <td class="text-end">
+                        <form asp-action="Detach" method="post" class="d-inline" onsubmit="return confirm('Bağlantı kaldırılsın mı?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="pageComponentId" value="@a.PageComponentId" />
+                            <input type="hidden" name="pageId" value="@Model.PageId" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Kaldır</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.Attachments.Count == 0)
+    {
+        <p class="p-4 mb-0 text-secondary small">Henüz bağlı bileşen yok.</p>
+    }
+</div>

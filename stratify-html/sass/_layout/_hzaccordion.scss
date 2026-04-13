@@ -1,0 +1,219 @@
+// Horizontal accordion area start here ***
+.hzAccordion {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+	}
+	&__wrp {
+		display: flex;
+		width: 100%;
+		height: 700px;
+		overflow: hidden;
+		flex-wrap: wrap;
+
+		@include breakpoint(max-xxl) {
+			height: 450px;
+		}
+
+		@include breakpoint(max-lg) {
+			flex-direction: column;
+			height: auto;
+		}
+	}
+	&__item {
+		flex: 0.7;
+		min-width: 190px;
+		transition: 0.7s;
+		overflow: hidden;
+		cursor: pointer;
+		position: relative;
+		z-index: 1;
+		.head {
+			.head-title {
+				margin: 0;
+				padding-left: 25px;
+				text-align: center;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				writing-mode: vertical-rl;
+				height: 100%;
+				transform: rotate(180deg);
+				border-left: 1px solid var(--border-light);
+				@include justify-wrp;
+				.title {
+					display: block;
+					max-height: 410px;
+					text-align: left;
+					color: var(--white);
+				}
+				.number {
+					font-size: 150px;
+					line-height: 150px;
+					font-weight: 500;
+					color: transparent;
+					-webkit-text-stroke: 1px var(--white);
+					transition: 0.7s;
+				}
+				&:hover {
+					.number {
+						color: var(--white);
+					}
+				}
+			}
+		}
+		.content {
+			display: none;
+			height: 100%;
+			margin-left: 180px;
+			position: relative;
+			z-index: 1;
+			.image {
+				height: 100%;
+				max-width: 450px;
+				img {
+					height: 100%;
+				}
+			}
+			.wrp {
+				display: flex;
+				padding: 0 60px;
+				gap: 60px;
+				height: 100%;
+			}
+			.content-wrp {
+				max-width: 330px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+			.arry-btn {
+				font-size: 70px;
+				i {
+					transition: var(--transition);
+					&:hover {
+						transform: rotate(45deg);
+					}
+				}
+			}
+			.shape {
+				position: absolute;
+				top: 50%;
+				left: 0;
+				transform: translateY(-50%);
+				z-index: -1;
+			}
+			.text {
+				color: var(--paragraph-light);
+			}
+		}
+		&.last-child {
+			.head {
+				.head-title {
+					padding-left: 0;
+					border: 1px solid transparent;
+				}
+			}
+			&.active {
+				.head {
+					.head-title {
+						padding-left: 25px;
+						border-left: 1px solid var(--border-light);
+					}
+				}
+			}
+		}
+		&.active {
+			.head {
+				.number {
+					-webkit-text-fill: var(--white);
+					color: var(--white);
+				}
+			}
+			flex: 4;
+			.content {
+				display: block;
+			}
+		}
+		@include breakpoint(max-xxl) {
+			min-width: 75px;
+
+			.head {
+				.head-title {
+					padding-left: 5px;
+					.title {
+						font-size: 18px;
+						line-height: 30px;
+						max-height: 280px;
+					}
+					.number {
+						font-size: 50px;
+						line-height: 50px;
+					}
+				}
+			}
+			.content {
+				margin-left: 75px;
+
+				.wrp {
+					padding: 0 20px;
+					gap: 10px;
+				}
+
+				.arry-btn {
+					font-size: 40px;
+				}
+			}
+		}
+
+		@include breakpoint(max-lg) {
+			.head {
+				.head-title {
+					position: unset;
+					writing-mode: unset;
+					transform: unset;
+					border: none;
+					padding: 0;
+					border-bottom: 1px solid var(--border-light);
+					margin-bottom: 30px;
+					padding-bottom: 10px;
+					flex-wrap: nowrap;
+					gap: 10px;
+					.number {
+						font-size: 30px;
+						line-height: 40px;
+					}
+				}
+			}
+			.content {
+				margin-left: 0;
+				.wrp {
+					padding: 20px 15px;
+				}
+			}
+			&.active {
+				.head {
+					.head-title {
+						margin-bottom: 0px;
+					}
+				}
+			}
+			&.last-child {
+				.head {
+					.head-title {
+						margin-bottom: 0;
+					}
+				}
+				&.active {
+					.head {
+						.head-title {
+							padding-left: 0;
+							border-left: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+// Horizontal accordion area end here ***

@@ -1,0 +1,26 @@
+// Parallax area start here ***
+.parallax {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+		height: 580px;
+		@include breakpoint(max-md) {
+			height: 300px;
+		}
+	}
+	&__icon {
+		position: absolute;
+		bottom: 80px;
+		right: 80px;
+		@include breakpoint(max-md) {
+			img {
+				width: 80px;
+			}
+			bottom: 20px;
+			right: 30px;
+		}
+	}
+}
+// Parallax area end here ***

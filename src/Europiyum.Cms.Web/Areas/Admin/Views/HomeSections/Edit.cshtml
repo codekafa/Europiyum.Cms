@@ -1,0 +1,105 @@
+@model HomeSectionEditVm
+@{
+    ViewData["Title"] = "Bölüm düzenle";
+    ViewData["Subtitle"] = Model.SectionKey;
+    var firstLang = Model.Translations.FirstOrDefault()?.LanguageCode ?? "tr";
+    var comps = ViewBag.ComponentOptions as IReadOnlyList<ComponentListItemVm> ?? Array.Empty<ComponentListItemVm>();
+    ViewData["HelpIntro"] = "Bağlı bileşen seçiliyse, o dilde bileşenin Body HTML’i kullanılabilir; aksi halde buradaki başlık/alt başlık ve gövde alanları devreye girer (anahtara göre).";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Sıra, aynı türden birden fazla blok varsa önceliği belirler.",
+        "Pasif bölüm temada gizlenir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label class="form-label" asp-for="SectionKey"></label>
+                <input class="form-control" asp-for="SectionKey" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" asp-for="SortOrder"></label>
+                <input class="form-control" type="number" asp-for="SortOrder" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" asp-for="LinkedComponentItemId"></label>
+                <select class="form-select" asp-for="LinkedComponentItemId">
+                    <option value="">— Bağlama —</option>
+                    @foreach (var c in comps)
+                    {
+                        if (Model.LinkedComponentItemId == c.Id)
+                        {
+                            <option value="@c.Id" selected>@c.TypeDisplayName — @(c.TitlePreview ?? ("#" + c.Id))</option>
+                        }
+                        else
+                        {
+                            <option value="@c.Id">@c.TypeDisplayName — @(c.TitlePreview ?? ("#" + c.Id))</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive"></label>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "hs-" + tr.LanguageCode;
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(tr.LanguageCode == firstLang ? "active" : "")" type="button" data-bs-toggle="tab" data-bs-target="#@tabId">@tr.LanguageCode.ToUpperInvariant()</button>
+                </li>
+            }
+        </ul>
+        <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white mb-4">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "hs-" + tr.LanguageCode;
+                <div class="tab-pane fade @(tr.LanguageCode == firstLang ? "show active" : "")" id="@tabId" role="tabpanel">
+                    <input type="hidden" asp-for="Translations[i].LanguageId" />
+                    <input type="hidden" asp-for="Translations[i].LanguageCode" />
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Translations[i].Title"></label>
+                        <input class="form-control" asp-for="Translations[i].Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Translations[i].Subtitle"></label>
+                        <input class="form-control" asp-for="Translations[i].Subtitle" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Translations[i].BodyHtml"></label>
+                        @if (string.Equals(Model.SectionKey, "hero", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <p class="form-text small mb-1">Doluysa ana sayfada varsayılan iki görselli banner yerine bu HTML kullanılır. Tema script’lerinin slider’ı başlatabilmesi için genelde <code>banner-area</code> / <code>banner__slider</code> yapısını koruyun.</p>
+                        }
+                        <textarea class="form-control font-monospace" rows="5" asp-for="Translations[i].BodyHtml"></textarea>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label" asp-for="Translations[i].JsonPayload"></label>
+                        <textarea class="form-control font-monospace" rows="2" asp-for="Translations[i].JsonPayload"></textarea>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Listeye dön</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,103 @@
+@using Europiyum.Cms.Domain.Enums
+@model Europiyum.Cms.Application.Admin.ViewModels.MenuItemEditVm
+@{
+    ViewData["Title"] = "Menü öğesi düzenle";
+    var firstLang = Model.Translations.FirstOrDefault()?.LanguageCode ?? "tr";
+    var pages = ViewBag.Pages as IReadOnlyList<Europiyum.Cms.Application.Admin.ViewModels.PageListItemVm> ?? Array.Empty<Europiyum.Cms.Application.Admin.ViewModels.PageListItemVm>();
+    var parents = ViewBag.ParentOptions as IReadOnlyList<(int Id, string Label)> ?? Array.Empty<(int Id, string Label)>();
+    var menuKind = ViewBag.MenuKind is MenuKind mk ? mk : MenuKind.Header;
+    ViewData["HelpIntro"] = "Mevcut menü öğesini ve dil bazlı etiketlerini düzenliyorsunuz. Hedef türünü değiştirdiğinizde ilgili alanları doldurun.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Alt menü öğeleri varsa bu kaydı silmeden önce altları kaldırmanız istenebilir.",
+        "Pasif öğeler sitede gösterilmez."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="MenuId" />
+        <input type="hidden" asp-for="CompanyId" />
+        <input type="hidden" name="kind" value="@menuKind" />
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label class="form-label" asp-for="SortOrder"></label>
+                <input class="form-control" type="number" asp-for="SortOrder" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" asp-for="ParentMenuItemId"></label>
+                <select class="form-select" asp-for="ParentMenuItemId">
+                    <option value="">— Kök —</option>
+                    @foreach (var p in parents)
+                    {
+                        <option value="@p.Id">@p.Label</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label" asp-for="LinkType"></label>
+                <select class="form-select" asp-for="LinkType" asp-items="Html.GetEnumSelectList<MenuLinkType>()"></select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="TargetPageId"></label>
+                <select class="form-select" asp-for="TargetPageId">
+                    <option value="">— Sayfa seçin —</option>
+                    @foreach (var p in pages)
+                    {
+                        <option value="@p.Id">@p.TitlePreview (@p.Slug)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="ExternalUrl"></label>
+                <input class="form-control" asp-for="ExternalUrl" placeholder="https://..." />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Anchor"></label>
+                <input class="form-control" asp-for="Anchor" placeholder="bölüm-id" />
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive"></label>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" id="langTabs" role="tablist">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "t" + tr.LanguageCode;
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(tr.LanguageCode == firstLang ? "active" : "")" id="@tabId-tab" data-bs-toggle="tab" data-bs-target="#@tabId" type="button" role="tab">@tr.LanguageCode.ToUpperInvariant()</button>
+                </li>
+            }
+        </ul>
+        <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white mb-4">
+            @for (var i = 0; i < Model.Translations.Count; i++)
+            {
+                var tr = Model.Translations[i];
+                var tabId = "t" + tr.LanguageCode;
+                <div class="tab-pane fade @(tr.LanguageCode == firstLang ? "show active" : "")" id="@tabId" role="tabpanel">
+                    <input type="hidden" asp-for="Translations[i].LanguageId" />
+                    <input type="hidden" asp-for="Translations[i].LanguageCode" />
+                    <div class="mb-0">
+                        <label class="form-label" asp-for="Translations[i].Label"></label>
+                        <input class="form-control" asp-for="Translations[i].Label" />
+                        <span asp-validation-for="Translations[i].Label" class="text-danger small"></span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <a class="btn btn-outline-secondary" asp-area="Admin" asp-controller="Menus" asp-action="Index" asp-route-kind="@menuKind">Listeye dön</a>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

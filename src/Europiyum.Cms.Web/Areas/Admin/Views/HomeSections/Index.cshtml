@@ -1,0 +1,57 @@
+@model IReadOnlyList<HomeSectionListItemVm>
+@{
+    ViewData["Title"] = "Anasayfa bölümleri";
+    ViewData["Subtitle"] = "Hero, about, CTA vb. bloklar";
+    ViewData["HelpIntro"] = "Bu liste, Stratify anasayfa şablonundaki sabit bölgeleri (section key) temsil eder. Her bölümde metin/HTML veya bağlı bir bileşen kullanılır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Ana sayfa sayfasına eklediğiniz sayfa bileşenleri, bu bölümlerden sonra sırayla gelir.",
+        "Şirket seçili değilse liste boş veya yanlış şirket görünebilir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="small text-secondary mb-0" style="max-width: 52rem;">
+        <strong>Anasayfa bölümleri</strong> Stratify ana sayfasında kullanılır: <code>hero</code> için başlık/alt başlık;
+        diğer anahtarlar için <strong>Body HTML</strong> (veya sadece <strong>bağlı bileşen</strong> seçtiyseniz, bileşenin o dildeki Body HTML’i).
+        Üstte <strong>şirket seçili</strong> olmalı (Partexo içeriği Partexo seçiliyken).
+        Ana sayfaya <a asp-area="Admin" asp-controller="Pages" asp-action="Index">sayfa listesinden</a> bağladığınız bileşenler de sitede, bu bölümlerden <em>sonra</em> sırayla gösterilir.
+    </div>
+    <a class="btn btn-primary" asp-action="Create">Yeni bölüm</a>
+</div>
+
+<div class="cms-card overflow-hidden">
+    <div class="table-responsive">
+        <table class="table cms-table mb-0">
+            <thead>
+                <tr>
+                    <th>Anahtar</th>
+                    <th>Başlık</th>
+                    <th>Sıra</th>
+                    <th>Bağlı bileşen</th>
+                    <th>Aktif</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td><code>@s.SectionKey</code></td>
+                    <td>@(s.TitlePreview ?? "—")</td>
+                    <td>@s.SortOrder</td>
+                    <td>@(s.LinkedComponentItemId?.ToString() ?? "—")</td>
+                    <td>@(s.IsActive ? "Evet" : "Hayır")</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@s.Id">Düzenle</a>
+                        <form asp-action="Delete" asp-route-id="@s.Id" method="post" class="d-inline" onsubmit="return confirm('Bölüm silinsin mi?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

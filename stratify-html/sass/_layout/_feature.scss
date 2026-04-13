@@ -1,0 +1,823 @@
+// Feature area start here ***
+.feature {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		border-bottom: 1px solid var(--border);
+	}
+
+	&__item {
+		.arrow-btn {
+			font-size: 34px;
+			color: var(--black);
+			transition: var(--transition);
+			margin-top: 40px;
+		}
+		.bg-line {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 90%;
+			transition: var(--transition);
+			z-index: -1;
+			opacity: 0;
+			visibility: hidden;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.feature__content {
+			h4 {
+				margin-top: 40px;
+				margin-bottom: 30px;
+			}
+			p {
+				line-height: 30px;
+			}
+		}
+		position: relative;
+		z-index: 1;
+		padding: 60px;
+		border-right: 1px solid var(--border);
+		&:hover {
+			.arrow-btn {
+				transform: rotate(-45deg);
+			}
+			.bg-line {
+				opacity: 1;
+				visibility: visible;
+			}
+			.feature__icon {
+				svg {
+					animation: swing 1s ease-in-out;
+				}
+			}
+		}
+		@include breakpoint(max-xxl) {
+			padding: 30px;
+		}
+	}
+
+	&__text {
+		@include flex;
+		justify-content: center;
+		span {
+			display: inline-block;
+			font-family: var(--font-title);
+			text-transform: uppercase;
+			font-size: 14px;
+			line-height: 24px;
+			font-weight: 600;
+			color: var(--white);
+			background-color: var(--black);
+			border-radius: 50px;
+			padding: 3px 18px;
+			padding-top: 5px;
+			margin-right: 15px;
+		}
+		p {
+			font-size: 18px;
+			line-height: 34px;
+			font-family: var(--font-title);
+			color: var(--black);
+			font-weight: 500;
+			a {
+				font-weight: 600;
+				text-decoration: underline;
+			}
+		}
+		&.dark-mode {
+			span {
+				background-color: var(--border);
+				color: var(--black);
+			}
+		}
+	}
+}
+// Feature area end here ***
+
+// Feature two area start here ***
+.feature-two {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		max-width: 1500px;
+		margin: 0 auto;
+	}
+	&__item {
+		.arrow-btn {
+			font-size: 34px;
+			color: var(--black);
+			transition: var(--transition);
+		}
+		.bg-line {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 90%;
+			transition: var(--transition);
+			z-index: -1;
+			opacity: 0;
+			visibility: hidden;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+		position: relative;
+		z-index: 1;
+		padding: 60px;
+		border-right: 1px solid var(--border);
+		&:hover {
+			.arrow-btn {
+				transform: rotate(-45deg);
+			}
+			.bg-line {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+		&.dark-mode {
+			background-color: var(--sub-bg);
+			border: none;
+			transition: var(--transition);
+			&.active {
+				background-color: var(--black0);
+			}
+		}
+		@include breakpoint(max-xxl) {
+			padding: 30px;
+		}
+		border: 1px solid var(--border);
+		padding: 50px;
+		@include breakpoint(max-sm) {
+			padding: 30px;
+		}
+		.readMore-btn {
+			font-weight: 500;
+			font-family: var(--font-title);
+			color: var(--theme-color1);
+			@include flex;
+			gap: 10px;
+			margin-top: 20px;
+			i {
+				transition: var(--transition);
+			}
+			&:hover {
+				i {
+					padding-left: 5px;
+				}
+			}
+		}
+		.feature__content {
+			h4 {
+				margin-top: 30px;
+				margin-bottom: 10px;
+			}
+		}
+		&:hover {
+			.feature__icon {
+				animation: iconHover1 0.5s ease-out;
+			}
+		}
+	}
+	&__text {
+		@include flex;
+		justify-content: center;
+		span {
+			display: inline-block;
+			font-family: var(--font-title);
+			text-transform: uppercase;
+			font-size: 14px;
+			line-height: 24px;
+			font-weight: 600;
+			color: var(--white);
+			background-color: var(--black);
+			border-radius: 50px;
+			padding: 3px 18px;
+			padding-top: 5px;
+			margin-right: 15px;
+		}
+		p {
+			font-size: 18px;
+			line-height: 34px;
+			font-family: var(--font-title);
+			color: var(--black);
+			font-weight: 500;
+			a {
+				font-weight: 600;
+				text-decoration: underline;
+			}
+		}
+		gap: 10px;
+	}
+}
+// Feature two area end here **
+
+// Feature four area start here ***
+.feature-four {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+		padding: 80px 0;
+	}
+	&__item {
+		padding: 0 80px;
+		.title {
+			color: var(--white);
+		}
+		.text {
+			color: var(--paragraph-light);
+			max-width: 380px;
+		}
+		.mailUs {
+			input {
+				background-color: #353e47 !important;
+				color: var(--white) !important;
+				&::placeholder {
+					color: var(--white) !important;
+				}
+			}
+		}
+		&.footer__item-last {
+			width: 100%;
+		}
+		&.item-middle {
+			border-left: 1px solid var(--border-light);
+			border-right: 1px solid var(--border-light);
+		}
+		@include breakpoint(max-xl) {
+			padding: 0 40px;
+		}
+	}
+}
+// Feature four area end here ***
+
+// Feature five area start here ***
+.feature-five {
+	&-area {
+		overflow: hidden;
+		margin-bottom: -170px;
+		position: relative;
+		z-index: 2;
+	}
+	&__wrp {
+		padding: 40px 15px;
+		max-width: 1290px;
+		margin: 0 auto;
+	}
+	&__item {
+		.icon {
+			transition: 0.7s;
+		}
+		.title {
+			line-height: 30px;
+			margin-top: 40px;
+			margin-bottom: 20px;
+		}
+		.readMore-btn {
+			font-size: 18px;
+			color: var(--black);
+			font-weight: 500;
+			margin-top: 30px;
+			i {
+				font-size: 13px;
+				transition: var(--transition);
+			}
+			&:hover {
+				i {
+					margin-left: 5px;
+				}
+			}
+		}
+		.shape {
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: -1;
+			opacity: 0;
+			visibility: hidden;
+			transition: var(--transition);
+		}
+		padding: 40px 60px;
+		position: relative;
+		z-index: 1;
+		@include breakpoint(max-xl) {
+			padding: 20px 30px;
+		}
+		&::after {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 0;
+			height: 100%;
+			z-index: -2;
+			content: "";
+			transition: var(--transition);
+			background-color: var(--black);
+		}
+		&.active {
+			.shape {
+				opacity: 1;
+				visibility: visible;
+			}
+			.icon {
+				transform: rotateY(360deg);
+				svg {
+					path {
+						fill: var(--white);
+					}
+				}
+			}
+			.title {
+				color: var(--white);
+			}
+			.text {
+				color: var(--white);
+			}
+			.readMore-btn {
+				color: var(--white);
+			}
+			&::after {
+				width: 100%;
+				left: 0;
+				right: unset;
+			}
+		}
+		&.dark-mode {
+			&::after {
+				background-color: var(--black0);
+			}
+			&.active {
+				.icon {
+					transform: rotateY(360deg);
+					svg {
+						path {
+							fill: var(--black);
+						}
+					}
+				}
+				.title {
+					color: var(--black);
+				}
+				.text {
+					color: var(--black);
+				}
+				.readMore-btn {
+					color: var(--black);
+				}
+			}
+		}
+	}
+}
+// Feature five area end here ***
+
+// Feature six area start here ***
+.feature-six {
+	&-area {
+		overflow: hidden;
+		&.margin-minus {
+			margin-top: -85px;
+		}
+	}
+	&__wrp {
+		max-width: 1540px;
+		margin: 0 auto;
+	}
+	&__item {
+		.head {
+			.icon {
+				transition: var(--transition);
+				@include radius(85px, 85px, 85px);
+				border-radius: 0;
+				background-color: var(--white);
+				svg {
+					transition: 0.9s;
+				}
+			}
+			.title {
+				color: var(--white);
+				transition: var(--transition);
+			}
+			background-color: var(--black);
+			@include flex;
+			gap: 30px;
+			position: relative;
+			z-index: 1;
+			&::after {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 0;
+				height: 100%;
+				z-index: -1;
+				content: "";
+				background-color: var(--white);
+				transition: var(--transition);
+			}
+		}
+		.image {
+			overflow: hidden;
+			img {
+				transition: 0.7s;
+			}
+		}
+		.content {
+			transition: var(--transition);
+			padding: 30px;
+			background-color: var(--black);
+			.text {
+				color: var(--paragraph-dark);
+			}
+			.btn-more {
+				color: var(--white);
+			}
+		}
+		&:hover {
+			.head {
+				.icon {
+					background-color: var(--black);
+					svg {
+						transform: rotateY(360deg);
+						path {
+							fill: var(--white);
+						}
+					}
+				}
+				&::after {
+					width: 100%;
+				}
+				.title {
+					color: var(--heading-color);
+				}
+			}
+			.image {
+				img {
+					transform: scale(1.1);
+				}
+			}
+			.content {
+				background-color: var(--sub-bg);
+				.text {
+					color: var(--paragraph);
+				}
+				.btn-more {
+					color: var(--black);
+				}
+			}
+		}
+		&.dark-mode {
+			.head {
+				background-color: #16202b;
+				&::after {
+					background-color: var(--black0);
+				}
+			}
+			.content {
+				background-color: #16202b;
+			}
+			&:hover {
+				.head {
+					.title {
+						color: var(--white);
+					}
+				}
+				.content {
+					background-color: var(--black0);
+					.text {
+						color: var(--paragraph-light);
+					}
+					.btn-more {
+						color: var(--white);
+					}
+				}
+			}
+		}
+	}
+}
+// Feature six area end here ***
+
+// Feature nine area start here ***
+.feature-nine {
+	&-area {
+		overflow: hidden;
+	}
+
+	&__item {
+		height: 100%;
+		.icon {
+			display: inline-block;
+		}
+		.content {
+			.title {
+				margin-top: 40px;
+				margin-bottom: 30px;
+			}
+			.text {
+				line-height: 30px;
+			}
+		}
+		position: relative;
+		z-index: 1;
+		padding: 0 80px;
+		border-right: 1px solid var(--border);
+		@include breakpoint(max-xxl) {
+			padding: 30px;
+		}
+		&:hover {
+			.icon {
+				animation: iconBounceIn 1s forwards;
+			}
+		}
+	}
+}
+// Feature nine area end here ***
+
+// Feature ten area start here ***
+.feature-ten {
+	&-area {
+		overflow: hidden;
+		margin-bottom: 80px;
+		@include breakpoint(max-lg) {
+			margin-bottom: 0;
+		}
+	}
+	&__wrp {
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+
+	&__image {
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		.rectangle {
+			width: 80px;
+			height: 80px;
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			z-index: 0;
+			.item {
+				width: 0px;
+				height: 80px;
+				backdrop-filter: blur(30px);
+				background-color: #ffffff4d;
+				transition: all 0.3s ease-in-out 0.2s;
+				position: absolute;
+				top: 0;
+				left: 0;
+				&.animated {
+					width: 80px;
+				}
+				&-dark {
+					width: 80px;
+					height: 0;
+					transition: all 0.3s ease-in-out 0.5s;
+					background-color: var(--black);
+					position: absolute;
+					top: 80px;
+					left: 0;
+					&.animated {
+						height: 80px;
+					}
+				}
+			}
+			@include breakpoint(max-lg) {
+				display: none;
+			}
+		}
+	}
+	&__content {
+		max-width: 360px;
+		margin: 0 auto;
+		@include breakpoint(max-lg) {
+			max-width: 100%;
+		}
+	}
+	&__item {
+		background-color: var(--white);
+		padding: 20px 30px;
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		border: 1px solid var(--border);
+		&::after {
+			bottom: 0;
+			left: 0;
+			width: 0;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			content: "";
+			background-color: #000;
+			transition: var(--transition);
+		}
+		.icon {
+			display: inline-block;
+			transition: 0.9s;
+			svg {
+				path {
+					transition: var(--transition);
+				}
+			}
+		}
+		.arry-btn {
+			@include radius(50px, 50px, 50px);
+			color: var(--black);
+			border: 1px solid var(--border);
+			transition: var(--transition);
+			&:hover {
+				transform: rotate(45deg);
+			}
+		}
+
+		.content {
+			display: flex;
+			align-items: center;
+			gap: 30px;
+			max-width: 190px;
+		}
+
+		&:hover {
+			.icon {
+				transform: rotateY(-360deg);
+				svg {
+					path {
+						fill: var(--white);
+					}
+				}
+			}
+			.arry-btn {
+				color: var(--white);
+				border: 1px solid var(--white);
+			}
+			.title {
+				color: var(--white);
+			}
+			&::after {
+				width: 100%;
+				right: 0;
+				left: unset;
+			}
+		}
+		&.dark-mode {
+			border: none;
+			background-color: var(--sub-bg);
+			.icon {
+				svg {
+					path {
+						fill: var(--black);
+					}
+				}
+			}
+			&:hover {
+				.arry-btn {
+					color: var(--black);
+					border: 1px solid var(--black);
+				}
+				.title {
+					color: var(--black);
+				}
+			}
+		}
+	}
+}
+// Feature ten area end here ***
+
+// Feature twelve area start here ***
+.feature-twelve {
+	&-area {
+		overflow: hidden;
+		@include bg-image;
+	}
+
+	&__item {
+		height: 100%;
+		text-align: center;
+		.icon {
+			display: inline-block;
+		}
+		.content {
+			max-width: 285px;
+			margin: 0 auto;
+			.title {
+				margin-top: 15px;
+				margin-bottom: 10px;
+				color: var(--white);
+			}
+			.text {
+				line-height: 30px;
+				color: #ffffffcc;
+			}
+		}
+		position: relative;
+		z-index: 1;
+		padding: 0 80px;
+		border-right: 1px solid #ffffff33;
+		@include breakpoint(max-xxl) {
+			padding: 30px;
+		}
+		&:hover {
+			.icon {
+				animation: iconBounceIn 1s forwards;
+			}
+		}
+	}
+}
+// Feature twelve area end here ***
+
+
+// Feature thirteen area start here ***
+.feature-thirteen {
+	&-area {
+		overflow: hidden;
+		&.margin-minus {
+			margin-top: -85px;
+		}
+	}
+	&__wrp {
+		max-width: 1590px;
+		margin: 0 auto;
+		.row>*{
+			padding-right: 90px;
+			padding-left: 90px;
+			@include breakpoint(max-xl){
+				padding-right: 15px;
+				padding-left: 15px;
+			}
+		}
+	}
+	&__item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 45px;
+		height: 170px;
+		border-bottom: 1px solid rgb(0 0 0 / 20%);
+		.icon {
+			transition: var(--transition);
+			svg {
+				transition: 0.9s;
+			}
+		}
+		.content {
+			span{
+				position: relative;
+				padding-left: 13px;
+				font-size: 16px;
+				line-height: 28px;
+				font-family: var(--font-body);
+				color: var(--black0);
+				&:after{
+					position: absolute;
+					left: 0px;
+					top: 10px;
+					width: 7px;
+					height: 7px;
+					content: '';
+					border-radius: 50%;
+					// background-color: var(--black0);
+				}
+			}
+			.title{
+				font-size: 28px;
+				line-height: 38px;
+				color: var(--heading-color);
+			}
+			.btn-more {
+				position: absolute;
+				right: 0;
+				top: 65px;
+				font-size: 20px;
+				transition: var(--transition);
+			}
+		}
+		&:hover {
+			.icon {
+				svg {
+					transform: rotateY(360deg);
+				}
+			}
+			.btn-more{
+				transform: rotate(45deg);
+			}
+		}
+	}
+}
+// Feature thirteen area end here ***

@@ -1,0 +1,117 @@
+// Funfact area start here ***
+.funfact {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+	}
+	&__item {
+		ul {
+			margin-bottom: 65px;
+			@include breakpoint(max-md) {
+				margin-bottom: 30px;
+			}
+			li {
+				font-size: 18px;
+				color: var(--paragraph-light);
+				font-weight: 500;
+				@include flex;
+				gap: 8px;
+				i {
+					font-size: 14px;
+				}
+				&:not(:last-child) {
+					margin-bottom: 5px;
+				}
+			}
+		}
+		h2 {
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 2px;
+			-webkit-text-stroke-color: var(--white);
+			font-size: 136px;
+			line-height: 136px;
+			span {
+				color: inherit;
+			}
+			padding-bottom: 15px;
+			border-bottom: 1px solid #ffffff33;
+			margin-bottom: 25px;
+
+			@include breakpoint(max-md) {
+				font-size: 80px;
+				line-height: 80px;
+			}
+		}
+	}
+}
+// Funfact area end here ***
+
+// Funfact eight area start here ***
+.funfact-eight {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		&::before {
+			width: 100%;
+			height: 32%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			content: "";
+			z-index: -1;
+			background-color: var(--sub-bg);
+		}
+	}
+	&__wrp {
+		max-width: 1460px;
+		margin: 0 auto;
+	}
+	&__item {
+		@include bg-image;
+		position: relative;
+		z-index: 1;
+		padding: 60px;
+		@include breakpoint(max-md) {
+			padding: 30px;
+		}
+		&::after {
+			position: absolute;
+			z-index: -1;
+			content: "";
+			background: linear-gradient(
+				90deg,
+				#121c27 22.87%,
+				rgba(18, 28, 39, 0.7) 91.19%
+			);
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.cout-text {
+			color: var(--white);
+			font-size: 60px;
+			line-height: 60px;
+			@include breakpoint(max-md) {
+				font-size: 36px;
+				line-height: 40px;
+			}
+			span {
+				color: inherit;
+			}
+		}
+		.title {
+			color: var(--white);
+			margin-bottom: 5px;
+			margin-top: 15px;
+		}
+		.text {
+			color: var(--paragraph-light);
+		}
+		.inner-box {
+			max-width: 390px;
+		}
+	}
+}
+// Funfact eight area end here ***

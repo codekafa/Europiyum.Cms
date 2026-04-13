@@ -1,0 +1,62 @@
+@model Europiyum.Cms.Domain.Entities.MailSetting
+@{
+    ViewData["Title"] = "E-posta (SMTP)";
+    ViewData["Subtitle"] = "Form bildirimleri ve gönderen kimliği";
+    ViewData["HelpIntro"] = "Bu ekran yalnızca e-posta sunucusu (SMTP) ve gönderen bilgisini tanımlar. Ziyaretçi formları hâlâ CMS’te Formlar menüsünde alanlarıyla tanımlanır; gönderim veritabanına kaydolur, isteğe bağlı olarak buradaki SMTP ile size özet mail gider.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Formlar → form düzenle: “Gönderimde e-posta bildirimi” ve isteğe bağlı alıcı listesi.",
+        "Formda alıcı boşsa, aşağıdaki “Form bildirim alıcıları” kullanılır; ikisi de boşsa mail gönderilmez (kayıt yine de saklanır).",
+        "Gönderen e-posta, birçok sağlayıcıda SMTP kullanıcı adı ile aynı veya doğrulanmış bir adrestir.",
+        "Parola alanını boş bırakırsanız kayıtlı şifre değiştirilmez."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4">
+    <form asp-action="Index" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+        <p class="small text-secondary mb-4">Aşağıdaki sunucu bilgileri, form bildirimi açık olan gönderimlerde kullanılır. Test için önce küçük bir forma bildirimi açıp gönderim yapın.</p>
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label class="form-label" asp-for="SmtpHost"></label>
+                <input class="form-control" asp-for="SmtpHost" required />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" asp-for="SmtpPort"></label>
+                <input class="form-control" type="number" asp-for="SmtpPort" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="UserName"></label>
+                <input class="form-control" asp-for="UserName" autocomplete="off" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Password"></label>
+                <input class="form-control" type="password" asp-for="Password" autocomplete="new-password" placeholder="Değiştirmiyorsanız boş bırakın" />
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="UseSsl" />
+                    <label class="form-check-label" asp-for="UseSsl"></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="SenderEmail"></label>
+                <input class="form-control" type="email" asp-for="SenderEmail" required />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="SenderName"></label>
+                <input class="form-control" asp-for="SenderName" required />
+            </div>
+            <div class="col-12">
+                <label class="form-label" asp-for="FormRecipientEmails"></label>
+                <input class="form-control" asp-for="FormRecipientEmails" placeholder="iletisim@site.com, diger@site.com" />
+                <div class="form-text">Form tanımında alıcı boş bırakıldığında bildirimler bu adreslere gider.</div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+</div>

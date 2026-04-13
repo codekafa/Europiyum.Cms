@@ -1,0 +1,241 @@
+// Project area start here ***
+.project {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+
+	&__wrp {
+		position: relative;
+		overflow: hidden;
+	}
+
+	&__slider {
+		&-arrys {
+			@include flex;
+			gap: 5px;
+			position: absolute;
+			top: 50px;
+			left: 50px;
+			z-index: 9;
+			button {
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(-20px);
+				@include radius(50px, 50px, 50px);
+				border-radius: 12px;
+				color: var(--black);
+				background-color: var(--white);
+				transition: var(--transition);
+				font-size: 18px;
+				&:last-child {
+					transition: all 0.5s ease-in-out;
+				}
+				&:hover {
+					background-color: var(--theme-color1);
+					color: var(--text-color1);
+				}
+				@include breakpoint(max-md) {
+					@include radius(40px, 40px, 40px);
+					font-size: 16px;
+					border-radius: 12px;
+				}
+			}
+			@include breakpoint(max-md) {
+				top: 20px;
+				left: 20px;
+			}
+		}
+	}
+
+	&__image {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		.tab-img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			-o-object-fit: cover;
+			object-fit: cover;
+			-webkit-transform: scale(1.1, 1.1);
+			-ms-transform: scale(1.1, 1.1);
+			transform: scale(1.1, 1.1);
+			opacity: 0;
+			-webkit-transition: all 0.7s;
+			-o-transition: all 0.7s;
+			transition: all 0.7s;
+			&.active {
+				-webkit-transform: scale(1);
+				-ms-transform: scale(1);
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
+	}
+
+	&__item {
+		display: block;
+		position: relative;
+		height: 720px;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: end;
+		-ms-flex-align: end;
+		align-items: flex-end;
+		-webkit-border-end: 1px solid #ffffff33;
+		border-inline-end: 1px solid #ffffff33;
+		.content {
+			padding: 60px;
+			width: 100%;
+			transition: var(--transition);
+			transform: translateY(80px);
+			@include breakpoint(max-lg) {
+				padding: 30px;
+			}
+			span {
+				-webkit-text-fill-color: transparent;
+				-webkit-text-stroke-width: 1px;
+				-webkit-text-stroke-color: #ffffff66;
+				color: transparent;
+				font-size: 100px;
+				line-height: 120px;
+				font-weight: 500;
+				transition: var(--transition);
+			}
+			h4 {
+				color: var(--white);
+			}
+			p {
+				margin-top: 20px;
+				color: var(--white);
+				opacity: 0;
+				visibility: hidden;
+				transform: var(--transition);
+			}
+		}
+		&:hover {
+			.content {
+				transform: translate(0);
+				span {
+					-webkit-text-fill-color: var(--white);
+					-webkit-text-stroke-width: 1px;
+					-webkit-text-stroke-color: var(--white);
+					color: var(--white);
+					font-size: 100px;
+					line-height: 120px;
+					font-weight: 500;
+				}
+				p {
+					opacity: 1;
+					visibility: visible;
+				}
+			}
+		}
+		@include breakpoint(max-lg) {
+			height: 500px;
+		}
+	}
+}
+// Project area end here ***
+
+// Project three area start here ***
+.project-three {
+	&-area {
+		overflow: hidden;
+	}
+
+	&__item {
+		overflow: hidden;
+		@include flex;
+		height: 100%;
+		background-color: var(--black);
+		.image {
+			overflow: hidden;
+			width: 50%;
+			img {
+				transition: var(--transition);
+				filter: grayscale(100%);
+			}
+		}
+		.project-three__content {
+			width: 50%;
+			height: 100%;
+			flex-direction: column;
+			justify-content: space-between;
+			display: flex;
+			padding: 40px 30px;
+			position: relative;
+			z-index: 1;
+			.icon {
+				svg {
+					transition: 0.7s;
+				}
+			}
+			h4 {
+				color: var(--white);
+			}
+			p {
+				color: var(--white);
+			}
+			.arry-btn {
+				font-size: 40px;
+				color: var(--white);
+				&:hover {
+					transform: rotate(45deg);
+				}
+			}
+			.content {
+				transition: var(--transition);
+				transform: translateY(75%);
+				p {
+					transition: var(--transition);
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
+			.shape {
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index: -1;
+				opacity: 0;
+				visibility: hidden;
+				transition: var(--transition);
+			}
+		}
+		&:hover {
+			.project-three__content {
+				.shape {
+					opacity: 1;
+					visibility: visible;
+				}
+				.icon {
+					svg {
+						transform: rotateY(360deg);
+					}
+				}
+				.content {
+					transform: translateY(0);
+					p {
+						opacity: 1;
+						visibility: visible;
+					}
+				}
+			}
+			.image {
+				img {
+					transform: scale(1.1);
+					filter: unset;
+				}
+			}
+		}
+	}
+}
+// Project three area end here ***

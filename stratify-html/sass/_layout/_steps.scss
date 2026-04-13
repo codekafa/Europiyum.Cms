@@ -1,0 +1,82 @@
+// Steps area start here ***
+.steps {
+	&__wrp {
+		@include justify;
+		gap: 20px;
+		@include breakpoint(max-lg) {
+			gap: 30px;
+			flex-wrap: wrap;
+		}
+	}
+	&__item {
+		.icon {
+			@include radius(105px, 105px, 105px);
+			border-radius: 0;
+			margin: 0 auto;
+			background-color: var(--border);
+			position: relative;
+			z-index: 1;
+			svg {
+				transition: 0.7s;
+			}
+			.number {
+				@include radius(32px, 32px, 32px);
+				color: var(--text-color1);
+				background-color: var(--theme-color1);
+				position: absolute;
+				top: -16px;
+				right: -16px;
+			}
+		}
+		.title {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+		max-width: 300px;
+		text-align: center;
+		position: relative;
+		z-index: 1;
+		@include breakpoint(max-lg) {
+			max-width: 45%;
+		}
+		@include breakpoint(max-md) {
+			max-width: 100%;
+		}
+		.line {
+			position: absolute;
+			right: -60%;
+			top: 40px;
+			z-index: -1;
+			@include breakpoint(max-xxxl) {
+				right: -40%;
+			}
+			@include breakpoint(max-lg) {
+				&.item-middle {
+					display: none;
+				}
+			}
+			@include breakpoint(max-md) {
+				display: none;
+			}
+		}
+		&:hover {
+			.icon {
+				svg {
+					transform: rotateY(360deg);
+				}
+				.number {
+					animation: bounceIn 1s forwards;
+				}
+			}
+		}
+		&.dark-mode {
+			.icon {
+				background-color: var(--black0);
+				.number {
+					background-color: #1a243f;
+				}
+			}
+		}
+	}
+}
+// Steps area end here ***

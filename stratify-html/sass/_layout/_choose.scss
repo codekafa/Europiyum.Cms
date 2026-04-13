@@ -1,0 +1,669 @@
+// Choose area start here ***
+.choose {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		max-width: 1070px;
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		float: right;
+		margin-top: -160px;
+		@include breakpoint(max-xxxl) {
+			margin-top: -80px;
+		}
+		@include breakpoint(max-xxl) {
+			margin-top: 60px;
+			max-width: 100%;
+		}
+	}
+	&-right {
+		max-width: 780px;
+		padding-top: 60px;
+		padding-left: 120px;
+		@include breakpoint(max-xxl) {
+			padding-left: 0;
+			padding-top: 0;
+		}
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		.icon {
+			position: absolute;
+			left: 60px;
+			bottom: 60px;
+			@include breakpoint(max-md) {
+				left: 20px;
+				bottom: 20px;
+				svg {
+					width: 80px;
+					height: 80px;
+				}
+			}
+		}
+	}
+	&__item {
+		padding: 40px;
+		background-color: var(--black);
+		.icon {
+			transition: 0.7s;
+			display: inline-block;
+		}
+		.title {
+			color: var(--white);
+		}
+		.text {
+			color: var(--white);
+			margin-top: 5px;
+			line-height: 28px;
+		}
+		.arrow-btn {
+			font-size: 40px;
+			color: var(--white);
+			&:hover {
+				transform: rotate(45deg);
+			}
+		}
+		&.light {
+			background-color: var(--sub-bg);
+			.title {
+				color: var(--heading-color);
+			}
+			.text {
+				color: var(--heading-color);
+			}
+			.arrow-btn {
+				color: var(--heading-color);
+			}
+		}
+		&:hover {
+			.icon {
+				transform: rotateY(360deg);
+			}
+		}
+	}
+	&__tab {
+		.nav {
+			border-bottom: 2px solid var(--border);
+			gap: 10px;
+			justify-content: space-between;
+			@include breakpoint(max-sm) {
+				border-bottom: 1px solid var(--border);
+			}
+			.nav-item {
+				.nav-link {
+					font-size: 18px;
+					font-weight: 500;
+					font-family: var(--font-title);
+					padding: 0;
+					padding-bottom: 20px;
+					border: none;
+					color: var(--black);
+					box-shadow: none;
+					&.active {
+						border-bottom: 2px solid var(--black);
+						background-color: transparent;
+						@include breakpoint(max-sm) {
+							border-bottom: 1px solid var(--black);
+						}
+					}
+					@include breakpoint(max-sm) {
+						font-size: 13px;
+						padding-bottom: 5px;
+					}
+				}
+			}
+		}
+	}
+}
+// Choose area end here ***
+
+// Choose one area start here ***
+.choose-one {
+	&-area {
+		overflow: hidden;
+		@include breakpoint(max-xxl) {
+			padding-top: 0;
+		}
+	}
+	&__wrp {
+		padding: 0px 120px;
+		padding-bottom: 130px;
+		@include breakpoint(max-xxl) {
+			padding: 60px;
+		}
+		@include breakpoint(max-md) {
+			padding: 60px 15px;
+		}
+		.work-ten__wrp {
+			&::after {
+				display: none;
+			}
+			@include breakpoint(max-md) {
+				gap: 0;
+			}
+		}
+	}
+	&__image {
+		height: 100%;
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+	}
+	&__content {
+		.item {
+			display: flex;
+			gap: 50px;
+			width: 90%;
+			@include breakpoint(max-md) {
+				gap: 20px;
+				width: 95%;
+			}
+			@include breakpoint(max-xxs) {
+				gap: 10px;
+				width: 100%;
+				flex-wrap: wrap;
+			}
+			.icon {
+				display: flex;
+				gap: 20px;
+				min-width: 220px;
+				@include breakpoint(max-md) {
+					gap: 10px;
+					min-width: 150px;
+				}
+				@include breakpoint(max-xxs) {
+					align-items: center;
+				}
+			}
+			&:hover {
+				.icon {
+					svg {
+						animation: pxl_zigzag 0.8s forwards;
+					}
+				}
+			}
+			p {
+				line-height: 28px;
+			}
+			ul {
+				li {
+					@include flex;
+					gap: 10px;
+					margin-top: 15px;
+					font-weight: 500;
+					color: var(--black);
+					font-family: var(--font-title);
+				}
+			}
+		}
+		.line {
+			border-top: 2px solid var(--border);
+			margin: 30px 0;
+		}
+	}
+	&__rectangle {
+		width: 80px;
+		height: 80px;
+		position: absolute;
+		bottom: 160px;
+		right: 160px;
+		z-index: 0;
+		.item {
+			width: 0px;
+			height: 80px;
+			background-color: var(--white);
+			transition: all 0.5s ease-in-out 0.2s;
+			position: absolute;
+			top: 0;
+			right: 0;
+			&.animated {
+				width: 80px;
+			}
+			&-dark {
+				width: 0px;
+				height: 80px;
+				transition: all 0.5s ease-in-out 0.2s;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				position: absolute;
+				top: 0;
+				left: 80px;
+				&.animated {
+					width: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// Choose one area end here ***
+
+// Choose three area start here ***
+.choose-three {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		padding: 130px 120px;
+		background-color: var(--sub-bg);
+		@include breakpoint(max-xxl) {
+			padding: 60px 30px;
+		}
+		@include breakpoint(max-md) {
+			padding: 60px 15px;
+		}
+	}
+	&__tab {
+		.nav {
+			border-bottom: 1px solid var(--border);
+			justify-content: space-around;
+			.nav-item {
+				.nav-link {
+					padding: 15px;
+					border: none;
+					font-weight: 500;
+					font-family: var(--font-title);
+					color: var(--black);
+					box-shadow: none;
+					&.active {
+						border-bottom: 2px solid var(--black);
+						background-color: transparent
+					}
+				}
+			}
+		}
+	}
+	&-right {
+		@include justify;
+		gap: 20px;
+		@include breakpoint(max-sm) {
+			flex-wrap: wrap;
+		}
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	&__content {
+		max-width: 380px;
+		width: 100%;
+		ul {
+			margin-top: 30px;
+			li {
+				@include flex;
+				gap: 30px;
+				margin-bottom: 20px;
+			}
+		}
+		@include breakpoint(max-sm) {
+			order: 2;
+			max-width: 100%;
+		}
+	}
+	&__chart {
+		max-width: 370px;
+		width: 100%;
+		padding: 40px;
+		background-color: var(--white);
+		img {
+			width: 100%;
+		}
+		@include breakpoint(max-sm) {
+			order: 1;
+			max-width: 100%;
+		}
+	}
+	&__rectangle {
+		position: absolute;
+		z-index: 0;
+		width: 160px;
+		height: 160px;
+		bottom: 0px;
+		left: 0;
+		.item {
+			&-one {
+				width: 80px;
+				height: 0px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				transition: all 0.5s ease-in-out 1s;
+				position: absolute;
+				bottom: 80px;
+				left: 0;
+				&.animated {
+					height: 80px;
+				}
+			}
+			&-two {
+				width: 0px;
+				height: 80px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				transition: all 0.5s ease-in-out 1s;
+				position: absolute;
+				top: 80px;
+				left: 80px;
+				&.animated {
+					width: 80px;
+				}
+			}
+			&-three {
+				width: 0px;
+				height: 0px;
+				background-color: var(--white);
+				transition: all 0.5s ease-in-out 0.5s;
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				&.animated {
+					width: 80px;
+					height: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// Choose three area end here ***
+
+// Choose four area start here ***
+.choose-four {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		background-color: var(--black);
+	}
+	&__bg {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		z-index: -1;
+		img {
+			width: 100%;
+		}
+	}
+	&__wrp {
+		max-width: 1460px;
+		margin: 0 auto;
+	}
+	&__video {
+		overflow: hidden;
+		border-radius: 30px;
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		&::after {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			content: "";
+			background: linear-gradient(
+				180deg,
+				rgba(18, 28, 39, 0) 0%,
+				rgba(18, 28, 39, 0.8) 70.47%
+			);
+			z-index: 0;
+		}
+		&-btn {
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			transform: translateX(-50%);
+			h4 {
+				color: #ffffffcc;
+				margin-top: 20px;
+			}
+			z-index: 2;
+			width: 100%;
+			text-align: center;
+		}
+		.title {
+			-webkit-text-stroke: 1px #ffffff4d;
+			color: transparent;
+			font-size: 160px;
+			line-height: 120px;
+			font-weight: 500;
+			letter-spacing: 15px;
+			position: absolute;
+			bottom: 25%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 100%;
+			z-index: 1;
+			text-align: center;
+			@include breakpoint(max-xl) {
+				font-size: 70px;
+				line-height: 70px;
+				bottom: 10%;
+			}
+		}
+		@include breakpoint(max-md) {
+			height: 500px;
+			img {
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+	}
+	&-left {
+		border-right: 1px solid #e9e5e21a;
+		.item {
+			max-width: 500px;
+			.info {
+				color: var(--white);
+				font-size: 116px;
+				line-height: 116px;
+				font-weight: 500;
+				span {
+					color: var(--white);
+				}
+				@include breakpoint(max-md) {
+					font-size: 60px;
+					line-height: 60px;
+				}
+			}
+		}
+		@include breakpoint(max-lg) {
+			border: none;
+		}
+	}
+	&-right {
+		max-width: 575px;
+		float: right;
+		@include breakpoint(max-lg) {
+			float: left;
+		}
+		.text {
+			color: var(--white);
+		}
+		.progress-area {
+			.progress__title {
+				h4,
+				span {
+					color: var(--white) !important;
+				}
+			}
+			.progress {
+				height: 19px;
+				border: 1px solid var(--border-light);
+				padding: 3px 4px;
+				border-radius: 15px;
+
+				.progress-bar {
+					background-color: #ffffff1a;
+					border-radius: 15px;
+					backdrop-filter: blur(30px);
+				}
+			}
+		}
+	}
+	&__rectangle {
+		width: 80px;
+		height: 80px;
+		position: absolute;
+		bottom: 0;
+		left: 0px;
+		z-index: 0;
+		.item {
+			width: 80px;
+			height: 0px;
+			background-color: var(--white);
+			transition: all 0.3s ease-in-out 0.5s;
+			position: absolute;
+			bottom: 80px;
+			right: 0;
+			&.animated {
+				height: 80px;
+			}
+			&-dark {
+				width: 80px;
+				height: 0px;
+				transition: all 0.3s ease-in-out 0.2s;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				position: absolute;
+				bottom: 0;
+				left: 0px;
+				&.animated {
+					height: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// Choose four area end here ***
+
+// Choose seven area start here ***
+.choose-seven {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		padding: 120px 100px;
+		background-color: var(--sub-bg);
+		height: 100%;
+		.wrp {
+			max-width: 630px;
+			position: relative;
+		}
+		@include breakpoint(max-xl) {
+			padding: 120px 30px;
+		}
+		@include breakpoint(max-md) {
+			padding: 60px 15px;
+		}
+		.testimonial-three__item {
+			text-align: left;
+		}
+		.slider-arry {
+			font-size: 18px;
+			color: var(--black);
+			@include flex;
+			gap: 20px;
+			position: absolute;
+			right: 10%;
+			bottom: 10px;
+			z-index: 1;
+			button {
+				padding: 10px;
+			}
+		}
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.icon {
+			position: absolute;
+			left: 80px;
+			bottom: 70px;
+			@include breakpoint(max-lg) {
+				svg {
+					width: 80px;
+					height: 80px;
+				}
+				left: 40px;
+				bottom: 30px;
+			}
+		}
+	}
+}
+// Choose seven area end here ***
+
+// Choose twelve area start here ***
+.choose-twelve {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		padding: 120px;
+		background-color: var(--sub-bg2);
+		@include breakpoint(max-xxl) {
+			padding: 60px 30px;
+		}
+		@include breakpoint(max-sm) {
+			padding: 60px 15px;
+		}
+	}
+	&__image {
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+	&__content {
+		.list {
+			max-width: 620px;
+			display: flex;
+			justify-content: space-between;
+			gap: 10px;
+			@include breakpoint(max-sm) {
+				flex-wrap: wrap;
+			}
+			ul {
+				li {
+					@include flex;
+					gap: 10px;
+					&:not(.last-child) {
+						margin-bottom: 5px;
+					}
+				}
+			}
+		}
+	}
+}
+// Choose twelve area end here ***

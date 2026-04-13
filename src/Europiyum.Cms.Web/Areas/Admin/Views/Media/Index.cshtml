@@ -1,0 +1,70 @@
+@model IReadOnlyList<MediaListItemVm>
+@{
+    ViewData["Title"] = "Medya kütüphanesi";
+    ViewData["Subtitle"] = "Yerel depolama · wwwroot/media";
+    var search = ViewBag.Search as string;
+    ViewData["HelpIntro"] = "Yüklenen dosyalar sunucuda saklanır; public URL bileşen ve sayfa HTML’lerinde kullanılır. Silmeden önce başka kayıtta kullanılıp kullanılmadığını düşünün.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Görseller için site teması veya /media/ altındaki yol ile referans verilir.",
+        "Büyük dosyalar yükleme süresini ve yedek boyutunu artırır."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-4">
+    <form asp-action="Upload" method="post" enctype="multipart/form-data" class="row g-3 align-items-end">
+        @Html.AntiForgeryToken()
+        <div class="col-md-6">
+            <label class="form-label">Dosya yükle (max ~12 MB)</label>
+            <input class="form-control" type="file" name="file" required accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.pdf,image/*" />
+            <div class="form-text">jpg, png, gif, webp, svg, pdf</div>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Yükle</button>
+        </div>
+    </form>
+</div>
+
+<div class="cms-card p-4 mb-4">
+    <form method="get" class="row g-2">
+        <div class="col-md-6">
+            <input class="form-control" name="search" value="@search" placeholder="Dosya adı ara" />
+        </div>
+        <div class="col-md-6 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-secondary">Ara</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Sıfırla</a>
+        </div>
+    </form>
+</div>
+
+<div class="row g-4">
+@foreach (var m in Model)
+{
+    var isImg = m.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="cms-card p-3 h-100 d-flex flex-column">
+            @if (isImg)
+            {
+                <div class="ratio ratio-4x3 bg-light rounded mb-2 overflow-hidden">
+                    <img src="@m.PublicUrl" alt="" class="object-fit-contain p-1" style="object-fit:contain;" />
+                </div>
+            }
+            else
+            {
+                <div class="ratio ratio-4x3 bg-light rounded mb-2 d-flex align-items-center justify-content-center small text-secondary">@m.ContentType</div>
+            }
+            <div class="small text-truncate" title="@m.OriginalFileName">@m.OriginalFileName</div>
+            <div class="small text-secondary mt-1">@m.SizeBytes bytes · #@m.Id</div>
+            <code class="small text-break mt-2" style="font-size:0.65rem;">@m.PublicUrl</code>
+            <form asp-action="Delete" asp-route-id="@m.Id" method="post" class="mt-auto pt-2" onsubmit="return confirm('Dosya silinsin mi?');">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm btn-outline-danger w-100">Sil</button>
+            </form>
+        </div>
+    </div>
+}
+</div>
+@if (Model.Count == 0)
+{
+    <p class="text-secondary">Henüz dosya yok.</p>
+}

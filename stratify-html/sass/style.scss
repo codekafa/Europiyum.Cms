@@ -1,0 +1,98 @@
+/*-----------------------------------------------------------------
+
+Template Name: Stratify - Business Consulting HTML Template
+Author:  ThemeMascot
+Author URI: https://themeforest.net/user/thememascot/portfolio
+Version: 1.0.0
+Description: Stratify - Business Consulting HTML Template
+
+-------------------------------------------------------------------
+CSS TABLE OF CONTENTS
+-------------------------------------------------------------------
+
+01. abstracts
+    1.01 --> mixins
+    1.02 --> variable
+
+02. base
+    2.01 --> typography
+    2.02 --> animation
+
+03. components
+    3.01 --> buttons
+    3.02 --> progress
+    3.03 --> preloader
+
+04. layout
+    4.01 --> header
+    4.02 --> banner
+    4.03 --> section
+    4.04 --> footer
+
+------------------------------------------------------------------*/
+
+// Google fonts ***
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import url('tm-bs-mp.css');
+@import url('tm-utility-classes.css');
+
+// Abstracts styles ***
+@import "_abstracts/_mixins";
+@import "_abstracts/_variables";
+
+// Typography styles***
+@import "_base/_typography";
+@import "_base/_animation";
+
+// Component styles ***
+@import "_components/_buttons";
+@import "_components/_breadcrumb";
+@import "_components/_progress";
+@import "_components/_preloader";
+@import "_components/_marqeeSwiper";
+
+// Layout styles ***
+@import "_layout/_header";
+@import "_layout/_banner";
+@import "_layout/_brand";
+@import "_layout/_about";
+@import "_layout/_achivement";
+@import "_layout/_case";
+@import "_layout/_choose";
+@import "_layout/_consult";
+@import "_layout/_contact";
+@import "_layout/_blog";
+@import "_layout/_faq";
+@import "_layout/_feature";
+@import "_layout/_funfact";
+@import "_layout/_hzaccordion";
+@import "_layout/_marquee";
+@import "_layout/_parallax";
+@import "_layout/_portfolio";
+@import "_layout/_pricing";
+@import "_layout/_professional";
+@import "_layout/_project";
+@import "_layout/_qta";
+@import "_layout/_service";
+@import "_layout/_skill";
+@import "_layout/_steps";
+@import "_layout/_solution";
+@import "_layout/_team";
+@import "_layout/_testimonial";
+@import "_layout/_video";
+@import "_layout/_work";
+@import "_layout/_footer";
+
+@import "shop/_loader.scss";
+
+//inner
+@import "inner/page-title.scss";
+@import "inner/404.scss";
+@import "inner/service-details.scss";
+@import "inner/project-details.scss";
+@import "inner/news-details.scss";
+@import "inner/news-sidebar.scss";
+@import "inner/news-comment.scss";
+@import "inner/team-details.scss";
+@import "inner/contact-page.scss";

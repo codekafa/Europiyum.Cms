@@ -1,0 +1,19 @@
+@model Europiyum.Cms.Application.Public.Models.PublicPageViewModel
+@{
+    ViewBag.BodyClass = "stratify-page";
+}
+<partial name="_StratifyPageBreadcrumb" model="Model" />
+<section class="pt-5 pb-5">
+    <div class="container">
+        @if (!string.IsNullOrWhiteSpace(Model.HtmlContent))
+        {
+            <div class="cms-page-body">
+                @Html.Raw(Model.HtmlContent)
+            </div>
+        }
+        @if (Model.Form is { } pageForm)
+        {
+            <partial name="_PageForm" model="pageForm" />
+        }
+    </div>
+</section>

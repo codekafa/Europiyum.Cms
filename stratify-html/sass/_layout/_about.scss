@@ -1,0 +1,1006 @@
+// About area start here ***
+.about {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		background-color: var(--black);
+		&.light {
+			background-color: var(--sub-bg);
+		}
+	}
+	&__content {
+		ul {
+			margin: 40px 0;
+			li {
+				font-size: 18px;
+				font-weight: 500;
+				font-family: var(--font-title);
+				line-height: 24px;
+				color: var(--white);
+				@include flex;
+				gap: 5px;
+				&:not(:last-child) {
+					margin-bottom: 15px;
+				}
+			}
+		}
+		&.light {
+			ul {
+				li {
+					color: var(--black);
+					svg {
+						path {
+							fill: var(--black);
+						}
+					}
+				}
+			}
+		}
+	}
+	&__testimonial {
+		border-left: 1px solid #ffffff1a;
+		border-right: 1px solid #ffffff1a;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		height: 100%;
+		@include breakpoint(max-lg) {
+			border-bottom: 1px solid #ffffff1a;
+			border-top: 1px solid #ffffff1a;
+		}
+		.icon {
+			@include radius(60px, 60px, 60px);
+			background-color: #ffffff4d;
+			backdrop-filter: blur(10px);
+		}
+		p {
+			font-weight: 500;
+			line-height: 30px;
+			font-size: 18px;
+			color: var(--white);
+		}
+		h4 {
+			color: var(--white);
+			position: relative;
+			padding-left: 50px;
+			margin-top: 40px;
+			&::after {
+				position: absolute;
+				top: 20px;
+				left: 0px;
+				width: 32px;
+				height: 2px;
+				background-color: var(--white);
+				content: "";
+			}
+			span {
+				color: var(--paragraph-light);
+				font-weight: 400;
+			}
+		}
+
+		&.light {
+			border-left: 1px solid var(--border);
+			border-right: 1px solid var(--border);
+			.icon {
+				background-color: #121c271a;
+			}
+			h4 {
+				color: var(--black);
+				&::after {
+					background-color: var(--black);
+				}
+				span {
+					color: var(--black);
+				}
+			}
+			p {
+				font-weight: 400;
+				color: var(--paragraph);
+			}
+		}
+	}
+	&__funfact {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		height: 100%;
+		ul {
+			@include flex;
+			gap: 20px;
+			.icon {
+				@include radius(66px, 66px, 66px);
+				width: 100%;
+				max-width: 66px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+			}
+			li {
+				h3 {
+					font-size: 80px;
+					line-height: 90px;
+					font-weight: 500;
+					color: var(--white);
+					@include breakpoint(max-xl) {
+						font-size: 50px;
+						line-height: 60px;
+					}
+					@include flex;
+					align-items: center;
+					span {
+						color: inherit;
+					}
+					sup {
+						color: var(--white);
+						font-size: 30px;
+						line-height: 34px;
+						font-weight: 600;
+						display: inline-block;
+						margin-left: 6px;
+					}
+				}
+			}
+		}
+		p {
+			color: var(--white);
+			text-transform: uppercase;
+			margin-top: 10px;
+		}
+		&.light {
+			p {
+				color: var(--paragraph);
+			}
+			ul {
+				.icon {
+					background-color: #121c271a;
+				}
+				li {
+					h3 {
+						color: var(--black);
+					}
+					sup {
+						color: var(--black);
+					}
+				}
+			}
+		}
+	}
+	&__item {
+		padding: 80px;
+		position: relative;
+		z-index: 1;
+		@include breakpoint(max-xxl) {
+			padding: 80px 40px;
+		}
+		@include breakpoint(max-xl) {
+			padding: 50px 30px;
+		}
+		.shape {
+			@include center;
+			z-index: -1;
+			opacity: 0;
+			visibility: hidden;
+			transition: var(--transition);
+		}
+		&:hover {
+			.icon {
+				svg {
+					animation: pxl_zigzag 0.8s infinite;
+				}
+			}
+			.shape {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+	}
+	&__rectangle {
+		width: 80px;
+		height: 80px;
+		position: absolute;
+		bottom: 0;
+		right: 80px;
+		z-index: 0;
+		.item {
+			width: 80px;
+			height: 0px;
+			background-color: var(--white);
+			transition: all 0.3s ease-in-out 0.2s;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			&.animated {
+				height: 80px;
+			}
+			&-dark {
+				width: 0px;
+				height: 80px;
+				transition: all 0.3s ease-in-out 0.5s;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				position: absolute;
+				top: 0;
+				left: 80px;
+				&.animated {
+					width: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// About area end here ***
+
+// About two area start here ***
+.about-two {
+	&-area {
+		overflow: hidden;
+	}
+	&-right {
+		padding: 0 80px;
+		@include breakpoint(max-xxl) {
+			padding: 0;
+		}
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+	}
+	&__content {
+		display: flex;
+		gap: 20px;
+		justify-content: space-between;
+		@include breakpoint(max-sm) {
+			flex-wrap: wrap;
+		}
+		ul {
+			li {
+				@include flex;
+				gap: 10px;
+				color: var(--black);
+				padding: 15px 0;
+				border-bottom: 1px solid var(--border);
+				&:last-child {
+					border: none;
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+	&__rectangle {
+		position: absolute;
+		z-index: 0;
+		width: 160px;
+		height: 160px;
+		bottom: 0px;
+		right: 0;
+		.item {
+			&-one {
+				width: 80px;
+				height: 0px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				transition: all 0.5s ease-in-out 1s;
+				position: absolute;
+				bottom: 80px;
+				left: 0;
+				&.animated {
+					height: 80px;
+				}
+			}
+			&-two {
+				width: 0px;
+				height: 80px;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				transition: all 0.5s ease-in-out 1s;
+				position: absolute;
+				top: 80px;
+				left: 80px;
+				&.animated {
+					width: 80px;
+				}
+			}
+			&-three {
+				width: 0px;
+				height: 0px;
+				background-color: var(--white);
+				transition: all 0.5s ease-in-out 0.5s;
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				&.animated {
+					width: 80px;
+					height: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// About two area end here ***
+
+// About three area start here ***
+.about-three {
+	&-area {
+		overflow: hidden;
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		height: 100%;
+		img {
+			width: 100%;
+			height: 100%;
+		}
+		.icon {
+			position: absolute;
+			bottom: 60px;
+			right: 60px;
+			img {
+				max-width: 156px;
+			}
+
+			@include breakpoint(max-lg) {
+				bottom: 20px;
+				right: 20px;
+				img {
+					max-width: 80px;
+				}
+			}
+		}
+	}
+	&__content {
+		background-color: var(--sub-bg);
+		padding: 100px;
+		height: 100%;
+		z-index: 1;
+		position: relative;
+		.shape {
+			position: absolute;
+			bottom: 20px;
+			right: 15px;
+			z-index: -1;
+		}
+
+		@include breakpoint(max-xxl) {
+			padding: 60px 30px;
+		}
+
+		@include breakpoint(max-md) {
+			padding: 60px 15px;
+		}
+
+		.text {
+			padding-bottom: 30px;
+			border-bottom: 1px solid var(--border);
+			font-size: 19px;
+			line-height: 35px;
+			@include breakpoint(max-xxl) {
+				font-size: 16px;
+				line-height: 30px;
+			}
+		}
+		.btn-group {
+			margin: 30px 0;
+			@include flex;
+			gap: 30px;
+			span {
+				display: inline-block;
+				padding: 6px 20px;
+				color: var(--paragraph);
+				@include flex;
+				gap: 20px;
+				border: 1px solid var(--black);
+				border-radius: 50px;
+			}
+			@include breakpoint(max-sm) {
+				gap: 10px;
+				span {
+					gap: 10px;
+					padding: 4px 10px;
+					font-size: 14px;
+				}
+			}
+		}
+		.list {
+			display: flex;
+			justify-content: space-between;
+			gap: 20px;
+			max-width: 680px;
+
+			@include breakpoint(max-sm) {
+				flex-wrap: wrap;
+			}
+			ul {
+				li {
+					color: var(--black);
+					@include flex;
+					gap: 10px;
+					&:not(:last-child) {
+						margin-bottom: 10px;
+					}
+				}
+			}
+		}
+	}
+}
+// About three area end here ***
+
+// About Four area start here ***
+.about-four {
+	&-area {
+		position: relative;	
+	}
+	&-shape{
+		position: absolute;
+		left: -25px;
+		bottom: 50px;
+		width: 315px;
+		height: 500px;
+		@include breakpoint(max-xl) {
+			display: none;
+		}
+	}
+	&__wrp {
+		position: relative;
+		max-width: 1310px;
+		width: 100%;
+		margin: 0 auto;
+	}
+	&__content {
+		max-width: 560px;
+		ul{
+			display: flex;
+			align-items: center;
+			gap: 100px;
+			@include breakpoint(max-md) {
+				display: block;
+			}
+			li{
+				@include breakpoint(max-md) {
+					margin-bottom: 30px;
+				}
+			}
+		}
+	}
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+	&__image{		
+		position: relative;
+		img{
+			width: 100%;
+		}
+		.vertical-text{
+			position: absolute;
+			right: 30px;
+			bottom: -50px;
+			font-family: var(--playfair-font);
+			font-weight: 700;
+			font-size: 90px;
+			line-height: 140px;
+			letter-spacing: 3px;
+			text-transform: uppercase;
+			color: transparent;
+			-webkit-text-stroke: 1px rgba(203, 147, 93, 0.5);
+			-webkit-transition: 0.7s;
+			transition: 0.7s;
+			-webkit-transform: rotate(90deg);
+			transform: rotate(90deg);
+			transform-origin: right;
+			@include breakpoint(max-md) {
+				font-size: 50px;
+			}
+		}
+	}
+}
+// About Four area end here ***
+
+// About five area start here ***
+.about-five {
+	&-area {
+		overflow: hidden;
+	}
+	&__image {
+		img {
+			width: 100%;
+		}
+		position: relative;
+		z-index: 1;
+		.icon {
+			position: absolute;
+			bottom: 80px;
+			right: 80px;
+			@include breakpoint(max-md) {
+				bottom: 20px;
+				right: 20px;
+				width: 80px;
+			}
+		}
+	}
+	&__wrp {
+		max-width: 800px;
+		width: 100%;
+		float: right;
+		.text {
+			max-width: 370px;
+		}
+		.btn-wrp {
+			@include flex-wrp;
+			gap: 20px;
+		}
+		.wrp {
+			.head {
+				@include justify-wrp;
+				gap: 20px;
+				h5 {
+					@include flex;
+					white-space: nowrap;
+					gap: 40px;
+					max-width: 550px;
+					width: 100%;
+					.line {
+						width: 100%;
+						height: 1px;
+						background-color: var(--border);
+						display: block;
+					}
+				}
+				.arry-wrp {
+					@include flex;
+					gap: 40px;
+					button {
+						font-size: 24px;
+					}
+				}
+			}
+		}
+	}
+	&__item {
+		.count {
+			color: var(--black);
+		}
+		p {
+			max-width: 330px;
+		}
+	}
+}
+// About five area end here ***
+
+// About six area start here ***
+.about-six {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__bg {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+		&.dark-mode {
+			&::after {
+				position: absolute;
+				top: 0;
+				left: 0;
+				content: "";
+				width: 100%;
+				height: 100px;
+				background: linear-gradient(
+					180deg,
+					#131b24 41.73%,
+					rgba(19, 27, 36, 0.03) 75.54%
+				);
+			}
+		}
+	}
+	&__wrp {
+		max-width: 1370px;
+		margin: 0 auto;
+	}
+	&__image {
+		max-width: 611px;
+		img {
+			width: 100%;
+		}
+	}
+	&__item {
+		padding: 60px 0;
+		.text {
+			font-weight: 500;
+			color: var(--black);
+			margin-top: 10px;
+		}
+		.number {
+			margin: 30px 0;
+			@include flex-wrp;
+			span {
+				font-size: 16px;
+				font-family: var(--font-body);
+				margin: 0 15px;
+			}
+		}
+		.info {
+			@include flex-wrp;
+			gap: 30px;
+			padding-top: 30px;
+			border-top: 1px solid var(--border);
+		}
+	}
+}
+// About six area end here ***
+
+// About eight area end here ***
+.about-eight {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		padding-top: 290px;
+		@include breakpoint(max-xxl) {
+			padding-top: 130px;
+		}
+		@include breakpoint(max-md) {
+			padding-top: 60px;
+		}
+	}
+	&__wrp {
+		max-width: 1460px;
+		margin: 0 auto;
+		.about-five__wrp {
+			max-width: 100%;
+			.text {
+				max-width: 660px;
+			}
+		}
+	}
+	&__bg {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: -1;
+		&.dark-mode {
+			&::after {
+				position: absolute;
+				top: 0;
+				right: 0;
+				content: "";
+				width: 100%;
+				height: 100px;
+				background: linear-gradient(
+					180deg,
+					#131b24 41.73%,
+					rgba(19, 27, 36, 0.03) 75.54%
+				);
+			}
+		}
+	}
+	&__image {
+		position: absolute;
+		bottom: 0;
+		right: 12%;
+		@include breakpoint(max-xxl) {
+			right: 2%;
+			img {
+				max-width: 600px;
+			}
+		}
+		@include breakpoint(max-xl) {
+			display: none;
+		}
+	}
+}
+// About eight area end here ***
+
+// About ten area start here ***
+.about-ten {
+	&-area {
+		overflow: hidden;
+		background-color: var(--sub-bg2);
+	}
+	&__wrp {
+		max-width: 1300px;
+		margin: 0 auto;
+		position: relative;
+		z-index: 1;
+	}
+	&__image {
+		position: absolute;
+		top: 50%;
+		right: -22%;
+		transform: translateY(-50%);
+		max-width: 776px;
+		img {
+			width: 100%;
+		}
+		.info {
+			position: absolute;
+			top: 23%;
+			left: -50px;
+		}
+		.shape {
+			position: absolute;
+			top: 90px;
+			left: 70px;
+			z-index: -1;
+		}
+		@include breakpoint(max-xl) {
+			display: none;
+		}
+	}
+	&__content {
+		max-width: 620px;
+		.text {
+			max-width: 550px;
+		}
+		.info {
+			@include flex-wrp;
+			gap: 40px;
+			.btn-one {
+				padding: 10px 40px;
+				i {
+					transform: translateX(5px);
+				}
+			}
+		}
+		.nav {
+			border: none;
+			gap: 25px;
+			@include breakpoint(max-md) {
+				gap: 10px;
+			}
+			.nav-item {
+				.nav-link {
+					padding: 12px 30px;
+					border: 1px solid var(--border);
+					font-size: 18px;
+					font-family: var(--font-title);
+					font-weight: 500;
+					color: var(--black);
+					background-color: transparent;
+					transition: var(--transition);
+					border-radius: 0;
+					@include breakpoint(max-md) {
+						padding: 5px 12px;
+						font-size: 14px;
+					}
+					&.active {
+						background-color: var(--white);
+						box-shadow: 0px 10px 60px 0px #0000001a;
+						border: 1px solid transparent;
+					}
+				}
+			}
+		}
+	}
+}
+// About ten area end here ***
+
+// About eleven area start here ***
+.about-eleven {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1150px;
+		margin: 0 auto;
+	}
+	&-right {
+		border-left: 1px solid var(--border);
+		height: 100%;
+		@include breakpoint(max-xl) {
+			border: none;
+		}
+	}
+	&__year {
+		position: relative;
+		z-index: 1;
+		max-width: 400px;
+		.count {
+			font-size: 300px;
+			font-weight: 500;
+			line-height: 220px;
+			@include breakpoint(max-sm) {
+				font-size: 250px;
+			}
+		}
+		span {
+			display: inline-block;
+			transform: rotate(-180deg);
+			color: var(--black);
+			line-height: 30px;
+			writing-mode: vertical-rl;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+		}
+	}
+	&__content {
+		max-width: 580px;
+		width: 100%;
+		float: right;
+		.info {
+			@include justify-wrp;
+			gap: 20px;
+			.arrow-btn {
+				font-weight: 500;
+				color: var(--black);
+				text-decoration: underline;
+				i {
+					margin-left: 5px;
+					transition: var(--transition);
+				}
+				&:hover {
+					text-decoration: none;
+					i {
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+	}
+}
+// About eleven area end here ***
+
+// About thirteen area start here ***
+.about-thirteen {
+	&-area {
+		overflow: hidden;
+	}
+	&__image {
+		overflow: hidden;
+		img {
+			width: 100%;
+			&.image-last {
+				transform: translateY(-80px);
+				@include breakpoint(max-lg) {
+					transform: translateY(-50px);
+				}
+			}
+		}
+	}
+}
+// About thirteen area end here ***
+
+
+
+// Consult area start here ***
+.consult {
+	&-area {
+		position: relative;
+		z-index: 1;
+	}
+	&-left {
+		padding: 130px 80px;
+		background-color: var(--sub-bg);
+		@include breakpoint(max-xxxl) {
+			padding: 60px 30px;
+		}
+		.section-header {
+			max-width: 650px;
+		}
+	}
+	&__image {
+		position: sticky;
+		top: 87px;
+		img {
+			width: 100%;
+		}
+		.icon {
+			position: absolute;
+			bottom: 80px;
+			right: 80px;
+			@include breakpoint(max-md) {
+				bottom: 30px;
+				right: 30px;
+				img {
+					width: 60px;
+				}
+			}
+		}
+	}
+	&__service {
+		@include flex;
+		gap: 80px;		
+		@include breakpoint(max-md) {
+			gap: 30px;
+		}
+		@include breakpoint(max-sm) {
+			flex-wrap: wrap;
+		}
+		.content-box{
+			max-width: 420px;
+			flex-shrink: 0;
+			h5{
+				margin-bottom: 20px;
+			}
+		}
+		ul {			
+			li {
+				line-height: 26px;
+				color: var(--theme-color1);
+				@include flex;
+				gap: 10px;
+				font-weight: 500;
+				padding: 10px 0px 17px;
+				text-transform: capitalize;
+				border-bottom: 1px solid rgb(0 0 0 / 10%);
+				&:not(.last-child) {
+					margin-bottom: 5px;
+				}
+				i{
+					color: var(--theme-color1);
+				}
+			}
+		}
+	}
+	&__experience {
+		.check-list-box{
+			@include flex;
+			gap: 60px;
+			ul {			
+				li {
+					line-height: 26px;
+					color: var(--theme-color1);
+					@include flex;
+					gap: 10px;
+					font-size: 18px;
+					font-weight: 500;
+					padding: 10px 0px;
+					text-transform: capitalize;
+					margin-bottom: 15px;
+					&:not(.last-child) {
+						margin-bottom: 5px;
+					}
+					i{
+						color: var(--white);
+						width: 30px;
+						height: 30px;
+						text-align: center;
+						line-height: 30px;
+						border-radius: 50%;
+						font-size: 14px;
+						background-color: var(--theme-color2);
+					}
+				}
+			}
+		}
+		&-bar{
+			.funfact-outer{
+				@include flex;
+				margin-top: 50px;
+				gap: 50px;
+				flex-wrap: wrap;
+				.funfact-item{
+					@include flex;
+					gap: 30px;
+					max-width: 255px;
+					padding-bottom: 20px;
+					border-bottom: 1px solid rgb(0 0 0 / 10%);
+					h2{
+						color: var(--theme-color1);
+						flex-shrink: 0;
+					}
+					&:hover{
+						border-color: var(--theme-color1);
+					}
+				}
+			}
+		}
+	}
+}
+// Consult area end here ***

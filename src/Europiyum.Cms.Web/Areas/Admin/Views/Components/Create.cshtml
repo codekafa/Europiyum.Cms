@@ -1,0 +1,101 @@
+@model ComponentCreateVm
+@{
+    ViewData["Title"] = "Yeni bileşen";
+    var types = ViewBag.ComponentTypes as IReadOnlyList<ComponentTypeOptionVm> ?? Array.Empty<ComponentTypeOptionVm>();
+    ViewData["HelpIntro"] = "Tip, şablonda hangi HTML yapısının kullanılacağını seçer. Oluşturduktan sonra düzenle ekranında dil sekmelerinde Body HTML girilir.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Medya yolları için önce Medya kütüphanesine yükleyip yolu kopyalayın.",
+        "Pasif bileşen bağlansa bile genelde tema göstermez."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4" style="max-width: 640px;">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <input type="hidden" asp-for="CompanyId" />
+        <div class="mb-3">
+            <label class="form-label" asp-for="ComponentTypeId">Bileşen tipi</label>
+            <select class="form-select" asp-for="ComponentTypeId" id="componentTypeSelect" aria-describedby="componentTypeHint componentTypeHelpPanel">
+                @foreach (var t in types)
+                {
+                    <option value="@t.Id" data-key="@t.Key" data-desc="@t.Description">@t.DisplayName (@t.Key)</option>
+                }
+            </select>
+            <div id="componentTypeHint" class="form-text">Seçtiğiniz tipe göre public sitede hangi Razor şablonunun kullanılacağı belirlenir.</div>
+            <div id="selectedTypeHelp" class="alert alert-secondary border-0 small mt-2 mb-0" role="status" hidden></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="SortOrder"></label>
+            <input class="form-control" type="number" asp-for="SortOrder" />
+        </div>
+        <div class="mb-4 form-check">
+            <input class="form-check-input" asp-for="IsActive" />
+            <label class="form-check-label" asp-for="IsActive"></label>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Oluştur</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">İptal</a>
+        </div>
+    </form>
+</div>
+
+<div class="cms-card p-4 mt-4" id="componentTypeHelpPanel">
+    <h2 class="h6 text-body-secondary mb-3">Tüm bileşen tipleri</h2>
+    <p class="small text-secondary mb-3">Yeni bir tip eklendiğinde açıklama kodda <code>ComponentTypeHelpTexts</code> sınıfına eklenmelidir.</p>
+    <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Tip</th>
+                    <th scope="col">Anahtar</th>
+                    <th scope="col">Ne işe yarar?</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var t in types)
+            {
+                <tr data-help-key="@t.Key">
+                    <td class="fw-medium">@t.DisplayName</td>
+                    <td><code>@t.Key</code></td>
+                    <td class="small">@t.Description</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            var sel = document.getElementById('componentTypeSelect');
+            var box = document.getElementById('selectedTypeHelp');
+            if (!sel || !box) return;
+            function esc(s) {
+                if (!s) return '';
+                var d = document.createElement('div');
+                d.textContent = s;
+                return d.innerHTML;
+            }
+            function update() {
+                var opt = sel.options[sel.selectedIndex];
+                var d = opt && opt.getAttribute('data-desc');
+                if (d) {
+                    box.innerHTML = '<strong class="d-block mb-1">' + esc(opt.text) + '</strong>' + esc(d);
+                    box.hidden = false;
+                } else {
+                    box.textContent = '';
+                    box.hidden = true;
+                }
+                var key = opt && opt.getAttribute('data-key');
+                document.querySelectorAll('[data-help-key]').forEach(function (tr) {
+                    tr.classList.toggle('table-active', key && tr.getAttribute('data-help-key') === key);
+                });
+            }
+            sel.addEventListener('change', update);
+            update();
+        })();
+    </script>
+}

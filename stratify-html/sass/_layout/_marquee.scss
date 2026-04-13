@@ -1,0 +1,223 @@
+// Marquee area start here ***
+.marquee {
+	&-area {
+		overflow: hidden;
+		&.dark-area {
+			background-color: var(--black);
+		}
+		&.black-area{
+			background-color: var(--black0);
+		}
+		&.dark-mode {
+			.marquee__item {
+				.stroke-text {
+					-webkit-text-stroke-color: var(--border2);
+				}
+				svg {
+					path {
+						fill: var(--black);
+					}
+				}
+			}
+		}
+	}
+	&__wrp {
+		position: relative;
+	}
+	&__slide {
+		display: flex;
+		position: relative;
+		&.marquee-revers {
+			.marquee__item-wrp {
+				position: relative;
+				-webkit-animation: slide-har-revers 0s linear infinite;
+				animation: slide-har-revers 30s linear infinite;
+				@-webkit-keyframes slide-har-revers {
+					100% {
+						-webkit-transform: translateX(0%);
+						transform: translateX(0%);
+					}
+					0% {
+						-webkit-transform: translateX(-100%);
+						transform: translateX(-100%);
+					}
+				}
+
+				@keyframes slide-har-revers {
+					100% {
+						-webkit-transform: translateX(0%);
+						transform: translateX(0%);
+					}
+					0% {
+						-webkit-transform: translateX(-100%);
+						transform: translateX(-100%);
+					}
+				}
+			}
+		}
+	}
+
+	&__item {
+		padding: 0 30px;
+		h2 {
+			font-size: 80px;
+			line-height: 84px;
+			font-weight: 700;
+			text-transform: uppercase;
+			white-space: nowrap;
+			@include breakpoint(max-lg) {
+				font-size: 40px;
+				line-height: 50px;
+			}
+		}
+
+		.stroke-text {
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: #121c2733;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+
+		&.item-sm {
+			.title {
+				font-size: 48px;
+				font-weight: 100;
+				letter-spacing: 2px;
+				&:hover {
+					font-weight: 400;
+				}
+			}
+			@include breakpoint(max-lg) {
+				.title {
+					font-size: 24px;
+				}
+				padding: 0 10px;
+				svg {
+					width: 24px;
+				}
+			}
+		}
+
+		&-wrp {
+			display: flex;
+			align-items: center;
+			position: relative;
+			-webkit-animation: slide-har 30s linear infinite;
+			animation: slide-har 30s linear infinite;
+			@-webkit-keyframes slide-har {
+				0% {
+					-webkit-transform: translateX(0%);
+					transform: translateX(0%);
+				}
+				100% {
+					-webkit-transform: translateX(-100%);
+					transform: translateX(-100%);
+				}
+			}
+			@keyframes slide-har {
+				0% {
+					-webkit-transform: translateX(0%);
+					transform: translateX(0%);
+				}
+				100% {
+					-webkit-transform: translateX(-100%);
+					transform: translateX(-100%);
+				}
+			}
+			&.dark-area {
+				.marquee__item {
+					.title {
+						color: var(--white);
+					}
+					svg {
+						path {
+							fill: var(--white);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+// Marquee area end here ***
+
+// Marquee Seven area start here ***
+.marquee-seven {
+	&-area {
+		@extend .marquee-area;
+		padding: 60px 0;
+		border-top: 1px solid var(--border);
+		&.bg-sub {
+			background-color: #ececec;
+			border: none;
+		}
+		@include breakpoint(max-lg) {
+			padding: 30px 0;
+		}
+	}
+	&__wrp {
+		@extend .marquee__wrp;
+	}
+	&__item {
+		&-wrp {
+			@extend .marquee__item-wrp;
+			.marquee__item {
+				.title {
+					font-size: 24px;
+					line-height: 28px;
+					font-weight: 500;
+				}
+			}
+		}
+	}
+}
+// Marquee Seven area end here ***
+
+// Marquee nine area start here ***
+.marquee-nine {
+	&-area {
+		@extend .marquee-seven-area;
+		padding: 25px 0;
+		background-color: #ececec;
+		border: none;
+		&.dark-area {
+			background-color: var(--black);
+			.title {
+				color: var(--white);
+			}
+		}
+	}
+	&__wrp {
+		@extend .marquee-seven__wrp;
+	}
+}
+// Marquee nine area end here ***
+
+// Marquee ten area start here ***
+.marquee-ten {
+	&-area {
+		@extend .marquee-nine-area;
+		background-color: var(--black);
+		transform: rotate(-1deg);
+		.title {
+			color: var(--white);
+		}
+		&-wrp {
+			position: relative;
+			z-index: 1;
+			&::before {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 80px;
+				content: "";
+				background-color: #ececec;
+				z-index: -1;
+				transform: rotate(-178.31deg);
+			}
+		}
+	}
+}
+// Marquee ten area end here ***

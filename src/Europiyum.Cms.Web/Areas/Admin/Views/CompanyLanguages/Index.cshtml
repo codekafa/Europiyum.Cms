@@ -1,0 +1,111 @@
+@model CompanyLanguagesPageVm
+@{
+    ViewData["Title"] = "Site dilleri";
+    ViewData["Subtitle"] = Model.CompanyName;
+    var defaultId = Model.Rows.FirstOrDefault(r => r.IsDefault)?.LanguageId
+        ?? Model.Rows.FirstOrDefault()?.LanguageId;
+    ViewData["HelpIntro"] = "Seçili şirketin hangi dillerde içerik sunacağını buradan yönetirsiniz. Varsayılan dil, eksik çeviri olduğunda yedek olarak kullanılır.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Önce Dil kataloğunda dil tanımlı olmalı; ardından burada şirkete eklenir.",
+        "En az bir dil ve bir varsayılan dil olması içerik düzenlemesi için gereklidir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-4">
+    <h2 class="h6 text-secondary mb-3">Dil ekle</h2>
+    @if (Model.AvailableLanguages.Count == 0)
+    {
+        <p class="small text-secondary mb-0">Eklenebilecek başka aktif dil yok (tüm diller zaten atanmış veya katalogda dil yok).</p>
+    }
+    else
+    {
+        <form asp-action="Add" method="post" class="row g-2 align-items-end">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="companyId" value="@Model.CompanyId" />
+            <div class="col-md-6">
+                <select name="languageId" class="form-select" required>
+                    <option value="">Seçin…</option>
+                    @foreach (var l in Model.AvailableLanguages)
+                    {
+                        <option value="@l.Id">@l.Name (@l.Code)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-outline-primary">Ekle</button>
+            </div>
+        </form>
+    }
+</div>
+
+<div class="cms-card p-4">
+    <h2 class="h6 text-secondary mb-3">Atanmış diller</h2>
+    <form asp-action="Update" method="post" id="form-lang-update">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+        <input type="hidden" name="CompanyId" value="@Model.CompanyId" />
+        <div class="table-responsive">
+            <table class="table cms-table">
+                <thead>
+                    <tr>
+                        <th>Dil</th>
+                        <th>Kod</th>
+                        <th>Aktif</th>
+                        <th>Varsayılan</th>
+                        <th>Sıra</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for (var i = 0; i < Model.Rows.Count; i++)
+                {
+                    var row = Model.Rows[i];
+                    var removeFormId = $"form-remove-{row.LanguageId}";
+                    <tr>
+                        <td class="fw-medium">@row.Name</td>
+                        <td><code>@row.Code</code></td>
+                        <td>
+                            <input type="hidden" name="Rows[@i].LanguageId" value="@row.LanguageId" />
+                            <input type="hidden" name="Rows[@i].IsEnabled" value="false" />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="Rows[@i].IsEnabled" value="true" checked="@row.IsEnabled" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="DefaultLanguageId" value="@row.LanguageId" checked="@(row.LanguageId == defaultId)" required />
+                            </div>
+                        </td>
+                        <td style="max-width: 100px;">
+                            <input class="form-control form-control-sm" type="number" name="Rows[@i].DisplayOrder" value="@row.DisplayOrder" />
+                        </td>
+                        <td class="text-end">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" form="@removeFormId" formmethod="post"
+                                    onclick="return confirm('Bu dili şirketten kaldırmak istediğinize emin misiniz?');">
+                                Kaldır
+                            </button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.Rows.Count > 0)
+        {
+            <div class="mt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        }
+    </form>
+
+    @foreach (var row in Model.Rows)
+    {
+        var removeFormId = $"form-remove-{row.LanguageId}";
+        <form id="@removeFormId" asp-action="Remove" method="post" class="d-none">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="companyId" value="@Model.CompanyId" />
+            <input type="hidden" name="languageId" value="@row.LanguageId" />
+        </form>
+    }
+</div>

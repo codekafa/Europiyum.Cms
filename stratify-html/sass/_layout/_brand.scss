@@ -1,0 +1,104 @@
+// Brand area start here ***
+.brand {
+	&-area {
+		overflow: hidden;
+		border-top: 1px solid var(--border);
+		border-bottom: 1px solid var(--border);
+	}
+	&__item {
+		text-align: center;
+		padding: 45px;
+		border-right: 1px solid var(--border);
+		height: 100%;
+		cursor: pointer;
+		@include breakpoint(max-lg) {
+			border-right: 1px solid var(--border);
+			border-bottom: 1px solid var(--border);
+		}
+		&:hover {
+			img {
+				animation: bounceIn 1s forwards;
+			}
+		}
+	}
+}
+// Brand area end here ***
+
+// Brand two area start here ***
+.brand-two {
+	&-area {
+		overflow: hidden;
+		border-bottom: 1px solid var(--border);
+	}
+	&__item {
+		text-align: center;
+		@include breakpoint(max-md) {
+			img {
+				width: 50px;
+				margin: 0 auto;
+			}
+		}
+	}
+}
+// Brand two area end here ***
+
+// Brand six area start here ***
+.brand-six {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1170px;
+		margin: 0 auto;
+		display: flex;
+		align-items: stretch;
+		&.wrp-bottom {
+			border-top: 1px solid var(--border);
+			.brand-six__item {
+				padding-top: 30px;
+				padding-bottom: 10px !important;
+			}
+		}
+	}
+	&__item {
+		display: block;
+		width: 100%;
+		text-align: center;
+		padding-bottom: 30px;
+		&:not(:last-child) {
+			border-right: 1px solid var(--border);
+		}
+		&:hover {
+			img {
+				animation: bounceIn 1s forwards;
+			}
+		}
+		@include breakpoint(max-lg) {
+			img {
+				width: 50px;
+				margin: 0 auto;
+			}
+		}
+	}
+	&__text {
+		text-align: center;
+		.text {
+			a {
+				font-size: 16px;
+				font-weight: 600;
+				margin-left: 10px;
+				i {
+					transition: var(--transition);
+					font-size: 14px;
+					margin-left: 3px;
+				}
+				&:hover {
+					i {
+						transform: translateX(5px);
+					}
+				}
+			}
+		}
+	}
+}
+// Brand six area end here ***

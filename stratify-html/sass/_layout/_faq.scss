@@ -1,0 +1,122 @@
+// Faq area start here ***
+.faq {
+	&-area {
+		overflow: hidden;
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		.icon {
+			max-width: 201px;
+			position: absolute;
+			bottom: 80px;
+			right: 80px;
+			@include breakpoint(max-lg) {
+				bottom: 30px;
+				right: 30px;
+				width: 100px;
+			}
+		}
+	}
+	&__item {
+		padding: 100px;
+		@include breakpoint(max-xxl) {
+			padding: 60px;
+		}
+		@include breakpoint(max-sm) {
+			padding: 60px 15px;
+		}
+	}
+	&__accordion {
+		.accordion {
+			.accordion-header {
+				background-color: var(--sub-bg);
+			}
+			.accordion-body {
+				background-color: var(--sub-bg);
+			}
+			.accordion-item {
+				border-bottom: 1px solid var(--border);
+				margin-bottom: 0;
+				background-color: transparent;
+			}
+		}
+		.faq-btn {
+			svg {
+				margin-left: 10px;
+				transition: var(--transition);
+			}
+			&:hover {
+				svg {
+					margin-left: 15px;
+				}
+			}
+		}
+	}
+}
+// Faq area end here ***
+
+// Faq one area start here ***
+.faq-one {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__bg {
+		bottom: 0;
+		left: 32%;
+		transform: translateX(-50%);
+		position: absolute;
+		z-index: -1;
+		@include breakpoint(max-lg) {
+			transform: unset;
+			left: unset;
+			right: 0;
+		}
+		@include breakpoint(max-sm) {
+			display: none;
+		}
+	}
+	&__image {
+		bottom: 0;
+		left: 45%;
+		transform: translateX(-50%);
+		position: absolute;
+		z-index: 0;
+		@include breakpoint(max-lg) {
+			display: none;
+		}
+	}
+	&__accordion {
+		@extend .faq__accordion;
+		.accordion {
+			.accordion-header {
+				background-color: transparent;
+				.accordion-button {
+					&::before {
+						background-color: transparent;
+						width: unset;
+					}
+				}
+			}
+			.accordion-body {
+				background-color: transparent;
+			}
+			.accordion-item {
+				background-color: transparent;
+			}
+		}
+	}
+	&-left {
+		.section-header {
+			p {
+				max-width: 450px;
+			}
+		}
+	}
+}
+// Faq one area end here ***

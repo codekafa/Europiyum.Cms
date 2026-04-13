@@ -1,0 +1,64 @@
+@model IReadOnlyList<ComponentListItemVm>
+@{
+    ViewData["Title"] = "Bileşenler";
+    ViewData["Subtitle"] = "Tekrar kullanılabilir içerik blokları";
+    var search = ViewBag.Search as string;
+    ViewData["HelpIntro"] = "Bileşen, bir tip (ör. metin kartı, galeri) ve dil başına gövde HTML’si içeren kayıttır. Tek başına sitede görünmez; bir sayfaya veya anasayfa bölümüne bağlanınca çıkar.";
+    ViewData["HelpBullets"] = new[]
+    {
+        "Sayfa bileşenleri: Sayfalar → ilgili sayfa → Sayfaya bağlı bileşenler (sıra önemli).",
+        "Anasayfa: önce Anasayfa bölümleri, sonra bu sayfaya bağladığınız bileşenler listelenir."
+    };
+}
+<partial name="_AdminScreenHelp" />
+<div class="cms-card p-4 mb-4">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-6">
+            <label class="form-label small text-secondary">Ara</label>
+            <input class="form-control" name="search" value="@search" placeholder="tip veya başlık" />
+        </div>
+        <div class="col-md-6 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-secondary">Filtrele</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Sıfırla</a>
+            <a class="btn btn-primary ms-auto" asp-action="Create">Yeni bileşen</a>
+        </div>
+    </form>
+</div>
+
+<div class="cms-card overflow-hidden">
+    <div class="cms-card-header d-flex justify-content-between align-items-center">
+        <span>Liste</span>
+        <span class="small text-secondary">@Model.Count kayıt</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table cms-table mb-0">
+            <thead>
+                <tr>
+                    <th>Tip</th>
+                    <th>Başlık</th>
+                    <th>Sıra</th>
+                    <th>Durum</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td><span class="badge rounded-pill text-bg-light border">@c.TypeKey</span></td>
+                    <td class="fw-medium">@(c.TitlePreview ?? "—")</td>
+                    <td>@c.SortOrder</td>
+                    <td>@(c.IsActive ? "Aktif" : "Pasif")</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@c.Id">Düzenle</a>
+                        <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline" onsubmit="return confirm('Bileşen silinsin mi? Sayfa bağlantıları da kalkar.');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

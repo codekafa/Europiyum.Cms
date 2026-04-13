@@ -1,0 +1,312 @@
+// Work area start here ***
+.work {
+	&-area {
+		position: relative;
+		z-index: 1;
+	}
+	&__image {
+		position: relative;
+		z-index: 1;
+		img {
+			width: 100%;
+		}
+		.icon {
+			width: 122px;
+			position: absolute;
+			bottom: 60px;
+			right: 60px;
+			@include breakpoint(max-md) {
+				width: 60px;
+				right: 30px;
+				bottom: 30px;
+			}
+		}
+	}
+	&__item {
+		padding: 40px 50px;
+		background-color: var(--white);
+		border: 1px solid var(--border);
+		border-top: none;
+		transition: var(--transition);
+		&:nth-child(2) {
+			border-top: 1px solid var(--border);
+		}
+		display: flex;
+		gap: 60px;
+		span {
+			font-size: 128px;
+			line-height: 128px;
+			font-weight: 500;
+			font-family: var(--font-title);
+			transition: var(--transition);
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: #00000033;
+		}
+		@include breakpoint(max-sm) {
+			span {
+				font-size: 60px;
+				line-height: 60px;
+			}
+			gap: 20px;
+			padding: 20px;
+			p {
+				font-size: 14px;
+				line-height: 22px;
+			}
+		}
+		.content {
+			max-width: 430px;
+		}
+		.btn-view {
+			margin-top: 20px;
+		}
+		&:hover {
+			background-color: var(--sub-bg);
+			border: 1px solid var(--sub-bg);
+			border-top: none;
+			&:nth-child(2) {
+				border-top: 1px solid var(--sub-bg);
+			}
+			span {
+				color: var(--black);
+				-webkit-text-fill-color: var(--black);
+				-webkit-text-stroke-width: 1px;
+				-webkit-text-stroke-color: var(--black);
+			}
+			.btn-view {
+				i {
+					transform: rotate(-45deg);
+				}
+			}
+		}
+		&-left {
+			max-width: 800px;
+			position: sticky;
+			top: 130px;
+			.section-header {
+				max-width: 460px;
+			}
+		}
+		&-right {
+			.text {
+				max-width: 450px;
+			}
+		}
+		&.dark-area {
+			span {
+				-webkit-text-stroke-color: var(--border2);
+			}
+		}
+	}
+}
+// Work area end here ***
+
+// Work ten area start here ***
+.work-ten {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1320px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		gap: 50px;
+		@include breakpoint(max-lg) {
+			flex-wrap: wrap;
+		}
+		position: relative;
+		z-index: 1;
+		&::after {
+			position: absolute;
+			top: 95px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 90%;
+			height: 1px;
+			border-top: 1px dashed var(--black);
+			content: "";
+			z-index: -1;
+			@include breakpoint(max-lg) {
+				display: none;
+			}
+		}
+	}
+	&__item {
+		width: 260px;
+		text-align: center;
+		@include breakpoint(max-lg) {
+			width: 45%;
+		}
+		@include breakpoint(max-sm) {
+			width: 100%;
+		}
+		.image {
+			@include radius(190px, 190px, 190px);
+			margin: 0 auto;
+			img {
+				border-radius: 100%;
+			}
+			position: relative;
+			z-index: 1;
+			.number {
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: block;
+				@include radius(50px, 50px, 50px);
+				font-size: 24px;
+				font-weight: 500;
+				font-family: var(--font-title);
+				color: var(--white);
+				background-color: var(--black);
+			}
+			&::after {
+				content: "";
+				position: absolute;
+				width: 102%;
+				height: 102%;
+				top: 0px;
+				left: -2px;
+				z-index: -1;
+				border: 2px dashed var(--black);
+				border-radius: 100%;
+				transition: var(--transition);
+				animation: rotate 30s linear infinite;
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+		.content {
+			.title {
+				margin-top: 30px;
+				margin-bottom: 10px;
+			}
+		}
+		&:hover {
+			.image {
+				&::after {
+					opacity: 1;
+					visibility: visible;
+				}
+				.number {
+					animation: bounceIn 1s forwards;
+				}
+			}
+		}
+	}
+}
+// Work ten area end here ***
+
+// Work eleven area start here ***
+.work-eleven {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1320px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		gap: 50px;
+		@include breakpoint(max-lg) {
+			flex-wrap: wrap;
+		}
+		position: relative;
+		z-index: 1;
+		padding-top: 50px;
+		@include breakpoint(max-sm) {
+			padding-top: 0;
+		}
+	}
+	&__line {
+		position: absolute;
+		top: 100px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: -1;
+		@include breakpoint(max-xxxl) {
+			width: 90%;
+			img {
+				width: 100%;
+			}
+		}
+		@include breakpoint(max-xxl) {
+			width: 70%;
+		}
+		@include breakpoint(max-lg) {
+			display: none;
+		}
+	}
+	&__item {
+		width: 260px;
+		text-align: center;
+		@include breakpoint(max-lg) {
+			width: 45%;
+		}
+		@include breakpoint(max-sm) {
+			width: 100%;
+		}
+		.image {
+			@include radius(190px, 190px, 190px);
+			margin: 0 auto;
+			img {
+				border-radius: 100%;
+			}
+			position: relative;
+			z-index: 1;
+			.number {
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: block;
+				@include radius(50px, 50px, 50px);
+				font-size: 24px;
+				font-weight: 500;
+				font-family: var(--font-title);
+				color: var(--white);
+				background-color: var(--black);
+			}
+			&::after {
+				content: "";
+				position: absolute;
+				width: 102%;
+				height: 102%;
+				top: 0px;
+				left: -2px;
+				z-index: -1;
+				border: 2px dashed var(--black);
+				border-radius: 100%;
+				transition: var(--transition);
+				animation: rotate 30s linear infinite;
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+		.content {
+			.title {
+				margin-top: 30px;
+				margin-bottom: 10px;
+			}
+		}
+		&:hover {
+			.image {
+				&::after {
+					opacity: 1;
+					visibility: visible;
+				}
+				.number {
+					animation: bounceIn 1s forwards;
+				}
+			}
+		}
+		&.have-margin {
+			margin-top: -50px;
+			@include breakpoint(max-sm) {
+				margin-top: 0;
+			}
+		}
+	}
+}
+// Work eleven area end here ***

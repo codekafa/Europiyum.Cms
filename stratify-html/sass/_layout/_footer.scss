@@ -1,0 +1,844 @@
+// Footer area start here ***
+.footer {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		background-color: var(--black);
+	}
+	&__shape {
+		&-left {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			z-index: -1;
+		}
+	}
+	&__wrp {
+		display: flex;
+		justify-content: space-between;
+		gap: 20px;
+		@include breakpoint(max-lg) {
+			flex-wrap: wrap;
+		}
+		position: relative;
+		&::after {
+			bottom: 0;
+			left: 23%;
+			width: 1px;
+			height: 82%;
+			background-color: #ffffff1a;
+			position: absolute;
+			content: "";
+			@include breakpoint(max-xl) {
+				display: none;
+			}
+		}
+	}
+	&__item {
+		width: 190px;
+		.title {
+			color: var(--white);
+			margin-bottom: 15px;
+		}
+		ul {
+			li {
+				&:not(:last-child) {
+					margin-bottom: 10px;
+				}
+				a {
+					color: var(--paragraph-dark);
+					font-size: 18px;
+					font-weight: 500;
+					&:hover {
+						padding-left: 5px;
+					}
+				}
+			}
+		}
+		&-last {
+			@extend.footer__item;
+			width: 380px;
+		}
+		p {
+			font-size: 18px;
+			line-height: 34px;
+			color: var(--paragraph-dark);
+		}
+		.socials {
+			display: flex;
+			gap: 15px;
+			a {
+				color: var(--paragraph-dark);
+				font-size: 18px;
+				&:hover {
+					transform: translateY(-2px);
+					color: var(--white);
+				}
+			}
+		}
+		.mailUs {
+			position: relative;
+			input {
+				width: 100%;
+				padding: 20px 40px;
+				padding-left: 50px;
+				background-color: var(--white);
+				border: none;
+				color: var(--paragraph);
+			}
+			span {
+				position: absolute;
+				left: 20px;
+				top: 22px;
+				color: var(--paragraph);
+			}
+			button {
+				top: 20px;
+				right: 20px;
+				position: absolute;
+				color: var(--theme-color1);
+				font-size: 25px;
+			}
+		}
+		&-wrp {
+			width: 50%;
+			display: flex;
+			justify-content: space-between;
+			gap: 20px;
+			@include breakpoint(max-lg) {
+				flex-wrap: wrap;
+			}
+			@include breakpoint(max-md) {
+				width: 100%;
+			}
+
+			width: 100%;
+		}
+	}
+	&__left {
+		max-width: 370px;
+		p {
+			color: var(--paragraph-dark);
+		}
+	}
+	&__right {
+		width: 70%;
+	}
+	&__copyright {
+		text-align: center;
+		padding: 25px 0;
+		border-top: 1px solid #ffffff1a;
+		p {
+			font-weight: 600;
+			font-size: 18px;
+			color: #75727b;
+			a {
+				color: var(--white);
+				&:hover {
+					color: var(--white);
+					text-decoration: underline;
+				}
+			}
+		}
+		.policy {
+			font-size: 16px;
+			color: var(--white);
+		}
+	}
+	&__rectangle {
+		width: 80px;
+		height: 80px;
+		position: absolute;
+		bottom: 80px;
+		left: 21%;
+		z-index: 0;
+		.item {
+			width: 0px;
+			height: 80px;
+			background-color: var(--white);
+			transition: all 0.5s ease-in-out 0.2s;
+			position: absolute;
+			top: 0;
+			right: 0;
+			&.animated {
+				width: 80px;
+			}
+			&-dark {
+				width: 0px;
+				height: 80px;
+				transition: all 0.5s ease-in-out 0.2s;
+				background-color: #ffffff4d;
+				backdrop-filter: blur(20px);
+				position: absolute;
+				top: 0;
+				left: 80px;
+				&.animated {
+					width: 80px;
+				}
+			}
+		}
+		@include breakpoint(max-md) {
+			display: none;
+		}
+	}
+}
+// Footer area end here ***
+
+// Footer two area start here ***
+.footer-two {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		max-width: 1336px;
+		margin: 0 auto;
+	}
+	&__top {
+		padding-bottom: 50px;
+		.title {
+			font-size: 120px;
+			line-height: 120px;
+			color: var(--white);
+			a {
+				@include flex;
+				gap: 60px;
+				i {
+					font-size: 75px;
+					margin-top: 20px;
+					transition: var(--transition);
+					&:hover {
+						transform: rotate(45deg);
+					}
+				}
+			}
+			@include breakpoint(max-lg) {
+				font-size: 48px;
+				line-height: 50px;
+				a {
+					gap: 20px;
+					i {
+						font-size: 28px;
+					}
+				}
+			}
+		}
+	}
+	&__item {
+		.title {
+			color: var(--white);
+			margin-bottom: 15px;
+		}
+		ul {
+			li {
+				&:not(:last-child) {
+					margin-bottom: 10px;
+				}
+				a {
+					color: var(--paragraph-dark);
+					font-size: 18px;
+					font-weight: 500;
+					&:hover {
+						padding-left: 5px;
+					}
+				}
+			}
+		}
+		&-adress {
+			max-width: 310px;
+			.title {
+				color: var(--white);
+				margin-bottom: 15px;
+			}
+			ul {
+				li {
+					&:last-child {
+						a {
+							text-decoration: underline;
+							margin-top: 40px;
+						}
+					}
+					.adress-text {
+						color: var(--paragraph-light);
+					}
+				}
+			}
+		}
+		&-wrp {
+			padding: 80px 0;
+			border-top: 1px solid var(--border-light);
+			border-bottom: 1px solid var(--border-light);
+			@include breakpoint(max-lg) {
+				padding: 60px 0;
+			}
+		}
+	}
+	&__bottom {
+		.socials {
+			@include flex;
+			gap: 20px;
+			a {
+				color: var(--white);
+				transition: 0.7s;
+				&:hover {
+					transform: rotateY(180deg);
+				}
+			}
+		}
+		@include justify-wrp;
+		padding: 20px 0;
+		gap: 5px;
+		.text {
+			color: var(--paragraph-light);
+			a {
+				color: var(--white);
+				text-decoration: underline;
+			}
+		}
+		@include breakpoint(max-md) {
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 5px;
+			.text {
+				width: 100%;
+				font-size: 14px;
+				text-align: center;
+			}
+		}
+	}
+	&__rectangle {
+		&-left {
+			position: absolute;
+			z-index: -1;
+			width: 160px;
+			height: 160px;
+			bottom: 120px;
+			left: 0;
+			.item {
+				&-one {
+					width: 80px;
+					height: 80px;
+					background-color: #ffffff4d;
+					backdrop-filter: blur(20px);
+					width: 0;
+					transition: all 0.3s ease-in-out 0.2s;
+					position: absolute;
+					bottom: 80px;
+					left: 0;
+					&.animated {
+						width: 80px;
+					}
+				}
+				&-two {
+					width: 80px;
+					height: 0px;
+					background-color: var(--white);
+					transition: all 0.3s ease-in-out 0.5s;
+					position: absolute;
+					top: 80px;
+					left: 80px;
+					&.animated {
+						height: 80px;
+					}
+				}
+				&-three {
+					width: 0px;
+					height: 80px;
+					background-color: var(--white);
+					transition: all 0.3s ease-in-out 0.8s;
+					position: absolute;
+					bottom: -80px;
+					right: 80px;
+					&.animated {
+						width: 80px;
+					}
+				}
+			}
+			@include breakpoint(max-md) {
+				display: none;
+			}
+		}
+		&-right {
+			position: absolute;
+			z-index: -1;
+			width: 160px;
+			height: 160px;
+			top: 0px;
+			right: 0;
+			.item {
+				&-one {
+					width: 80px;
+					height: 80px;
+					background-color: var(--white);
+					width: 0;
+					transition: all 0.3s ease-in-out 0.2s;
+					position: absolute;
+					bottom: 80px;
+					right: 0;
+					&.animated {
+						width: 80px;
+					}
+				}
+				&-two {
+					width: 80px;
+					height: 0px;
+					background-color: var(--white);
+					transition: all 0.3s ease-in-out 0.5s;
+					position: absolute;
+					top: 80px;
+					left: 0px;
+					&.animated {
+						height: 80px;
+					}
+				}
+				&-three {
+					width: 0px;
+					height: 80px;
+					background-color: #ffffff4d;
+					backdrop-filter: blur(20px);
+					transition: all 0.3s ease-in-out 0.8s;
+					position: absolute;
+					bottom: -80px;
+					left: 80px;
+					&.animated {
+						width: 80px;
+					}
+				}
+			}
+			@include breakpoint(max-md) {
+				display: none;
+			}
+		}
+	}
+}
+// Footer two area end here ***
+
+// Footer four area start here ***
+.footer-four {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+	}
+	&__item {
+		padding: 60px 30px 30px 80px;
+		border-right: 1px solid var(--border-light);
+		height: 600px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		justify-content: space-between;
+		@include breakpoint(max-xl) {
+			padding: 30px;
+		}
+		@include breakpoint(max-lg) {
+			height: 100%;
+		}
+		.text {
+			color: var(--paragraph-dark);
+			margin-top: 30px;
+		}
+		ul {
+			li {
+				a {
+					color: var(--paragraph-dark);
+					transition: var(--transition);
+					font-weight: 500;
+					&:hover {
+						transform: translateX(2px);
+						color: var(--white);
+					}
+				}
+				&:not(:last-child) {
+					margin-bottom: 3px;
+				}
+				.address-text {
+					color: var(--white);
+					margin-bottom: 10px;
+					margin-top: 5px;
+				}
+			}
+		}
+		.title {
+			color: var(--white);
+			position: relative;
+			padding-left: 20px;
+			&::before {
+				position: absolute;
+				top: 10px;
+				left: 0;
+				@include radius(10px, 10px, 10px);
+				border: 1px solid var(--white);
+				content: "";
+			}
+		}
+		.socials {
+			@include flex;
+			gap: 15px;
+			margin-top: 25px;
+			a {
+				@include radius(35px, 35px, 35px);
+				border: 1px solid var(--paragraph-dark);
+				color: var(--paragraph-dark);
+				transition: var(--transition);
+				&:hover {
+					border: 1px solid transparent;
+
+					i {
+						animation: bounceIn 1s forwards;
+					}
+				}
+			}
+		}
+		.copyright-text {
+			color: var(--paragraph-dark);
+			a {
+				&:hover {
+					color: var(--white);
+					font-weight: 500;
+				}
+			}
+		}
+	}
+}
+// Footer four area end here ***
+
+// Footer six area start here ***
+.footer-six {
+	&-area {
+		overflow: hidden;
+		background-color: var(--sub-bg);
+	}
+	&__wrp {
+		padding: 120px 0;
+		@include breakpoint(max-lg) {
+			padding: 60px 0;
+		}
+	}
+	&__item {
+		.title {
+			margin-bottom: 20px;
+		}
+		ul {
+			li {
+				&:not(:last-child) {
+					margin-bottom: 8px;
+				}
+				a {
+					color: var(--paragraph);
+					font-size: 18px;
+					font-weight: 500;
+					&:hover {
+						padding-left: 5px;
+					}
+				}
+			}
+		}
+		&.address {
+			ul {
+				li {
+					a {
+						&:hover {
+							padding-left: 0;
+						}
+					}
+					&:last-child {
+						margin-top: 30px;
+						a {
+							text-decoration: underline;
+							color: var(--black);
+						}
+					}
+				}
+			}
+		}
+	}
+	&__copyright {
+		text-align: center;
+		padding: 10px 0;
+		background-color: var(--black);
+		p {
+			font-weight: 500;
+			color: var(--white);
+			a {
+				color: var(--white);
+				&:hover {
+					color: var(--white);
+					text-decoration: underline;
+				}
+			}
+		}
+		.policy {
+			color: var(--white);
+		}
+	}
+}
+// Footer six area end here ***
+
+// Footer eight area start here ***
+.footer-eight {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+	}
+	&__item {
+		.title {
+			font-size: 42px;
+			line-height: 50px;
+			color: var(--white);
+		}
+		.mailUs {
+			position: relative;
+			input {
+				width: 100%;
+				border: 1px solid #262f37;
+				padding: 14px 32px;
+				background-color: transparent;
+				color: var(--white);
+				&::placeholder {
+					color: #6c6c6c;
+				}
+				&:focus {
+					border: 1px solid var(--border-light);
+				}
+			}
+			button {
+				position: absolute;
+				top: 14px;
+				right: 30px;
+				transition: var(--transition);
+				&:hover {
+					transform: translateX(5px);
+				}
+			}
+		}
+		.contact-info {
+			margin-top: 100px;
+			@include justify;
+			gap: 20px;
+			@include breakpoint(max-sm) {
+				margin-top: 50px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+		}
+		ul {
+			@include flex;
+
+			.icon {
+				padding: 5px 0;
+				padding-right: 15px;
+				margin-right: 15px;
+				border-right: 1px solid var(--border-light);
+			}
+			.info {
+				p {
+					font-size: 14px;
+					line-height: 18px;
+					color: var(--paragraph-dark);
+				}
+				h5 {
+					color: var(--white);
+				}
+			}
+		}
+	}
+	&__copyright {
+		@include justify-wrp;
+		padding: 30px 0;
+		border-top: 1px solid var(--border-light);
+		gap: 10px;
+		@include breakpoint(max-md) {
+			text-align: center;
+			justify-content: center;
+			gap: 20px;
+		}
+		.logo {
+			width: 140px;
+		}
+		.socials {
+			@include flex;
+			gap: 10px;
+			a {
+				color: var(--white);
+				padding: 5px;
+				transition: 0.7s;
+				&:hover {
+					transform: rotateY(180deg);
+				}
+			}
+		}
+		.rights-text {
+			color: var(--paragraph-light);
+
+			a {
+				&:hover {
+					color: var(--white);
+				}
+			}
+		}
+	}
+}
+// Footer eight area end here ***
+
+// Footer eleven area start here ***
+.footer-eleven {
+	&-area {
+		overflow: hidden;
+		background-color: var(--black);
+	}
+	&-top {
+		padding: 30px 0;
+		border-bottom: 1px solid var(--border-light);
+		.wrp {
+			@include justify-wrp;
+			gap: 20px;
+		}
+		.footer-menu {
+			@include flex;
+			gap: 60px;
+			@include breakpoint(max-sm) {
+				gap: 15px;
+				flex-wrap: wrap;
+				font-size: 14px;
+			}
+
+			li {
+				a {
+					font-weight: 500;
+					color: var(--white);
+					position: relative;
+					&::before {
+						position: absolute;
+						bottom: 0px;
+						right: 0;
+						width: 0;
+						height: 1px;
+						content: "";
+						background-color: var(--white);
+						transition: var(--transition);
+					}
+					&:hover {
+						&::before {
+							right: unset;
+							left: 0;
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+		.footer-info {
+			@include flex;
+			gap: 40px;
+			li {
+				a {
+					color: var(--white);
+					font-size: 14px;
+					@include flex;
+					gap: 10px;
+				}
+			}
+		}
+	}
+	&-left {
+		max-width: 380px;
+		.text {
+			color: var(--paragraph-dark);
+		}
+		.input {
+			position: relative;
+			margin-top: 40px;
+			input {
+				width: 100%;
+				&::placeholder {
+					color: var(--white);
+				}
+				color: var(--white);
+				padding: 16px 0;
+				border: none;
+				border-bottom: 1px solid #626262;
+				background-color: transparent;
+			}
+			button {
+				position: absolute;
+				top: 0;
+				right: 0;
+				color: var(--white);
+				font-weight: 500;
+				font-family: var(--font-title);
+				padding: 15px 30px;
+				@include flex;
+				gap: 15px;
+				background-color: var(--border-light);
+				border-radius: 24px;
+				line-height: 20px;
+				i {
+					transition: var(--transition);
+				}
+				&:hover {
+					i {
+						transform: rotate(45deg);
+					}
+				}
+			}
+		}
+	}
+	&-bottom {
+		padding-top: 50px;
+		margin-top: 50px;
+		position: relative;
+		@include justify-wrp;
+		gap: 10px;
+		color: var(--paragraph-dark);
+		a {
+			&:hover {
+				color: var(--white);
+			}
+		}
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 150%;
+			height: 1px;
+			background-color: var(--border-light);
+			content: "";
+		}
+	}
+	&__item {
+		.title {
+			color: var(--white);
+			margin-bottom: 20px;
+		}
+		ul {
+			li {
+				a {
+					color: var(--white);
+					font-weight: 500;
+				}
+			}
+		}
+		.socials {
+			@include flex;
+			gap: 15px;
+			a {
+				@include radius(24px, 24px, 24px);
+				background-color: var(--border-light);
+				color: var(--white);
+				font-size: 12px;
+				i {
+					transition: 0.9s;
+				}
+				&:hover {
+					i {
+						transform: rotateY(360deg);
+					}
+				}
+			}
+		}
+	}
+}
+// Footer eleven area end here ***
