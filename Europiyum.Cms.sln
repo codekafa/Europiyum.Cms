@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Europiyum.Web.TnMotomotiv",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Europiyum.Web.RutenyumSolutions", "src\Europiyum.Web.RutenyumSolutions\Europiyum.Web.RutenyumSolutions.csproj", "{387AAB2A-D79E-4DF0-8BFE-A3E53915A11B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Europiyum.Web.Evropiyum", "src\Europiyum.Web.Evropiyum\Europiyum.Web.Evropiyum.csproj", "{0E599299-292E-4176-9B38-2067B521929F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{387AAB2A-D79E-4DF0-8BFE-A3E53915A11B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{387AAB2A-D79E-4DF0-8BFE-A3E53915A11B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{387AAB2A-D79E-4DF0-8BFE-A3E53915A11B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E599299-292E-4176-9B38-2067B521929F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E599299-292E-4176-9B38-2067B521929F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E599299-292E-4176-9B38-2067B521929F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E599299-292E-4176-9B38-2067B521929F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BAD2F421-1D42-4190-B663-C3BBF96956E6} = {A45BD0EE-D26C-4D7F-BC28-B451C27EEF92}
@@ -79,5 +85,6 @@ Global
 		{8CC0C5D1-6C57-451F-8A72-39112308EC02} = {A45BD0EE-D26C-4D7F-BC28-B451C27EEF92}
 		{51FA74BC-905F-4538-96A2-47E7A426DAC4} = {A45BD0EE-D26C-4D7F-BC28-B451C27EEF92}
 		{387AAB2A-D79E-4DF0-8BFE-A3E53915A11B} = {A45BD0EE-D26C-4D7F-BC28-B451C27EEF92}
+		{0E599299-292E-4176-9B38-2067B521929F} = {A45BD0EE-D26C-4D7F-BC28-B451C27EEF92}
 	EndGlobalSection
 EndGlobal

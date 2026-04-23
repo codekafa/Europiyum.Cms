@@ -1,10 +1,12 @@
 using System.Text.RegularExpressions;
 using Europiyum.Cms.Application.Admin;
+using Europiyum.Cms.Application.Configuration;
 using Europiyum.Cms.Application.Public.Models;
 using Europiyum.Cms.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Europiyum.Cms.Application.Services;
 
@@ -12,21 +14,25 @@ public class PublicAppearanceService : IPublicAppearanceService
 {
     private static readonly Regex SafeRelativeStaticPathRegex = new("^[a-zA-Z0-9_./-]+$", RegexOptions.Compiled);
     private static readonly Regex SafeMediaPathRegex = new("^/media/[a-zA-Z0-9_./-]+$", RegexOptions.Compiled);
+    private static readonly Regex SafeAbsoluteHttpUrlRegex = new("^https?://[a-zA-Z0-9._~:/?#\\[\\]@!$&'()*+,;=%-]+$", RegexOptions.Compiled);
 
     private const string StratifyRoot = "/_content/Europiyum.Web.Stratify/stratify/";
 
     private readonly CmsDbContext _db;
     private readonly IMemoryCache _cache;
     private readonly ILogger<PublicAppearanceService> _logger;
+    private readonly CompanySiteOptions _siteOptions;
 
     public PublicAppearanceService(
         CmsDbContext db,
         IMemoryCache cache,
-        ILogger<PublicAppearanceService> logger)
+        ILogger<PublicAppearanceService> logger,
+        IOptions<CompanySiteOptions> siteOptions)
     {
         _db = db;
         _cache = cache;
         _logger = logger;
+        _siteOptions = siteOptions.Value;
     }
 
     public async Task<PublicAppearanceSnapshot> GetSnapshotAsync(string companyCode, CancellationToken cancellationToken = default)
@@ -79,14 +85,14 @@ public class PublicAppearanceService : IPublicAppearanceService
 
         return new PublicAppearanceSnapshot
         {
-            FaviconHref = ResolveAssetHref(favRaw, "images/favicon.png"),
-            FooterLogoHref = ResolveAssetHref(footRaw, "images/logo/logo-light.png"),
-            HeaderLogoMainHref = ResolveAssetHref(headerMainRaw, "images/logo/logo.png"),
-            HeaderLogoLightHref = ResolveAssetHref(headerLightRaw, "images/logo/logo-light.png"),
-            HeaderLogoBlackHref = ResolveAssetHref(headerBlackRaw, "images/logo/logo-black.png"),
+            FaviconHref = ResolveAssetHref(favRaw, "images/favicon.png", _siteOptions.MediaBaseUrl),
+            FooterLogoHref = ResolveAssetHref(footRaw, "images/logo/logo-light.png", _siteOptions.MediaBaseUrl),
+            HeaderLogoMainHref = ResolveAssetHref(headerMainRaw, "images/logo/logo.png", _siteOptions.MediaBaseUrl),
+            HeaderLogoLightHref = ResolveAssetHref(headerLightRaw, "images/logo/logo-light.png", _siteOptions.MediaBaseUrl),
+            HeaderLogoBlackHref = ResolveAssetHref(headerBlackRaw, "images/logo/logo-black.png", _siteOptions.MediaBaseUrl),
             OffcanvasLogoHref = string.IsNullOrWhiteSpace(offcanvasPathRaw)
-                ? ResolveAssetHref(offcanvasStratifyRel, "images/logo/logo-light.png")
-                : ResolveAssetHref(offcanvasPathRaw, "images/logo/logo-light.png"),
+                ? ResolveAssetHref(offcanvasStratifyRel, "images/logo/logo-light.png", _siteOptions.MediaBaseUrl)
+                : ResolveAssetHref(offcanvasPathRaw, "images/logo/logo-light.png", _siteOptions.MediaBaseUrl),
             FooterIntroHtml = NullIfEmpty(rows, SiteSettingKeys.FooterIntroHtml),
             FooterBodyHtml = NullIfEmpty(rows, SiteSettingKeys.FooterBodyHtml),
             FooterCopyrightHtml = NullIfEmpty(rows, SiteSettingKeys.FooterCopyrightHtml),
@@ -115,20 +121,50 @@ public class PublicAppearanceService : IPublicAppearanceService
     /// <summary>
     /// Tema göreli yol, örn. <c>images/logo.png</c>, veya <c>/media/şirket/dosya.png</c>.
     /// </summary>
-    private static string ResolveAssetHref(string? raw, string defaultStratifyRelative)
+    private static string ResolveAssetHref(string? raw, string defaultStratifyRelative, string? mediaBaseUrl)
     {
         if (string.IsNullOrWhiteSpace(raw))
             return StratifyRoot + defaultStratifyRelative.TrimStart('/');
 
         var s = raw.Trim().Replace('\\', '/');
-        if (s.Contains("..", StringComparison.Ordinal) || s.Contains("://", StringComparison.Ordinal))
+        if (s.Contains("..", StringComparison.Ordinal))
             return StratifyRoot + defaultStratifyRelative.TrimStart('/');
 
+        if (s.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+            || s.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            return SafeAbsoluteHttpUrlRegex.IsMatch(s)
+                ? s
+                : StratifyRoot + defaultStratifyRelative.TrimStart('/');
+        }
+
         if (s.StartsWith("/media/", StringComparison.Ordinal))
-            return SafeMediaPathRegex.IsMatch(s) && s.Length <= 512 ? s : StratifyRoot + defaultStratifyRelative.TrimStart('/');
+        {
+            if (!SafeMediaPathRegex.IsMatch(s) || s.Length > 512)
+                return StratifyRoot + defaultStratifyRelative.TrimStart('/');
+
+            var baseUrl = NormalizeBaseUrl(mediaBaseUrl);
+            return baseUrl is null ? s : baseUrl + s;
+        }
 
         var rel = SanitizeStaticPath(s, defaultStratifyRelative);
         return StratifyRoot + rel;
+    }
+
+    private static string? NormalizeBaseUrl(string? mediaBaseUrl)
+    {
+        if (string.IsNullOrWhiteSpace(mediaBaseUrl))
+            return null;
+
+        var raw = mediaBaseUrl.Trim().TrimEnd('/');
+        if (!Uri.TryCreate(raw, UriKind.Absolute, out var uri))
+            return null;
+
+        if (!string.Equals(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(uri.Scheme, "https", StringComparison.OrdinalIgnoreCase))
+            return null;
+
+        return uri.GetLeftPart(UriPartial.Authority);
     }
 
     private static string SanitizeStaticPath(string path, string fallback)

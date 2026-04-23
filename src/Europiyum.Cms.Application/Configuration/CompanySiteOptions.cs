@@ -18,4 +18,10 @@ public class CompanySiteOptions
 
     /// <summary>Breadcrumb ve iç sayfa şeridinde ana sayfa link metni.</summary>
     public string BreadcrumbHomeLabel { get; set; } = "Anasayfa";
+
+    /// <summary>
+    /// CMS veya CDN kökü; /media/... yolları bu alanla absolute URL'ye çevrilir.
+    /// Örn: https://cms.ornek.com
+    /// </summary>
+    public string? MediaBaseUrl { get; set; }
 }

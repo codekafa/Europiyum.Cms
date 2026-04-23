@@ -73,7 +73,7 @@ services:
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      CompanySite__CompanyCode: ${RUTENYUM_COMPANY_CODE:-rutenyum}
+      CompanySite__CompanyCode: ${RUTENYUM_COMPANY_CODE:-rutenyumsolutions}
       ConnectionStrings__CmsDatabase: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
       ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
     ports:
@@ -118,3 +118,23 @@ services:
       ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "${VERAOTOMOTIV_PORT:-5204}:8080"
+
+  web-evropiyum:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PROJECT_PATH: src/Europiyum.Web.Evropiyum/Europiyum.Web.Evropiyum.csproj
+        PROJECT_DLL: Europiyum.Web.Evropiyum.dll
+    container_name: web-evropiyum
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      CompanySite__CompanyCode: ${EVROPIYUM_COMPANY_CODE:-evropiyum}
+      ConnectionStrings__CmsDatabase: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "${EVROPIYUM_PORT:-5205}:8080"

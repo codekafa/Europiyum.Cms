@@ -12,13 +12,18 @@ namespace Europiyum.Cms.Application.Services;
 public class PublicContentService : IPublicContentService
 {
     private static readonly Regex SafeRelativeStaticPathRegex = new("^[a-zA-Z0-9_./-]+$", RegexOptions.Compiled);
+    private static readonly Regex HeaderBlockRegex = new("<header\\b[\\s\\S]*?</header>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex FooterBlockRegex = new("<footer\\b[\\s\\S]*?</footer>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex OffcanvasBlockRegex = new("<div\\b[^>]*(id\\s*=\\s*['\\\"]menubar['\\\"]|class\\s*=\\s*['\\\"][^'\\\"]*sidebar-area[^'\\\"]*offcanvas[^'\\\"]*['\\\"])[^>]*>[\\s\\S]*?</div>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     private readonly CmsDbContext _db;
+    private readonly IPublicAppearanceService _appearance;
     private readonly ILogger<PublicContentService> _logger;
 
-    public PublicContentService(CmsDbContext db, ILogger<PublicContentService> logger)
+    public PublicContentService(CmsDbContext db, IPublicAppearanceService appearance, ILogger<PublicContentService> logger)
     {
         _db = db;
+        _appearance = appearance;
         _logger = logger;
     }
 
@@ -32,6 +37,7 @@ public class PublicContentService : IPublicContentService
         }
 
         var (company, language, langCode) = resolved;
+        var appearance = await _appearance.GetSnapshotAsync(company.Code, cancellationToken);
 
         var heroRow = await _db.HomePageSections.AsNoTracking()
             .Where(s => s.CompanyId == company.Id && s.SectionKey == "hero" && s.IsActive)
@@ -80,7 +86,9 @@ public class PublicContentService : IPublicContentService
             LanguageCode = langCode,
             HeroTitle = title ?? company.Name,
             HeroSubtitle = subtitle,
-            HeroBodyHtml = string.IsNullOrWhiteSpace(heroBody) ? null : heroBody.Trim()
+            HeroBodyHtml = string.IsNullOrWhiteSpace(heroBody)
+                ? null
+                : NormalizeThemeLogosInHtml(heroBody.Trim(), appearance)
         };
 
         var homePageId = await _db.Pages.AsNoTracking()
@@ -146,7 +154,11 @@ public class PublicContentService : IPublicContentService
             if (string.IsNullOrWhiteSpace(html))
                 continue;
 
-            blocks.Add(new PublicHomeSectionBlock { SectionKey = s.SectionKey, BodyHtml = html });
+            blocks.Add(new PublicHomeSectionBlock
+            {
+                SectionKey = s.SectionKey,
+                BodyHtml = NormalizeThemeLogosInHtml(html, appearance)
+            });
         }
 
         if (homePageId is not null)
@@ -176,7 +188,11 @@ public class PublicContentService : IPublicContentService
                 if (string.IsNullOrWhiteSpace(typeKey))
                     typeKey = "component";
 
-                blocks.Add(new PublicHomeSectionBlock { SectionKey = typeKey, BodyHtml = html });
+                blocks.Add(new PublicHomeSectionBlock
+                {
+                    SectionKey = typeKey,
+                    BodyHtml = NormalizeThemeLogosInHtml(html, appearance)
+                });
             }
         }
 
@@ -202,6 +218,7 @@ public class PublicContentService : IPublicContentService
         }
 
         var (company, language, langCode) = resolved;
+        var appearance = await _appearance.GetSnapshotAsync(company.Code, cancellationToken);
         var slugNorm = slug.Trim();
 
         var pageId = await _db.Pages.AsNoTracking()
@@ -260,7 +277,9 @@ public class PublicContentService : IPublicContentService
             CompanyName = company.Name,
             LanguageCode = langCode,
             Title = tr?.Title ?? page.Slug,
-            HtmlContent = tr?.HtmlContent,
+            HtmlContent = string.IsNullOrWhiteSpace(tr?.HtmlContent)
+                ? tr?.HtmlContent
+                : NormalizeThemeLogosInHtml(tr!.HtmlContent!, appearance),
             MetaTitle = seo?.MetaTitle,
             MetaDescription = seo?.MetaDescription,
             MetaKeywords = seo?.MetaKeywords,
@@ -343,5 +362,44 @@ public class PublicContentService : IPublicContentService
         return translations.FirstOrDefault(t => t.LanguageId == languageId)
             ?? translations.FirstOrDefault(t => t.LanguageId == defaultLanguageId)
             ?? translations.FirstOrDefault();
+    }
+
+    private static string NormalizeThemeLogosInHtml(string html, PublicAppearanceSnapshot appearance)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return html;
+
+        var result = html;
+
+        // First, normalize exact theme logo file variants globally.
+        result = ReplaceThemeLogoPath(result, "images/logo/logo.png", appearance.HeaderLogoMainHref);
+        result = ReplaceThemeLogoPath(result, "images/logo/logo-black.png", appearance.HeaderLogoBlackHref);
+
+        // Then apply context-specific replacements for "logo-light.png".
+        result = ReplaceLogoInBlocks(result, FooterBlockRegex, appearance.FooterLogoHref);
+        result = ReplaceLogoInBlocks(result, OffcanvasBlockRegex, appearance.OffcanvasLogoHref);
+        result = ReplaceLogoInBlocks(result, HeaderBlockRegex, appearance.HeaderLogoLightHref);
+
+        // Fallback for remaining light-logo references.
+        result = ReplaceThemeLogoPath(result, "images/logo/logo-light.png", appearance.HeaderLogoLightHref);
+        return result;
+    }
+
+    private static string ReplaceLogoInBlocks(string html, Regex blockRegex, string targetLogoUrl) =>
+        blockRegex.Replace(html, m => ReplaceThemeLogoPath(m.Value, "images/logo/logo-light.png", targetLogoUrl));
+
+    private static string ReplaceThemeLogoPath(string html, string themeRelativePath, string targetUrl)
+    {
+        if (string.IsNullOrWhiteSpace(html) || string.IsNullOrWhiteSpace(targetUrl))
+            return html;
+
+        var normalizedTarget = targetUrl.Trim();
+        var normalizedTheme = themeRelativePath.Replace('\\', '/').TrimStart('/');
+        var themeWithContentPrefix = "/_content/Europiyum.Web.Stratify/stratify/" + normalizedTheme;
+
+        return html
+            .Replace(themeWithContentPrefix, normalizedTarget, StringComparison.OrdinalIgnoreCase)
+            .Replace("/" + normalizedTheme, normalizedTarget, StringComparison.OrdinalIgnoreCase)
+            .Replace(normalizedTheme, normalizedTarget, StringComparison.OrdinalIgnoreCase);
     }
 }

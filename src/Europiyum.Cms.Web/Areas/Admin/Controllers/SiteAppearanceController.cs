@@ -99,7 +99,10 @@ public class SiteAppearanceController : Controller
                 file.Length,
                 cancellationToken);
             if (res.Ok && url is not null)
-                setStoredPath(url);
+            {
+                var absolute = $"{Request.Scheme}://{Request.Host}{url}";
+                setStoredPath(absolute);
+            }
         }
 
         await TryApplyUploadAsync(uploadHeaderMain, v => vm.BrandingHeaderLogoMainPath = v);
