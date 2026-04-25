@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Deployment/local sensitive configuration
+.env
+.env.*
+docker-compose.yml
+docker-compose.*.yml
+src/**/appsettings.json
+src/**/appsettings.Development.json
