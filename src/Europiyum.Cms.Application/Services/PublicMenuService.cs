@@ -42,6 +42,16 @@ public class PublicMenuService : IPublicMenuService
         }
 
         var (company, language, langCode) = resolved;
+        var langs = await _db.CompanyLanguages.AsNoTracking()
+            .Where(cl => cl.CompanyId == company.Id && cl.IsEnabled)
+            .OrderBy(cl => cl.DisplayOrder)
+            .ThenBy(cl => cl.Language.Code)
+            .Select(cl => new PublicLanguageOptionVm
+            {
+                Code = cl.Language.Code,
+                Label = string.IsNullOrWhiteSpace(cl.Language.Name) ? cl.Language.Code.ToUpperInvariant() : cl.Language.Name
+            })
+            .ToListAsync(cancellationToken);
 
         var menuId = await _db.Menus.AsNoTracking()
             .Where(m => m.CompanyId == company.Id && m.Kind == MenuKind.Header)
@@ -55,7 +65,8 @@ public class PublicMenuService : IPublicMenuService
             {
                 SiteTitle = siteTitle,
                 LanguageCode = langCode,
-                NavLinks = Array.Empty<PublicNavLinkVm>()
+                NavLinks = Array.Empty<PublicNavLinkVm>(),
+                LanguageOptions = langs
             };
         }
 
@@ -85,7 +96,8 @@ public class PublicMenuService : IPublicMenuService
         {
             SiteTitle = siteTitle,
             LanguageCode = langCode,
-            NavLinks = nav
+            NavLinks = nav,
+            LanguageOptions = langs
         };
     }
 

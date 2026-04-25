@@ -63,9 +63,24 @@ else if (Model.HeaderTopBar == StratifyHeaderTopBarMode.Compact)
                         </ul>
                     </nav>
                     <div class="menu-btns">
-                        <button class="search-trigger d-none d-lg-block" type="button" aria-label="Ara">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
+                        @if (Model.LanguageOptions.Count > 1)
+                        {
+                            <div class="header-lang d-none d-lg-block">
+                                <select class="form-select form-select-sm" aria-label="Dil seçimi" onchange="if(this.value){window.location.href=this.value;}">
+                                    @foreach (var lang in Model.LanguageOptions)
+                                    {
+                                        if (lang.IsCurrent)
+                                        {
+                                            <option value="@lang.Href" selected>@lang.Label</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@lang.Href">@lang.Label</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
                         <button class="menubars" type="button" data-bs-toggle="offcanvas" data-bs-target="#menubar" aria-controls="menubar">
                             <span></span>
                             <span></span>
@@ -116,9 +131,24 @@ else
                         </ul>
                     </nav>
                     <div class="menu-btns light">
-                        <button class="search-trigger d-none d-lg-block" type="button" aria-label="Ara">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
+                        @if (Model.LanguageOptions.Count > 1)
+                        {
+                            <div class="header-lang d-none d-lg-block">
+                                <select class="form-select form-select-sm" aria-label="Dil seçimi" onchange="if(this.value){window.location.href=this.value;}">
+                                    @foreach (var lang in Model.LanguageOptions)
+                                    {
+                                        if (lang.IsCurrent)
+                                        {
+                                            <option value="@lang.Href" selected>@lang.Label</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@lang.Href">@lang.Label</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
                         <button class="menubars menubars-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#menubar" aria-controls="menubar">
                             <span></span>
                             <span></span>

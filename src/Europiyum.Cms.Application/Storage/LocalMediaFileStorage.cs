@@ -1,11 +1,14 @@
 using Europiyum.Cms.Application.Abstractions;
+using Europiyum.Cms.Application.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace Europiyum.Cms.Application.Storage;
 
 public class LocalMediaFileStorage : IMediaFileStorage
 {
     private readonly IWebHostEnvironment _env;
+    private readonly MediaStorageOptions _options;
     private static readonly HashSet<string> AllowedExt = new(StringComparer.OrdinalIgnoreCase)
     {
         ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".pdf"
@@ -13,7 +16,11 @@ public class LocalMediaFileStorage : IMediaFileStorage
 
     private const long MaxBytes = 12L * 1024 * 1024;
 
-    public LocalMediaFileStorage(IWebHostEnvironment env) => _env = env;
+    public LocalMediaFileStorage(IWebHostEnvironment env, IOptions<MediaStorageOptions> options)
+    {
+        _env = env;
+        _options = options.Value;
+    }
 
     public async Task<MediaStorageResult> WriteAsync(
         string companyCode,
@@ -43,7 +50,8 @@ public class LocalMediaFileStorage : IMediaFileStorage
         var month = now.Month.ToString("D2");
         var relative = $"{safeCompany}/{year}/{month}/{stored}".Replace('\\', '/');
 
-        var dir = Path.Combine(_env.WebRootPath, "media", safeCompany, year, month);
+        var mediaRoot = ResolveMediaRoot();
+        var dir = Path.Combine(mediaRoot, safeCompany, year, month);
         Directory.CreateDirectory(dir);
         var fullPath = Path.Combine(dir, stored);
 
@@ -62,7 +70,7 @@ public class LocalMediaFileStorage : IMediaFileStorage
             return;
 
         var parts = relativePathUnderMedia.Replace('/', Path.DirectorySeparatorChar);
-        var full = Path.Combine(_env.WebRootPath, "media", parts);
+        var full = Path.Combine(ResolveMediaRoot(), parts);
         try
         {
             if (File.Exists(full))
@@ -72,5 +80,17 @@ public class LocalMediaFileStorage : IMediaFileStorage
         {
             /* ignore IO cleanup failures */
         }
+    }
+
+    private string ResolveMediaRoot()
+    {
+        var configured = _options.RootPath?.Trim();
+        if (string.IsNullOrWhiteSpace(configured))
+            return Path.Combine(_env.WebRootPath, "media");
+
+        if (Path.IsPathRooted(configured))
+            return configured;
+
+        return Path.GetFullPath(Path.Combine(_env.ContentRootPath, configured));
     }
 }

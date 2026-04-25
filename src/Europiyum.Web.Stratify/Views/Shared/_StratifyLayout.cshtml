@@ -53,6 +53,10 @@
     <main>
         @RenderBody()
     </main>
+    @await Component.InvokeAsync("SiteFooter", new {
+        title = ViewData["SiteTitle"] as string ?? ViewData["Title"] as string,
+        languageCode = ViewData["LanguageCode"] as string
+    })
     <script src="@content/js/jquery-3.7.1.min.js" asp-append-version="true"></script>
     <script src="@content/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="@content/js/meanmenu.js" asp-append-version="true"></script>

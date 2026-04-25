@@ -27,6 +27,19 @@ public class SiteHeaderViewModel
     public string? HeaderLogoLightSrc { get; set; }
 
     public string? HeaderLogoBlackSrc { get; set; }
+
+    public IReadOnlyList<PublicLanguageOptionVm> LanguageOptions { get; set; } = Array.Empty<PublicLanguageOptionVm>();
+}
+
+public class PublicLanguageOptionVm
+{
+    public string Code { get; set; } = "tr";
+
+    public string Label { get; set; } = "TR";
+
+    public string Href { get; set; } = "/";
+
+    public bool IsCurrent { get; set; }
 }
 
 public class PublicNavLinkVm

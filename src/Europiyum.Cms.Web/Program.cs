@@ -6,11 +6,14 @@ using Europiyum.Cms.Infrastructure;
 using Europiyum.Cms.Infrastructure.Persistence;
 using Europiyum.Cms.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<AdminAuthOptions>(builder.Configuration.GetSection(AdminAuthOptions.SectionName));
+builder.Services.Configure<MediaStorageOptions>(builder.Configuration.GetSection(MediaStorageOptions.SectionName));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {
@@ -45,6 +48,20 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+var mediaStorageOptions = app.Services.GetRequiredService<IOptions<MediaStorageOptions>>().Value;
+var mediaRequestPath = string.IsNullOrWhiteSpace(mediaStorageOptions.RequestPath) ? "/media" : mediaStorageOptions.RequestPath.Trim();
+if (!mediaRequestPath.StartsWith('/'))
+    mediaRequestPath = "/" + mediaRequestPath;
+
+var mediaRoot = ResolveMediaRootPath(app.Environment, mediaStorageOptions);
+Directory.CreateDirectory(mediaRoot);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(mediaRoot),
+    RequestPath = mediaRequestPath
+});
+
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
@@ -68,3 +85,15 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+static string ResolveMediaRootPath(IWebHostEnvironment env, MediaStorageOptions options)
+{
+    var configured = options.RootPath?.Trim();
+    if (string.IsNullOrWhiteSpace(configured))
+        return Path.Combine(env.WebRootPath, "media");
+
+    if (Path.IsPathRooted(configured))
+        return configured;
+
+    return Path.GetFullPath(Path.Combine(env.ContentRootPath, configured));
+}

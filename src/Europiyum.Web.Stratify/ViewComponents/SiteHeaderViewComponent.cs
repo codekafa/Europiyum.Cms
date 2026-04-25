@@ -2,6 +2,7 @@ using Europiyum.Cms.Application.Configuration;
 using Europiyum.Cms.Application.Public.Models;
 using Europiyum.Cms.Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
 namespace Europiyum.Web.Stratify.ViewComponents;
@@ -54,6 +55,7 @@ public class SiteHeaderViewComponent : ViewComponent
         vm.Layout = string.Equals(layoutKey, "inner", StringComparison.OrdinalIgnoreCase)
             ? StratifyHeaderLayoutMode.Inner
             : StratifyHeaderLayoutMode.Home;
+        PopulateLanguageLinks(vm);
 
         return View("Default", vm);
     }
@@ -72,4 +74,57 @@ public class SiteHeaderViewComponent : ViewComponent
             "compact" => StratifyHeaderTopBarMode.Compact,
             _ => StratifyHeaderTopBarMode.None
         };
+
+    private void PopulateLanguageLinks(SiteHeaderViewModel vm)
+    {
+        if (vm.LanguageOptions.Count == 0)
+            return;
+
+        var request = ViewContext.HttpContext.Request;
+        var queryDict = request.Query.ToDictionary(kv => kv.Key, kv => (string?)kv.Value.ToString(), StringComparer.OrdinalIgnoreCase);
+        queryDict.Remove("culture");
+
+        var path = request.Path.Value ?? "/";
+        var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries).ToList();
+        var hasCultureSegment = segments.Count > 0 && IsCultureSegment(segments[0]);
+
+        var rewritten = new List<PublicLanguageOptionVm>(vm.LanguageOptions.Count);
+        foreach (var lang in vm.LanguageOptions)
+        {
+            var c = (lang.Code ?? "tr").Trim();
+            if (string.IsNullOrWhiteSpace(c))
+                c = "tr";
+
+            var seg = new List<string>(segments);
+            if (hasCultureSegment)
+                seg[0] = c;
+            else
+                seg.Insert(0, c);
+
+            var localizedPath = "/" + string.Join('/', seg.Select(Uri.EscapeDataString));
+            var href = QueryHelpers.AddQueryString(localizedPath, queryDict);
+            rewritten.Add(new PublicLanguageOptionVm
+            {
+                Code = c,
+                Label = string.IsNullOrWhiteSpace(lang.Label) ? c.ToUpperInvariant() : lang.Label,
+                Href = href,
+                IsCurrent = string.Equals(c, vm.LanguageCode, StringComparison.OrdinalIgnoreCase)
+            });
+        }
+
+        vm.LanguageOptions = rewritten;
+    }
+
+    private static bool IsCultureSegment(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        var v = value.Trim();
+        if (v.Length == 2)
+            return char.IsLetter(v[0]) && char.IsLetter(v[1]);
+        if (v.Length == 5 && v[2] == '-')
+            return char.IsLetter(v[0]) && char.IsLetter(v[1]) && char.IsLetter(v[3]) && char.IsLetter(v[4]);
+        return false;
+    }
 }

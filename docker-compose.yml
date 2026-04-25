@@ -10,7 +10,7 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - /root/cms/data/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-evropiyum}"]
       interval: 10s
@@ -31,6 +31,8 @@ services:
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      MediaStorage__RequestPath: /media
+      MediaStorage__RootPath: ${MEDIA_STORAGE_PATH:-/media-storage}
       ConnectionStrings__CmsDatabase: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
       ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${POSTGRES_DB:-evropiyum};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
       AdminAuth__Users__0__Username: ${ADMIN_USERNAME:-admin}
@@ -38,6 +40,8 @@ services:
       AdminAuth__Users__0__DisplayName: ${ADMIN_DISPLAY_NAME:-Evropiyum Admin}
     ports:
       - "${CMS_ADMIN_PORT:-5093}:8080"
+    volumes:
+      - /root/cms/data/media:${MEDIA_STORAGE_PATH:-/media-storage}
 
   web-partexo:
     build:

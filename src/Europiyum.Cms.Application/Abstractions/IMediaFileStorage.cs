@@ -2,7 +2,7 @@ namespace Europiyum.Cms.Application.Abstractions;
 
 public interface IMediaFileStorage
 {
-    /// <summary>Writes under wwwroot/media/ and returns path segments after media/.</summary>
+    /// <summary>Writes under configured media root and returns path segments after media request root.</summary>
     Task<MediaStorageResult> WriteAsync(
         string companyCode,
         Stream stream,
@@ -11,7 +11,7 @@ public interface IMediaFileStorage
         long contentLength,
         CancellationToken cancellationToken = default);
 
-    /// <summary>Deletes file under wwwroot/media/ if it exists.</summary>
+    /// <summary>Deletes file under configured media root if it exists.</summary>
     void TryDeletePhysical(string relativePathUnderMedia);
 }
 

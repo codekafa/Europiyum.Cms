@@ -36,15 +36,15 @@ public class MediaController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
+    public async Task<IActionResult> Upload(List<IFormFile> files, CancellationToken cancellationToken)
     {
         var companyId = _workspace.SelectedCompanyId;
         if (companyId is null)
             return RedirectToAction(nameof(Index));
 
-        if (file is null || file.Length == 0)
+        if (files is null || files.Count == 0)
         {
-            TempData["Error"] = "Dosya seçin.";
+            TempData["Error"] = "En az bir dosya seçin.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -55,20 +55,32 @@ public class MediaController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        await using var stream = file.OpenReadStream();
-        var result = await _media.TryUploadAsync(
-            companyId.Value,
-            company.Code,
-            stream,
-            file.FileName,
-            file.ContentType,
-            file.Length,
-            cancellationToken);
+        var uploaded = 0;
+        var failures = new List<string>();
+        foreach (var file in files.Where(f => f is not null && f.Length > 0))
+        {
+            await using var stream = file.OpenReadStream();
+            var result = await _media.TryUploadAsync(
+                companyId.Value,
+                company.Code,
+                stream,
+                file.FileName,
+                file.ContentType,
+                file.Length,
+                cancellationToken);
 
-        if (!result.Ok)
-            TempData["Error"] = result.Error;
+            if (!result.Ok)
+                failures.Add($"{file.FileName}: {result.Error}");
+            else
+                uploaded++;
+        }
+
+        if (uploaded == 0)
+            TempData["Error"] = failures.Count > 0 ? string.Join(" | ", failures) : "Yüklenebilir dosya bulunamadı.";
+        else if (failures.Count > 0)
+            TempData["Toast"] = $"{uploaded} dosya yüklendi. Hata: {string.Join(" | ", failures)}";
         else
-            TempData["Toast"] = "Dosya yüklendi.";
+            TempData["Toast"] = $"{uploaded} dosya yüklendi.";
 
         return RedirectToAction(nameof(Index));
     }
