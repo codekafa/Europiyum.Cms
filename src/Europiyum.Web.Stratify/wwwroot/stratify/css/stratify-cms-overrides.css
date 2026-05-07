@@ -39,3 +39,85 @@
 .menu-btns .header-lang .form-select option {
   color: #111;
 }
+
+/* Form gönderim sonucu için global toast (TempData["FormOk"] / TempData["FormError"]) */
+.cms-form-toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: min(420px, calc(100% - 32px));
+  pointer-events: none;
+}
+
+.cms-form-toast {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 38px 14px 14px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  animation: cms-toast-in 0.25s ease-out both, cms-toast-out 0.45s ease-in 6s both;
+  color: #fff;
+  background: #198754;
+}
+
+.cms-form-toast--err {
+  background: #d93838;
+}
+
+.cms-form-toast__icon {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.cms-form-toast__msg {
+  flex: 1;
+  word-break: break-word;
+}
+
+.cms-form-toast__close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+.cms-form-toast__close:hover {
+  color: #fff;
+}
+
+@keyframes cms-toast-in {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cms-toast-out {
+  to {
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+  }
+}

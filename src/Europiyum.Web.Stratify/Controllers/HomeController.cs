@@ -41,7 +41,43 @@ public class HomeController : Controller
         ViewData["CanonicalUrl"] = vm.CanonicalUrl;
         ViewData["Robots"] = vm.Robots;
 
+        ApplyHomeAntiforgeryTokens(vm);
+
         return View(vm.RazorViewName, vm);
+    }
+
+    private void ApplyHomeAntiforgeryTokens(PublicHomeViewModel vm)
+    {
+        var heroNeeds = !string.IsNullOrEmpty(vm.HeroBodyHtml)
+            && (vm.HeroBodyHtml.Contains(CmsPageHtmlTokens.AntiforgeryRequestToken, StringComparison.Ordinal)
+                || vm.HeroBodyHtml.Contains(CmsPageHtmlTokens.LanguageCode, StringComparison.Ordinal));
+        var sectionNeeds = vm.Sections.Any(s =>
+            !string.IsNullOrEmpty(s.BodyHtml)
+            && (s.BodyHtml.Contains(CmsPageHtmlTokens.AntiforgeryRequestToken, StringComparison.Ordinal)
+                || s.BodyHtml.Contains(CmsPageHtmlTokens.LanguageCode, StringComparison.Ordinal)));
+        if (!heroNeeds && !sectionNeeds)
+            return;
+
+        var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+        var token = tokens.RequestToken ?? string.Empty;
+        var lang = (vm.LanguageCode ?? "tr").Trim();
+
+        string Replace(string html) => html
+            .Replace(CmsPageHtmlTokens.AntiforgeryRequestToken, token, StringComparison.Ordinal)
+            .Replace(CmsPageHtmlTokens.LanguageCode, lang, StringComparison.Ordinal);
+
+        if (heroNeeds)
+            vm.HeroBodyHtml = Replace(vm.HeroBodyHtml!);
+
+        if (sectionNeeds)
+        {
+            foreach (var s in vm.Sections)
+            {
+                if (string.IsNullOrEmpty(s.BodyHtml))
+                    continue;
+                s.BodyHtml = Replace(s.BodyHtml);
+            }
+        }
     }
 
     /// <summary>SEO URL: /{culture}/{slug} (ör. /tr/hakkimizda).</summary>

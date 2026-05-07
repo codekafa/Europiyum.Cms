@@ -12,9 +12,18 @@ public class FormSubmissionConfiguration : IEntityTypeConfiguration<FormSubmissi
         b.HasKey(x => x.Id);
         b.Property(x => x.PayloadJson).IsRequired();
         b.Property(x => x.SubmitterIp).HasMaxLength(64);
+        b.Property(x => x.FormKey).HasMaxLength(100).IsRequired();
+
         b.HasOne(x => x.FormDefinition)
             .WithMany(x => x.Submissions)
             .HasForeignKey(x => x.FormDefinitionId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        b.HasOne(x => x.Company)
+            .WithMany(c => c.FormSubmissions)
+            .HasForeignKey(x => x.CompanyId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        b.HasIndex(x => new { x.CompanyId, x.FormKey });
     }
 }

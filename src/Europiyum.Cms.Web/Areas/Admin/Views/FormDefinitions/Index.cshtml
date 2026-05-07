@@ -2,24 +2,25 @@
 @{
     ViewData["Title"] = "Formlar";
     ViewData["Subtitle"] = "Sayfalara bağlanacak form tanımları";
-    ViewData["HelpIntro"] = "Form, alan anahtarları ve türleriyle tanımlanır; sayfa düzenlemede seçildiğinde sitede basılır veya sayfa HTML’inizde aynı anahtarlarla özel form yazabilirsiniz.";
+    ViewData["HelpIntro"] = "Form tanımı opsiyoneldir. Tanım yapmadan da herhangi bir HTML form, /dil/forms/FORM_ANAHTARI/submit adresine POST ettiğinde gelen tüm key/value alanları kaydedilir ve şirketin SMTP varsayılan alıcısına e-posta olarak gönderilir.";
     ViewData["HelpBullets"] = new[]
     {
-        "Gönderim adresi: /dil/forms/FORM_ANAHTARI/submit (CSRF ve honeypot için aşağıdaki ayrıntılara bakın).",
-        "E-posta özetleri: Form düzenlemede bildirim seçeneği + E-posta (SMTP) ekranı."
+        "Tanımsız akış: Honeypot + CSRF kontrolü çalışır; alanlar olduğu gibi kaydedilir, e-posta gövdesinde okunabilir biçimde listelenir.",
+        "Tanımlı akış: Alan tipi (e-posta, liste, radyo) ve zorunluluk doğrulanır; özel alıcılar (NotifyEmails) tanımlanabilir.",
+        "Gönderim adresi: /dil/forms/FORM_ANAHTARI/submit — alıcı önceliği: form NotifyEmails > şirket varsayılanı (E-posta SMTP > FormRecipientEmails)."
     };
 }
 <partial name="_AdminScreenHelp" />
 <div class="alert alert-light border small mb-3">
-    <p class="mb-2 fw-medium">Örnek akış</p>
+    <p class="mb-2 fw-medium">Hızlı kullanım</p>
     <ol class="mb-0 ps-3">
-        <li><strong>Formlar</strong> üzerinden <em>Yeni form</em> ile tanım oluşturun (görünen ad + URL anahtarı).</li>
-        <li><strong>Form düzenle</strong> ekranında alanları ekleyin (metin, e-posta, liste, radyo vb.). Liste ve radyo için seçenekleri satır satır yazın.</li>
-        <li><strong>Sayfalar → Düzenle</strong> içinde ilgili sayfaya bu formu bağlayın.</li>
-        <li>Ziyaretçi sayfayı açtığında form görünür; gönderim <code>/{dil}/forms/{anahtar}/submit</code> adresine POST ile kaydedilir (<code>form_submissions</code>).</li>
+        <li><strong>Tanımsız (önerilen):</strong> CMS HTML alanına kendi <code>&lt;form&gt;</code> etiketinizi yapıştırın. <code>action="/%%CMS_LANG%%/forms/<u>FORM_ANAHTARI</u>/submit"</code>, <code>method="post"</code>, ve <code>&lt;input type="hidden" name="__RequestVerificationToken" value="%%CMS_ANTIFORGERY_TOKEN%%" /&gt;</code> ekleyin. Tanım aramaz; gelen tüm <code>name="..."</code> alanları kaydedilip e-posta ile gönderilir.</li>
+        <li><strong>Tanımlı:</strong> Aynı <em>FORM_ANAHTARI</em> ile burada tanım açın, alan tipleri ve zorunlulukları belirleyin. Sayfa–form bağlantısıyla otomatik render alabilir veya yine kendi HTML'inizi yazabilirsiniz.</li>
     </ol>
-    <p class="mb-0 mt-2 text-secondary">Sayfa–form bağlantısı koparılırsa <code>FormDefinitionId</code> null olur; form silinirse gönderimler ve alanlar silinir (sayfa bağlantısı otomatik temizlenir).</p>
-    <p class="mb-0 mt-2"><strong>Özel HTML:</strong> Sayfa gövdesine kendi <code>&lt;form&gt;</code> etiketinizi yazabilirsiniz; <code>action="/%%CMS_LANG%%/forms/FORM_ANAHTARI/submit"</code>, <code>method="post"</code> ve gizli alan <code>&lt;input type="hidden" name="__RequestVerificationToken" value="%%CMS_ANTIFORGERY_TOKEN%%" /&gt;</code> kullanın. Alan <code>name</code> değerleri form tanımındaki alan anahtarlarıyla aynı olmalıdır (ör. <code>form_name</code>). İsteğe bağlı honeypot: boş bırakılan <code>form_botcheck</code>.</p>
+    <p class="mb-2 mt-2"><strong>Honeypot:</strong> Tema HTML'lerinde aşağıdaki gibi boş, görünmez bir alan bırakın — bot doldurursa istek reddedilir.</p>
+    <pre class="small mb-2 bg-light p-2 rounded border">&lt;input type="text" name="form_botcheck" value="" tabindex="-1" autocomplete="off" aria-hidden="true"
+       style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;" /&gt;</pre>
+    <p class="mb-0 text-secondary">Form silinirse gönderimler kalır (<code>FormDefinitionId</code> NULL'a çekilir, payload ve şirket bağı korunur).</p>
 </div>
 <div class="cms-card p-3 mb-3 d-flex flex-wrap gap-2 justify-content-between align-items-center">
     <span class="small text-secondary">@Model.Count form</span>
@@ -53,7 +54,7 @@
                         <td>@(r.IsActive ? "Evet" : "Hayır")</td>
                         <td class="text-end">
                             <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@r.Id">Düzenle</a>
-                            <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline" onsubmit="return confirm('Bu formu silmek istediğinize emin misiniz? Bağlı sayfalardaki form seçimi kaldırılır; gönderimler silinir.');">
+                            <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline" onsubmit="return confirm('Bu formu silmek istediğinize emin misiniz? Bağlı sayfalardaki form seçimi kaldırılır; gönderim kayıtları korunur (FormDefinition referansı boşaltılır).');">
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Sil</button>
                             </form>

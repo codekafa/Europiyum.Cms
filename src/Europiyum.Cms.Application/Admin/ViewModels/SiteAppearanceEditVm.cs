@@ -15,8 +15,11 @@ public class SiteAppearanceEditVm
     [Display(Name = "Telif / alt satır (HTML)")]
     public string? FooterCopyrightHtml { get; set; }
 
-    [Display(Name = "Tam footer HTML (doluysa diğer footer alanları ve menüler kullanılmaz)")]
+    [Display(Name = "Tam footer HTML — varsayılan / yedek (dil özel alan boşsa kullanılır)")]
     public string? FooterFullHtml { get; set; }
+
+    /// <summary>Dil bazlı tam footer HTML alanları (form binding için liste). Her satır bir aktif dil.</summary>
+    public List<FooterFullHtmlLanguageVm> FooterFullHtmlByLanguage { get; set; } = new();
 
     [Display(Name = "Offcanvas — mobil menü altı HTML")]
     public string? OffcanvasBelowMenuHtml { get; set; }
@@ -53,4 +56,16 @@ public class SiteAppearanceEditVm
 
     [Display(Name = "Özel CSS")]
     public string? CustomCss { get; set; }
+}
+
+public class FooterFullHtmlLanguageVm
+{
+    /// <summary>Dil ISO kodu (lowercase), ör. <c>tr</c>, <c>en</c>.</summary>
+    public string LanguageCode { get; set; } = string.Empty;
+
+    /// <summary>Görüntü için dil adı (ör. "Türkçe").</summary>
+    public string LanguageName { get; set; } = string.Empty;
+
+    /// <summary>Bu dile özel tam footer HTML; boş bırakılırsa varsayılan footer kullanılır.</summary>
+    public string? Html { get; set; }
 }

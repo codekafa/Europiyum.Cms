@@ -67,9 +67,9 @@
                         <td><code>@row.Code</code></td>
                         <td>
                             <input type="hidden" name="Rows[@i].LanguageId" value="@row.LanguageId" />
-                            <input type="hidden" name="Rows[@i].IsEnabled" value="false" />
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="Rows[@i].IsEnabled" value="true" checked="@row.IsEnabled" />
+                                <input type="hidden" name="Rows[@i].IsEnabled" value="false" />
                             </div>
                         </td>
                         <td>

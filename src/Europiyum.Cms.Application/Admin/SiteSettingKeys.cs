@@ -33,8 +33,18 @@ public static class SiteSettingKeys
     /// <summary>.mobile-menu sonrası offcanvas gövdesine basılan ham HTML (şablon: About + Contact blokları).</summary>
     public const string OffcanvasBelowMenuHtml = "offcanvas.below_menu_html";
 
-    /// <summary>Doluysa tüm footer bu HTML ile değiştirilir (menü sütunları kullanılmaz).</summary>
+    /// <summary>Doluysa tüm footer bu HTML ile değiştirilir (menü sütunları kullanılmaz). Dil bağımsız varsayılan; dil bazlı override için <see cref="FooterFullHtmlFor"/>.</summary>
     public const string FooterFullHtml = "footer.full_html";
+
+    /// <summary>Dil bazlı tam footer anahtar öneki, ör. <c>footer.full_html.tr</c>.</summary>
+    public const string FooterFullHtmlPrefix = "footer.full_html.";
+
+    /// <summary>Verilen dil koduna göre tam footer HTML anahtarı (ör. <c>footer.full_html.tr</c>).</summary>
+    public static string FooterFullHtmlFor(string? languageCode)
+    {
+        var c = (languageCode ?? string.Empty).Trim().ToLowerInvariant();
+        return string.IsNullOrEmpty(c) ? FooterFullHtml : FooterFullHtmlPrefix + c;
+    }
 
     public const string SiteContactEmail = "site.contact_email";
 

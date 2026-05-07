@@ -22,8 +22,12 @@ public class PublicAppearanceSnapshot
 
     public string? FooterCopyrightHtml { get; set; }
 
-    /// <summary>Doluysa footer bileşeni yalnızca bunu basar.</summary>
+    /// <summary>Doluysa footer bileşeni yalnızca bunu basar (dil bağımsız varsayılan).</summary>
     public string? FooterFullHtml { get; set; }
+
+    /// <summary>Dil koduna (lowercase) göre per-language tam footer HTML; dolu değilse <see cref="FooterFullHtml"/> fallback olarak kullanılır.</summary>
+    public IReadOnlyDictionary<string, string> FooterFullHtmlByLanguage { get; set; } =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
     public string? OffcanvasBelowMenuHtml { get; set; }
 

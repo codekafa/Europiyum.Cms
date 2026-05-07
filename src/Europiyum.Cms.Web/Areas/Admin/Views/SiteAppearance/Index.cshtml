@@ -76,10 +76,56 @@
 
         <h2 class="h6 text-body-secondary border-bottom pb-2 mb-3">Footer</h2>
         <div class="row g-3 mb-4">
-            <div class="col-12">
-                <label class="form-label" asp-for="FooterFullHtml"></label>
-                <textarea class="form-control font-monospace small" rows="12" asp-for="FooterFullHtml" placeholder="&lt;footer class=&quot;footer-area&quot;&gt;... veya yalnızca iç gövde"></textarea>
-            </div>
+            @if (Model.FooterFullHtmlByLanguage.Count > 0)
+            {
+                <div class="col-12">
+                    <label class="form-label fw-semibold mb-2">Dil bazlı tam footer HTML</label>
+                    <ul class="nav nav-tabs" role="tablist" id="footerFullHtmlTabs">
+                        @for (var li = 0; li < Model.FooterFullHtmlByLanguage.Count; li++)
+                        {
+                            var l = Model.FooterFullHtmlByLanguage[li];
+                            var tabId = $"footer-full-html-{l.LanguageCode}";
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link @(li == 0 ? "active" : "")" id="@(tabId)-tab" data-bs-toggle="tab" data-bs-target="#@tabId" type="button" role="tab" aria-controls="@tabId" aria-selected="@(li == 0 ? "true" : "false")">
+                                    @l.LanguageName <span class="text-secondary small">(@l.LanguageCode)</span>
+                                </button>
+                            </li>
+                        }
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="footer-full-html-default-tab" data-bs-toggle="tab" data-bs-target="#footer-full-html-default" type="button" role="tab" aria-controls="footer-full-html-default" aria-selected="false">
+                                Varsayılan / Yedek
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white">
+                        @for (var li = 0; li < Model.FooterFullHtmlByLanguage.Count; li++)
+                        {
+                            var l = Model.FooterFullHtmlByLanguage[li];
+                            var tabId = $"footer-full-html-{l.LanguageCode}";
+                            <div class="tab-pane fade @(li == 0 ? "show active" : "")" id="@tabId" role="tabpanel" aria-labelledby="@(tabId)-tab">
+                                <input type="hidden" asp-for="FooterFullHtmlByLanguage[li].LanguageCode" />
+                                <input type="hidden" asp-for="FooterFullHtmlByLanguage[li].LanguageName" />
+                                <label class="form-label small text-secondary">@l.LanguageName (@l.LanguageCode) için tam footer HTML</label>
+                                <textarea class="form-control font-monospace small" rows="12" asp-for="FooterFullHtmlByLanguage[li].Html" placeholder="&lt;footer class=&quot;footer-area&quot;&gt;... veya yalnızca iç gövde"></textarea>
+                                <div class="form-text">Dolduğunda yalnızca <strong>@l.LanguageCode</strong> dilinde bu HTML basılır; boşsa aşağıdaki varsayılan kullanılır.</div>
+                            </div>
+                        }
+                        <div class="tab-pane fade" id="footer-full-html-default" role="tabpanel" aria-labelledby="footer-full-html-default-tab">
+                            <label class="form-label small text-secondary" asp-for="FooterFullHtml"></label>
+                            <textarea class="form-control font-monospace small" rows="12" asp-for="FooterFullHtml" placeholder="&lt;footer class=&quot;footer-area&quot;&gt;... veya yalnızca iç gövde"></textarea>
+                            <div class="form-text">Dil özel alanı boş olan tüm dillerde bu HTML kullanılır. Tamamı boşsa aşağıdaki yapısal alanlar (giriş / gövde / telif) kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <label class="form-label" asp-for="FooterFullHtml"></label>
+                    <textarea class="form-control font-monospace small" rows="12" asp-for="FooterFullHtml" placeholder="&lt;footer class=&quot;footer-area&quot;&gt;... veya yalnızca iç gövde"></textarea>
+                    <div class="form-text">Şirkete önce dil ekleyip etkinleştirirseniz burada her dil için ayrı footer girebilirsiniz.</div>
+                </div>
+            }
             <div class="col-12">
                 <label class="form-label" asp-for="FooterIntroHtml"></label>
                 <textarea class="form-control font-monospace" rows="3" asp-for="FooterIntroHtml"></textarea>

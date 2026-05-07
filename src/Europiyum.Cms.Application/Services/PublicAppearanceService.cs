@@ -97,6 +97,7 @@ public class PublicAppearanceService : IPublicAppearanceService
             FooterBodyHtml = NullIfEmpty(rows, SiteSettingKeys.FooterBodyHtml),
             FooterCopyrightHtml = NullIfEmpty(rows, SiteSettingKeys.FooterCopyrightHtml),
             FooterFullHtml = NullIfEmpty(rows, SiteSettingKeys.FooterFullHtml),
+            FooterFullHtmlByLanguage = ExtractFooterFullHtmlByLanguage(rows),
             OffcanvasBelowMenuHtml = NullIfEmpty(rows, SiteSettingKeys.OffcanvasBelowMenuHtml),
             ContactEmail = NullIfEmpty(rows, SiteSettingKeys.SiteContactEmail),
             ContactPhone = NullIfEmpty(rows, SiteSettingKeys.SiteContactPhone),
@@ -107,6 +108,25 @@ public class PublicAppearanceService : IPublicAppearanceService
 
     private static string? NullIfEmpty(Dictionary<string, string> rows, string key) =>
         rows.TryGetValue(key, out var v) && !string.IsNullOrWhiteSpace(v) ? v : null;
+
+    private static IReadOnlyDictionary<string, string> ExtractFooterFullHtmlByLanguage(Dictionary<string, string> rows)
+    {
+        var prefix = SiteSettingKeys.FooterFullHtmlPrefix;
+        var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (key, value) in rows)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                continue;
+            if (!key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            var lang = key.Substring(prefix.Length).Trim().ToLowerInvariant();
+            if (lang.Length == 0)
+                continue;
+            dict[lang] = value;
+        }
+        return dict;
+    }
 
     private static string MapOffcanvasLogo(string variant) =>
         variant switch

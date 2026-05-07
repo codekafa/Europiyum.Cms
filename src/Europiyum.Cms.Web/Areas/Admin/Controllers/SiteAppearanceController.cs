@@ -15,17 +15,20 @@ public class SiteAppearanceController : Controller
     private readonly IAdminWorkspace _workspace;
     private readonly MediaAdminService _media;
     private readonly CompanyAdminService _companies;
+    private readonly CompanyLanguageAdminService _companyLanguages;
 
     public SiteAppearanceController(
         SiteSettingAdminService settings,
         IAdminWorkspace workspace,
         MediaAdminService media,
-        CompanyAdminService companies)
+        CompanyAdminService companies,
+        CompanyLanguageAdminService companyLanguages)
     {
         _settings = settings;
         _workspace = workspace;
         _media = media;
         _companies = companies;
+        _companyLanguages = companyLanguages;
     }
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -40,6 +43,8 @@ public class SiteAppearanceController : Controller
         var map = await _settings.GetMapAsync(companyId.Value, cancellationToken);
         string Get(string key) => map.TryGetValue(key, out var v) ? v : string.Empty;
 
+        var languages = await _companyLanguages.GetEnabledLanguageOptionsAsync(companyId.Value, cancellationToken);
+
         var vm = new SiteAppearanceEditVm
         {
             CompanyId = companyId.Value,
@@ -47,6 +52,14 @@ public class SiteAppearanceController : Controller
             FooterBodyHtml = Get(SiteSettingKeys.FooterBodyHtml),
             FooterCopyrightHtml = Get(SiteSettingKeys.FooterCopyrightHtml),
             FooterFullHtml = Get(SiteSettingKeys.FooterFullHtml),
+            FooterFullHtmlByLanguage = languages
+                .Select(l => new FooterFullHtmlLanguageVm
+                {
+                    LanguageCode = (l.Code ?? string.Empty).Trim().ToLowerInvariant(),
+                    LanguageName = l.Name,
+                    Html = Get(SiteSettingKeys.FooterFullHtmlFor(l.Code))
+                })
+                .ToList(),
             OffcanvasBelowMenuHtml = Get(SiteSettingKeys.OffcanvasBelowMenuHtml),
             BrandingFooterLogoPath = Get(SiteSettingKeys.BrandingFooterLogoPath),
             BrandingHeaderLogoMainPath = Get(SiteSettingKeys.BrandingHeaderLogoMainPath),
@@ -131,6 +144,16 @@ public class SiteAppearanceController : Controller
             [SiteSettingKeys.HeadScriptsHtml] = vm.HeadScriptsHtml,
             [SiteSettingKeys.CustomCss] = vm.CustomCss
         };
+
+        if (vm.FooterFullHtmlByLanguage is { Count: > 0 })
+        {
+            foreach (var item in vm.FooterFullHtmlByLanguage)
+            {
+                if (string.IsNullOrWhiteSpace(item.LanguageCode))
+                    continue;
+                dict[SiteSettingKeys.FooterFullHtmlFor(item.LanguageCode)] = item.Html;
+            }
+        }
 
         await _settings.UpsertAsync(vm.CompanyId, dict, cancellationToken);
         TempData["Toast"] = "Site görünüm ayarları kaydedildi.";

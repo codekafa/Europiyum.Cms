@@ -51,6 +51,31 @@
         languageCode = ViewData["LanguageCode"] as string
     })
     <main>
+        @{
+            var __formOk = TempData["FormOk"] as string;
+            var __formErr = TempData["FormError"] as string;
+        }
+        @if (!string.IsNullOrWhiteSpace(__formOk) || !string.IsNullOrWhiteSpace(__formErr))
+        {
+            <div class="cms-form-toast-container" aria-live="polite" data-cms-toast>
+                @if (!string.IsNullOrWhiteSpace(__formOk))
+                {
+                    <div class="cms-form-toast cms-form-toast--ok" role="status">
+                        <span class="cms-form-toast__icon" aria-hidden="true">&#10003;</span>
+                        <span class="cms-form-toast__msg">@__formOk</span>
+                        <button type="button" class="cms-form-toast__close" aria-label="Kapat" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(__formErr))
+                {
+                    <div class="cms-form-toast cms-form-toast--err" role="alert">
+                        <span class="cms-form-toast__icon" aria-hidden="true">&#9888;</span>
+                        <span class="cms-form-toast__msg">@__formErr</span>
+                        <button type="button" class="cms-form-toast__close" aria-label="Kapat" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                }
+            </div>
+        }
         @RenderBody()
     </main>
     @await Component.InvokeAsync("SiteFooter", new {

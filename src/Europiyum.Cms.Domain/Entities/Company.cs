@@ -36,6 +36,8 @@ public class Company : AuditableEntity
 
     public ICollection<FormDefinition> FormDefinitions { get; set; } = new List<FormDefinition>();
 
+    public ICollection<FormSubmission> FormSubmissions { get; set; } = new List<FormSubmission>();
+
     public MailSetting? MailSetting { get; set; }
 
     public ICollection<SiteSetting> SiteSettings { get; set; } = new List<SiteSetting>();

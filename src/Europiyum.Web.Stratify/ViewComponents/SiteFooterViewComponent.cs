@@ -34,18 +34,31 @@ public class SiteFooterViewComponent : ViewComponent
 
         var langCode = string.IsNullOrWhiteSpace(lang) ? "tr" : lang.Trim();
         var appearance = await _appearance.GetSnapshotAsync(code);
-        if (!string.IsNullOrWhiteSpace(appearance.FooterFullHtml))
+
+        var fullHtml = ResolveFooterFullHtml(appearance, langCode);
+        if (!string.IsNullOrWhiteSpace(fullHtml))
         {
             return View("Default", new SiteFooterViewModel
             {
                 SiteTitle = title ?? "Site",
                 LanguageCode = langCode,
                 RenderFullHtmlOnly = true,
-                FooterFullHtml = appearance.FooterFullHtml
+                FooterFullHtml = fullHtml
             });
         }
 
         var vm = await _menus.BuildFooterAsync(code, title ?? "Site", lang);
         return View("Default", vm);
+    }
+
+    private static string? ResolveFooterFullHtml(Europiyum.Cms.Application.Public.Models.PublicAppearanceSnapshot appearance, string langCode)
+    {
+        if (appearance.FooterFullHtmlByLanguage is { Count: > 0 } map)
+        {
+            var key = (langCode ?? string.Empty).Trim().ToLowerInvariant();
+            if (key.Length > 0 && map.TryGetValue(key, out var perLang) && !string.IsNullOrWhiteSpace(perLang))
+                return perLang;
+        }
+        return appearance.FooterFullHtml;
     }
 }
