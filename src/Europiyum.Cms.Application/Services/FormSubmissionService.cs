@@ -48,6 +48,7 @@ public class FormSubmissionService : IFormSubmissionService
         string formKey,
         IReadOnlyDictionary<string, string> fields,
         string? submitterIp,
+        string? culture = null,
         CancellationToken cancellationToken = default)
     {
         var key = (formKey ?? string.Empty).Trim();
@@ -62,6 +63,15 @@ public class FormSubmissionService : IFormSubmissionService
             .FirstOrDefaultAsync(cancellationToken);
         if (company is null)
             return new FormSubmissionResult(false, "Şirket bulunamadı.");
+
+        int? notificationLanguageId = null;
+        if (!string.IsNullOrWhiteSpace(culture))
+        {
+            var resolvedContext = await PublicSiteContextResolver.TryResolveAsync(
+                _db, companyCode, culture.Trim(), cancellationToken);
+            if (resolvedContext is not null)
+                notificationLanguageId = resolvedContext.Language.Id;
+        }
 
         foreach (var trap in HoneypotFieldNames)
         {
@@ -115,7 +125,17 @@ public class FormSubmissionService : IFormSubmissionService
             key, companyCode, definition is not null);
 
         if (sendEmailRequested)
-            await TrySendNotificationAsync(company.Id, formName, key, definition, orderedFields, payload, definedNotifyEmails, submitterIp, cancellationToken);
+            await TrySendNotificationAsync(
+                company.Id,
+                formName,
+                key,
+                definition,
+                orderedFields,
+                payload,
+                definedNotifyEmails,
+                notificationLanguageId,
+                submitterIp,
+                cancellationToken);
 
         return new FormSubmissionResult(true, null);
     }
@@ -189,10 +209,27 @@ public class FormSubmissionService : IFormSubmissionService
         List<FormField>? orderedFields,
         Dictionary<string, string> payload,
         string? definedNotifyEmails,
+        int? notificationLanguageId,
         string? submitterIp,
         CancellationToken cancellationToken)
     {
         var recipients = ParseEmailList(definedNotifyEmails);
+        if (recipients.Count == 0 && notificationLanguageId is int langId)
+        {
+            var mailSettingId = await _db.MailSettings.AsNoTracking()
+                .Where(m => m.CompanyId == companyId)
+                .Select(m => (int?)m.Id)
+                .FirstOrDefaultAsync(cancellationToken);
+            if (mailSettingId is int msId)
+            {
+                var forLang = await _db.MailSettingLanguageRecipients.AsNoTracking()
+                    .Where(r => r.MailSettingId == msId && r.LanguageId == langId)
+                    .Select(r => r.RecipientEmails)
+                    .FirstOrDefaultAsync(cancellationToken);
+                recipients = ParseEmailList(forLang);
+            }
+        }
+
         if (recipients.Count == 0)
         {
             var fallback = await _db.MailSettings.AsNoTracking()

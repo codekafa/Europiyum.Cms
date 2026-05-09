@@ -32,7 +32,7 @@ public class FormsController : Controller
         }
 
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
-        var result = await _forms.TrySubmitAsync(_site.CompanyCode, formKey, dict, ip, cancellationToken);
+        var result = await _forms.TrySubmitAsync(_site.CompanyCode, formKey, dict, ip, culture, cancellationToken);
         if (!result.Ok)
         {
             TempData["FormError"] = result.ErrorMessage ?? "Gönderilemedi.";

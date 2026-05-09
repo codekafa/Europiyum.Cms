@@ -1,12 +1,13 @@
-@model Europiyum.Cms.Domain.Entities.MailSetting
+@model Europiyum.Cms.Application.Admin.ViewModels.MailSettingsIndexVm
 @{
     ViewData["Title"] = "E-posta (SMTP)";
     ViewData["Subtitle"] = "Form bildirimleri ve gönderen kimliği";
     ViewData["HelpIntro"] = "Bu ekran yalnızca e-posta sunucusu (SMTP) ve gönderen bilgisini tanımlar. Ziyaretçi formları hâlâ CMS’te Formlar menüsünde alanlarıyla tanımlanır; gönderim veritabanına kaydolur, isteğe bağlı olarak buradaki SMTP ile size özet mail gider.";
     ViewData["HelpBullets"] = new[]
     {
-        "Formlar → form düzenle: “Gönderimde e-posta bildirimi” ve isteğe bağlı alıcı listesi.",
-        "Formda alıcı boşsa, aşağıdaki “Form bildirim alıcıları” kullanılır; ikisi de boşsa mail gönderilmez (kayıt yine de saklanır).",
+        "Formlar → form düzenle: “Gönderimde e-posta bildirimi” ve isteğe bağlı alıcı listesi (tanımlı formda doluysa her zaman o liste kullanılır).",
+        "Tanımlı formda alıcı yoksa: önce ziyaretçinin seçtiği dil için aşağıdaki satır; o dil için boşsa “varsayılan” alıcı listesi.",
+        "Dinamik (tanımsız) formlar: URL’deki dil segmentine göre ilgili satır, yoksa varsayılan.",
         "Gönderen e-posta, birçok sağlayıcıda SMTP kullanıcı adı ile aynı veya doğrulanmış bir adrestir.",
         "Parola alanını boş bırakırsanız kayıtlı şifre değiştirilmez."
     };
@@ -52,9 +53,30 @@
             <div class="col-12">
                 <label class="form-label" asp-for="FormRecipientEmails"></label>
                 <input class="form-control" asp-for="FormRecipientEmails" placeholder="iletisim@site.com, diger@site.com" />
-                <div class="form-text">Form tanımında alıcı boş bırakıldığında bildirimler bu adreslere gider.</div>
+                <div class="form-text">Form tanımında alıcı yoksa ve dil satırı da boşsa bildirimler bu adreslere gider.</div>
             </div>
         </div>
+
+        @if (Model.LanguageRecipients.Count > 0)
+        {
+            <hr class="my-4" />
+            <h2 class="h6 mb-3">Form bildirim alıcıları (dil bazlı)</h2>
+            <p class="small text-secondary mb-3">Her dil için ayrı alıcı listesi; boş bırakılan dillerde yukarıdaki varsayılan kullanılır. Site dil menüsünde etkin olan diller listelenir.</p>
+            <div class="row g-3">
+                @for (var i = 0; i < Model.LanguageRecipients.Count; i++)
+                {
+                    <div class="col-12">
+                        <input type="hidden" asp-for="LanguageRecipients[i].LanguageId" />
+                        <label class="form-label" asp-for="LanguageRecipients[i].RecipientEmails"></label>
+                        <div class="input-group">
+                            <span class="input-group-text text-secondary small">@Model.LanguageRecipients[i].LanguageName (@Model.LanguageRecipients[i].LanguageCode)</span>
+                            <input class="form-control" asp-for="LanguageRecipients[i].RecipientEmails" placeholder="ornek@site.com" />
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
         <div class="mt-4">
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </div>

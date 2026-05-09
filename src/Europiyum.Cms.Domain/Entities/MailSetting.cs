@@ -23,7 +23,9 @@ public class MailSetting : AuditableEntity
 
     public string SenderName { get; set; } = string.Empty;
 
-    /// <summary>Form bildirimleri için varsayılan alıcılar (virgül veya noktalı virgül). Form tanımında özel liste yoksa kullanılır.</summary>
+    /// <summary>Form bildirimleri için varsayılan alıcılar (virgül veya noktalı virgül). Form tanımında ve dil bazlı listede alıcı yoksa kullanılır.</summary>
     [Display(Name = "Form bildirim alıcıları (varsayılan)")]
     public string? FormRecipientEmails { get; set; }
+
+    public ICollection<MailSettingLanguageRecipient> LanguageRecipients { get; set; } = new List<MailSettingLanguageRecipient>();
 }

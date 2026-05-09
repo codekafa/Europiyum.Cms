@@ -50,6 +50,8 @@ public class CmsDbContext : DbContext
 
     public DbSet<MailSetting> MailSettings => Set<MailSetting>();
 
+    public DbSet<MailSettingLanguageRecipient> MailSettingLanguageRecipients => Set<MailSettingLanguageRecipient>();
+
     public DbSet<SiteSetting> SiteSettings => Set<SiteSetting>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

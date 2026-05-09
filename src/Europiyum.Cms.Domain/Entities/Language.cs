@@ -21,4 +21,6 @@ public class Language : AuditableEntity
     public ICollection<HomePageSectionTranslation> HomePageSectionTranslations { get; set; } = new List<HomePageSectionTranslation>();
 
     public ICollection<MenuItemTranslation> MenuItemTranslations { get; set; } = new List<MenuItemTranslation>();
+
+    public ICollection<MailSettingLanguageRecipient> MailSettingLanguageRecipients { get; set; } = new List<MailSettingLanguageRecipient>();
 }
