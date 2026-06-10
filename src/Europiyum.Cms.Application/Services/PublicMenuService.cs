@@ -43,7 +43,7 @@ public class PublicMenuService : IPublicMenuService
 
         var (company, language, langCode) = resolved;
         var langs = await _db.CompanyLanguages.AsNoTracking()
-            .Where(cl => cl.CompanyId == company.Id && cl.IsEnabled)
+            .Where(cl => cl.CompanyId == company.Id && cl.IsEnabled && cl.Language.IsActive)
             .OrderBy(cl => cl.DisplayOrder)
             .ThenBy(cl => cl.Language.Code)
             .Select(cl => new PublicLanguageOptionVm

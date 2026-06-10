@@ -4,8 +4,9 @@
     var bgRel = (Model.BreadcrumbBackgroundRelativePath ?? "images/banner/banner-inner.jpg").Replace("\\", "/").TrimStart('/');
     var bgUrl = content + "/" + bgRel;
     var heading = string.IsNullOrWhiteSpace(Model.BreadcrumbHeading) ? Model.Title : Model.BreadcrumbHeading;
-    var homeLabel = ViewData["BreadcrumbHomeLabel"] as string ?? "Anasayfa";
     var lang = Model.LanguageCode?.Trim() ?? "tr";
+    var homeLabel = ViewData["BreadcrumbHomeLabel"] as string
+        ?? Europiyum.Cms.Application.Public.LocalizedHomeLabel.Resolve(lang);
     var homeHref = "/" + Uri.EscapeDataString(lang);
 }
 <section class="breadcrumb-area" data-background="@bgUrl" style="background-image: url('@bgUrl');">

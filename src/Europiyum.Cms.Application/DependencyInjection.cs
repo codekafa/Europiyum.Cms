@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<HomePageSectionAdminService>();
         services.AddScoped<MediaAdminService>();
         services.AddScoped<PageAttachmentAdminService>();
+        services.AddScoped<ICompanySiteLanguageService, CompanySiteLanguageService>();
         services.AddScoped<IPublicMenuService, PublicMenuService>();
         services.AddScoped<IPublicAppearanceService, PublicAppearanceService>();
         services.AddScoped<SiteSettingAdminService>();

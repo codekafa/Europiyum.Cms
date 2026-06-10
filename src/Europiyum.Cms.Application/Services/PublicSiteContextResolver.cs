@@ -20,14 +20,51 @@ public static class PublicSiteContextResolver
         if (company is null)
             return null;
 
-        var langCode = string.IsNullOrWhiteSpace(languageCode) ? "tr" : languageCode.Trim();
-        var language = await db.Languages.AsNoTracking()
-            .FirstOrDefaultAsync(l => l.Code == langCode && l.IsActive, cancellationToken);
-        if (language is null)
+        Language? language;
+        string langCode;
+
+        if (string.IsNullOrWhiteSpace(languageCode))
         {
             language = await db.Languages.AsNoTracking()
-                .FirstAsync(l => l.Id == company.DefaultLanguageId, cancellationToken);
-            langCode = language.Code;
+                .FirstOrDefaultAsync(l => l.Id == company.DefaultLanguageId && l.IsActive, cancellationToken)
+                ?? await db.Languages.AsNoTracking()
+                    .FirstOrDefaultAsync(l => l.Id == company.DefaultLanguageId, cancellationToken);
+
+            if (language is null)
+            {
+                var enabledCode = await db.CompanyLanguages.AsNoTracking()
+                    .Where(cl => cl.CompanyId == company.Id && cl.IsEnabled && cl.Language.IsActive)
+                    .OrderBy(cl => cl.DisplayOrder)
+                    .ThenBy(cl => cl.LanguageId)
+                    .Select(cl => cl.Language.Code)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                if (string.IsNullOrWhiteSpace(enabledCode))
+                    return null;
+
+                langCode = enabledCode.Trim();
+                language = await db.Languages.AsNoTracking()
+                    .FirstAsync(l => l.Code == langCode && l.IsActive, cancellationToken);
+            }
+            else
+            {
+                langCode = language.Code;
+            }
+        }
+        else
+        {
+            langCode = languageCode.Trim();
+            language = await db.Languages.AsNoTracking()
+                .FirstOrDefaultAsync(l => l.Code == langCode && l.IsActive, cancellationToken)
+                ?? await db.Languages.AsNoTracking()
+                    .FirstOrDefaultAsync(l => l.Code == langCode, cancellationToken);
+
+            if (language is null)
+            {
+                language = await db.Languages.AsNoTracking()
+                    .FirstAsync(l => l.Id == company.DefaultLanguageId, cancellationToken);
+                langCode = language.Code;
+            }
         }
 
         return new Result(company, language, langCode);

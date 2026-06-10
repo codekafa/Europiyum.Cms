@@ -29,6 +29,10 @@ public class PublicAppearanceSnapshot
     public IReadOnlyDictionary<string, string> FooterFullHtmlByLanguage { get; set; } =
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
+    /// <summary>Dil koduna göre ana sayfa menü metni; boşsa yerleşik çeviri kullanılır.</summary>
+    public IReadOnlyDictionary<string, string> HomeNavLabelByLanguage { get; set; } =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
     public string? OffcanvasBelowMenuHtml { get; set; }
 
     public string? ContactEmail { get; set; }

@@ -975,7 +975,7 @@ CSS TABLE OF CONTENTS
 
 	// Nice seclect area start here ***
 	$(document).on("ready", function () {
-		$("select").niceSelect();
+		$("select:not(.js-lang-switcher)").niceSelect();
 	});
 	// Nice seclect area end here ***
 

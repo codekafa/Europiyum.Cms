@@ -1,14 +1,20 @@
 using Europiyum.Cms.Application.Admin.ViewModels;
 using Europiyum.Cms.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Europiyum.Cms.Application.Services;
 
 public class CompanyAdminService
 {
     private readonly CmsDbContext _db;
+    private readonly IMemoryCache _cache;
 
-    public CompanyAdminService(CmsDbContext db) => _db = db;
+    public CompanyAdminService(CmsDbContext db, IMemoryCache cache)
+    {
+        _db = db;
+        _cache = cache;
+    }
 
     public async Task<IReadOnlyList<CompanyListItemVm>> ListAsync(CancellationToken cancellationToken = default) =>
         await _db.Companies.AsNoTracking()
@@ -64,5 +70,6 @@ public class CompanyAdminService
         entity.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _db.SaveChangesAsync(cancellationToken);
+        _cache.Remove(CompanySiteLanguageService.CacheKeyFor(entity.Code));
     }
 }

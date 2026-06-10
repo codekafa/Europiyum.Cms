@@ -98,6 +98,7 @@ public class PublicAppearanceService : IPublicAppearanceService
             FooterCopyrightHtml = NullIfEmpty(rows, SiteSettingKeys.FooterCopyrightHtml),
             FooterFullHtml = NullIfEmpty(rows, SiteSettingKeys.FooterFullHtml),
             FooterFullHtmlByLanguage = ExtractFooterFullHtmlByLanguage(rows),
+            HomeNavLabelByLanguage = ExtractPrefixedByLanguage(rows, SiteSettingKeys.HomeNavLabelPrefix),
             OffcanvasBelowMenuHtml = NullIfEmpty(rows, SiteSettingKeys.OffcanvasBelowMenuHtml),
             ContactEmail = NullIfEmpty(rows, SiteSettingKeys.SiteContactEmail),
             ContactPhone = NullIfEmpty(rows, SiteSettingKeys.SiteContactPhone),
@@ -109,9 +110,13 @@ public class PublicAppearanceService : IPublicAppearanceService
     private static string? NullIfEmpty(Dictionary<string, string> rows, string key) =>
         rows.TryGetValue(key, out var v) && !string.IsNullOrWhiteSpace(v) ? v : null;
 
-    private static IReadOnlyDictionary<string, string> ExtractFooterFullHtmlByLanguage(Dictionary<string, string> rows)
+    private static IReadOnlyDictionary<string, string> ExtractFooterFullHtmlByLanguage(Dictionary<string, string> rows) =>
+        ExtractPrefixedByLanguage(rows, SiteSettingKeys.FooterFullHtmlPrefix);
+
+    private static IReadOnlyDictionary<string, string> ExtractPrefixedByLanguage(
+        Dictionary<string, string> rows,
+        string prefix)
     {
-        var prefix = SiteSettingKeys.FooterFullHtmlPrefix;
         var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var (key, value) in rows)
         {
@@ -123,8 +128,9 @@ public class PublicAppearanceService : IPublicAppearanceService
             var lang = key.Substring(prefix.Length).Trim().ToLowerInvariant();
             if (lang.Length == 0)
                 continue;
-            dict[lang] = value;
+            dict[lang] = value.Trim();
         }
+
         return dict;
     }
 

@@ -39,6 +39,9 @@ public static class SiteSettingKeys
     /// <summary>Dil bazlı tam footer anahtar öneki, ör. <c>footer.full_html.tr</c>.</summary>
     public const string FooterFullHtmlPrefix = "footer.full_html.";
 
+    /// <summary>Dil bazlı header/breadcrumb ana sayfa metni öneki, ör. <c>nav.home_label.en</c>.</summary>
+    public const string HomeNavLabelPrefix = "nav.home_label.";
+
     /// <summary>Verilen dil koduna göre tam footer HTML anahtarı (ör. <c>footer.full_html.tr</c>).</summary>
     public static string FooterFullHtmlFor(string? languageCode)
     {

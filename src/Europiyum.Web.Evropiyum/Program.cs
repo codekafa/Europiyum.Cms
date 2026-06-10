@@ -25,7 +25,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
-app.UseStratifyLegacyPageRedirect();
+app.UseStratifyPublicSitePipeline();
 app.MapStratifyPublicRoutes();
 
 using (var scope = app.Services.CreateScope())

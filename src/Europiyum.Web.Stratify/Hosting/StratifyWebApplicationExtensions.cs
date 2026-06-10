@@ -1,11 +1,68 @@
+using Europiyum.Cms.Application.Configuration;
+using Europiyum.Cms.Application.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Europiyum.Web.Stratify;
 
 public static class StratifyWebApplicationExtensions
 {
+    /// <summary>
+    /// Kök adres (/) ve kültürsüz Home/Index isteklerini CMS’teki varsayılan dile yönlendirir;
+    /// eski /Home/Page?slug= adreslerini /{culture}/{slug} biçimine çevirir.
+    /// </summary>
+    public static WebApplication UseStratifyPublicSitePipeline(this WebApplication app)
+    {
+        app.UseStratifyDefaultCultureRedirect();
+        app.UseStratifyLegacyPageRedirect();
+        return app;
+    }
+
+    /// <summary>/ ve /Home/Index → /{varsayılan-dil} (panelde seçili şirket varsayılan dili).</summary>
+    public static WebApplication UseStratifyDefaultCultureRedirect(this WebApplication app)
+    {
+        app.Use(async (context, next) =>
+        {
+            if (!HttpMethods.IsGet(context.Request.Method) && !HttpMethods.IsHead(context.Request.Method))
+            {
+                await next();
+                return;
+            }
+
+            if (!IsCulturelessHomePath(context.Request.Path.Value))
+            {
+                await next();
+                return;
+            }
+
+            var siteOpts = context.RequestServices.GetRequiredService<IOptions<CompanySiteOptions>>().Value;
+            if (string.IsNullOrWhiteSpace(siteOpts.CompanyCode))
+            {
+                await next();
+                return;
+            }
+
+            var langSvc = context.RequestServices.GetRequiredService<ICompanySiteLanguageService>();
+            var defaultLang = await langSvc.GetDefaultLanguageCodeAsync(siteOpts.CompanyCode, context.RequestAborted);
+            if (string.IsNullOrWhiteSpace(defaultLang))
+            {
+                await next();
+                return;
+            }
+
+            var query = context.Request.QueryString.HasValue ? context.Request.QueryString.Value : string.Empty;
+            var target = $"/{Uri.EscapeDataString(defaultLang.Trim())}{query}";
+            context.Response.Redirect(target);
+            return;
+        });
+
+        return app;
+    }
+
     /// <summary>Eski /Home/Page?slug=&amp;culture= adreslerini /{culture}/{slug} biçimine kalıcı yönlendirir.</summary>
     public static WebApplication UseStratifyLegacyPageRedirect(this WebApplication app)
     {
@@ -19,7 +76,18 @@ public static class StratifyWebApplicationExtensions
                 {
                     var culture = context.Request.Query["culture"].FirstOrDefault();
                     if (string.IsNullOrWhiteSpace(culture))
-                        culture = "tr";
+                    {
+                        var siteOpts = context.RequestServices.GetRequiredService<IOptions<CompanySiteOptions>>().Value;
+                        if (!string.IsNullOrWhiteSpace(siteOpts.CompanyCode))
+                        {
+                            var langSvc = context.RequestServices.GetRequiredService<ICompanySiteLanguageService>();
+                            culture = await langSvc.GetDefaultLanguageCodeAsync(siteOpts.CompanyCode, context.RequestAborted);
+                        }
+                        else
+                        {
+                            culture = "tr";
+                        }
+                    }
 
                     var c = culture.Trim();
                     var s = slug.Trim();
@@ -32,6 +100,15 @@ public static class StratifyWebApplicationExtensions
             await next();
         });
         return app;
+    }
+
+    private static bool IsCulturelessHomePath(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || path == "/")
+            return true;
+
+        return path.Equals("/Home", StringComparison.OrdinalIgnoreCase)
+            || path.Equals("/Home/Index", StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>SEO dostu /{culture}/{slug} ve /{culture} (anasayfa) rotalarını kaydeder.</summary>

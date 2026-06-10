@@ -1,4 +1,5 @@
 using Europiyum.Cms.Application.Configuration;
+using Europiyum.Cms.Application.Public;
 using Europiyum.Cms.Application.Public.Models;
 using Europiyum.Cms.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ public class SiteHeaderViewComponent : ViewComponent
         var opts = _site.Value;
         var code = opts.CompanyCode;
         SiteHeaderViewModel vm;
+        IReadOnlyDictionary<string, string>? homeLabelOverrides = null;
         if (string.IsNullOrWhiteSpace(code))
         {
             vm = new SiteHeaderViewModel
@@ -47,10 +49,11 @@ public class SiteHeaderViewComponent : ViewComponent
             vm.HeaderLogoMainSrc = snap.HeaderLogoMainHref;
             vm.HeaderLogoLightSrc = snap.HeaderLogoLightHref;
             vm.HeaderLogoBlackSrc = snap.HeaderLogoBlackHref;
+            homeLabelOverrides = snap.HomeNavLabelByLanguage;
         }
 
         ApplyHeaderTopFromOptions(vm, opts);
-        vm.HomeNavLabel = string.IsNullOrWhiteSpace(opts.BreadcrumbHomeLabel) ? "Anasayfa" : opts.BreadcrumbHomeLabel.Trim();
+        vm.HomeNavLabel = LocalizedHomeLabel.Resolve(vm.LanguageCode, opts.BreadcrumbHomeLabel, homeLabelOverrides);
         var layoutKey = ViewContext.ViewData["StratifyHeaderLayout"] as string;
         vm.Layout = string.Equals(layoutKey, "inner", StringComparison.OrdinalIgnoreCase)
             ? StratifyHeaderLayoutMode.Inner

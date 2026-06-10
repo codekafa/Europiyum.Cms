@@ -65,8 +65,8 @@ else if (Model.HeaderTopBar == StratifyHeaderTopBarMode.Compact)
                     <div class="menu-btns">
                         @if (Model.LanguageOptions.Count > 1)
                         {
-                            <div class="header-lang d-none d-lg-block">
-                                <select class="form-select form-select-sm" aria-label="Dil seçimi" onchange="if(this.value){window.location.href=this.value;}">
+                            <div class="header-lang">
+                                <select class="form-select form-select-sm js-lang-switcher" aria-label="Dil seçimi" onchange="if(this.value){window.location.href=this.value;}">
                                     @foreach (var lang in Model.LanguageOptions)
                                     {
                                         if (lang.IsCurrent)
@@ -133,8 +133,8 @@ else
                     <div class="menu-btns light">
                         @if (Model.LanguageOptions.Count > 1)
                         {
-                            <div class="header-lang d-none d-lg-block">
-                                <select class="form-select form-select-sm" aria-label="Dil seçimi" onchange="if(this.value){window.location.href=this.value;}">
+                            <div class="header-lang">
+                                <select class="form-select form-select-sm js-lang-switcher" aria-label="Dil seçimi" onchange="if(this.value){window.location.href=this.value;}">
                                     @foreach (var lang in Model.LanguageOptions)
                                     {
                                         if (lang.IsCurrent)

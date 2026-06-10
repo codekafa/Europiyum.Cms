@@ -13,12 +13,18 @@ namespace Europiyum.Web.Stratify.Controllers;
 public class HomeController : Controller
 {
     private readonly IPublicContentService _content;
+    private readonly IPublicAppearanceService _appearance;
     private readonly CompanySiteOptions _site;
     private readonly IAntiforgery _antiforgery;
 
-    public HomeController(IPublicContentService content, IOptions<CompanySiteOptions> site, IAntiforgery antiforgery)
+    public HomeController(
+        IPublicContentService content,
+        IPublicAppearanceService appearance,
+        IOptions<CompanySiteOptions> site,
+        IAntiforgery antiforgery)
     {
         _content = content;
+        _appearance = appearance;
         _site = site.Value;
         _antiforgery = antiforgery;
     }
@@ -99,9 +105,11 @@ public class HomeController : Controller
         ViewData["CanonicalUrl"] = vm.CanonicalUrl;
         ViewData["Robots"] = vm.Robots;
         ViewData["StratifyHeaderLayout"] = "inner";
-        ViewData["BreadcrumbHomeLabel"] = string.IsNullOrWhiteSpace(_site.BreadcrumbHomeLabel)
-            ? "Anasayfa"
-            : _site.BreadcrumbHomeLabel.Trim();
+        var appearance = await _appearance.GetSnapshotAsync(_site.CompanyCode, cancellationToken);
+        ViewData["BreadcrumbHomeLabel"] = LocalizedHomeLabel.Resolve(
+            vm.LanguageCode,
+            _site.BreadcrumbHomeLabel,
+            appearance.HomeNavLabelByLanguage);
 
         if (!string.IsNullOrEmpty(vm.HtmlContent)
             && (vm.HtmlContent.Contains(CmsPageHtmlTokens.AntiforgeryRequestToken, StringComparison.Ordinal)

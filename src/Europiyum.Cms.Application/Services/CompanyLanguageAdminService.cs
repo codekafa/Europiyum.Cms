@@ -2,14 +2,20 @@ using Europiyum.Cms.Application.Admin.ViewModels;
 using Europiyum.Cms.Domain.Entities;
 using Europiyum.Cms.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Europiyum.Cms.Application.Services;
 
 public class CompanyLanguageAdminService
 {
     private readonly CmsDbContext _db;
+    private readonly IMemoryCache _cache;
 
-    public CompanyLanguageAdminService(CmsDbContext db) => _db = db;
+    public CompanyLanguageAdminService(CmsDbContext db, IMemoryCache cache)
+    {
+        _db = db;
+        _cache = cache;
+    }
 
     public async Task<CompanyLanguagesPageVm?> GetPageAsync(int companyId, CancellationToken cancellationToken = default)
     {
@@ -90,7 +96,11 @@ public class CompanyLanguageAdminService
         company.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _db.SaveChangesAsync(cancellationToken);
+        InvalidateDefaultLanguageCache(company.Code);
     }
+
+    private void InvalidateDefaultLanguageCache(string companyCode) =>
+        _cache.Remove(CompanySiteLanguageService.CacheKeyFor(companyCode));
 
     public async Task AddLanguageAsync(int companyId, int languageId, CancellationToken cancellationToken = default)
     {
@@ -129,6 +139,7 @@ public class CompanyLanguageAdminService
         _db.CompanyLanguages.Add(row);
         company.UpdatedAt = DateTimeOffset.UtcNow;
         await _db.SaveChangesAsync(cancellationToken);
+        InvalidateDefaultLanguageCache(company.Code);
     }
 
     public async Task RemoveLanguageAsync(int companyId, int languageId, CancellationToken cancellationToken = default)
@@ -172,5 +183,6 @@ public class CompanyLanguageAdminService
 
         company.UpdatedAt = DateTimeOffset.UtcNow;
         await _db.SaveChangesAsync(cancellationToken);
+        InvalidateDefaultLanguageCache(company.Code);
     }
 }
